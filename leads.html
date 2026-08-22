@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClientFlow - Leads</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
+
+/* HEADER */
+
+.header{
+  height:64px;
+  background:#ffffff;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:18px;
+  font-weight:700;
+  color:#1f2937;
+}
+
+.logo-box{
+  width:30px;
+  height:30px;
+  border-radius:5px;
+  background:#2563eb;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.admin{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#4b5563;
+  font-size:13px;
+}
+
+.avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#2563eb;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* LAYOUT */
+
+.layout{
+  display:flex;
+  min-height:calc(100vh - 64px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:162px;
+  background:#111827;
+  color:#ffffff;
+  padding:16px 10px;
+  flex-shrink:0;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:24px;
+}
+
+.brand-icon{
+  width:24px;
+  height:24px;
+  border-radius:4px;
+  background:#2563eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+}
+
+.nav a{
+  display:block;
+  color:#aeb7c7;
+  text-decoration:none;
+  font-size:11px;
+  padding:9px 9px;
+  border-radius:6px;
+  margin-bottom:4px;
+}
+
+.nav a:hover{
+  background:#1f2937;
+  color:#ffffff;
+}
+
+.nav a.active{
+  background:#1e293b;
+  color:#ffffff;
+}
+
+/* MAIN */
+
+.main{
+  flex:1;
+  padding:24px;
+  min-width:0;
+}
+
+.page-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.page-head h1{
+  font-size:21px;
+  margin-bottom:5px;
+}
+
+.page-head p{
+  font-size:11px;
+  color:#6b7280;
+}
+
+.add-btn{
+  border:0;
+  background:#2563eb;
+  color:white;
+  border-radius:6px;
+  padding:9px 14px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.add-btn:hover{
+  background:#1d4ed8;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.card{
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:15px;
+}
+
+.card-title{
+  color:#6b7280;
+  font-size:10px;
+  margin-bottom:7px;
+}
+
+.card-number{
+  font-size:22px;
+  font-weight:700;
+  color:#111827;
+}
+
+/* LEADS CARD */
+
+.leads-box{
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.box-top{
+  padding:14px;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.box-top h2{
+  font-size:14px;
+}
+
+.controls{
+  display:flex;
+  gap:8px;
+}
+
+.search{
+  width:180px;
+}
+
+.search input,
+.filter select{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:5px;
+  padding:8px 9px;
+  font-size:11px;
+  outline:none;
+  background:#ffffff;
+}
+
+.search input:focus,
+.filter select:focus{
+  border-color:#2563eb;
+}
+
+.filter{
+  width:120px;
+}
+
+/* TABLE */
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th{
+  text-align:left;
+  padding:10px 14px;
+  font-size:9px;
+  color:#6b7280;
+  text-transform:uppercase;
+  background:#fafafa;
+  border-bottom:1px solid #e5e7eb;
+}
+
+td{
+  padding:13px 14px;
+  font-size:11px;
+  color:#4b5563;
+  border-bottom:1px solid #f0f1f3;
+}
+
+tr:last-child td{
+  border-bottom:0;
+}
+
+.lead-name{
+  font-weight:600;
+  color:#111827;
+  margin-bottom:3px;
+}
+
+.lead-role{
+  color:#9ca3af;
+  font-size:9px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:12px;
+  font-size:9px;
+  font-weight:600;
+}
+
+.new{
+  background:#dbeafe;
+  color:#2563eb;
+}
+
+.contacted{
+  background:#fef3c7;
+  color:#a16207;
+}
+
+.qualified{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.lost{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+.view-btn{
+  border:1px solid #d1d5db;
+  background:#ffffff;
+  border-radius:5px;
+  padding:5px 8px;
+  font-size:9px;
+  cursor:pointer;
+}
+
+.view-btn:hover{
+  background:#f3f4f6;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.45);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:#ffffff;
+  border-radius:9px;
+  padding:20px;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.modal-head h2{
+  font-size:17px;
+}
+
+.close{
+  border:0;
+  background:none;
+  font-size:22px;
+  color:#6b7280;
+  cursor:pointer;
+}
+
+.form-group{
+  margin-bottom:12px;
+}
+
+.form-group label{
+  display:block;
+  font-size:10px;
+  font-weight:bold;
+  color:#374151;
+  margin-bottom:5px;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+  padding:9px;
+  border:1px solid #d1d5db;
+  border-radius:5px;
+  font-size:11px;
+  outline:none;
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:17px;
+}
+
+.cancel{
+  border:1px solid #d1d5db;
+  background:white;
+  padding:8px 12px;
+  border-radius:5px;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.save{
+  border:0;
+  background:#2563eb;
+  color:white;
+  padding:8px 12px;
+  border-radius:5px;
+  font-size:11px;
+  cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .header{
+    padding:0 12px;
+  }
+
+  .admin span{
+    display:none;
+  }
+
+  .layout{
+    display:block;
+  }
+
+  .sidebar{
+    width:100%;
+    padding:8px;
+  }
+
+  .brand{
+    margin-bottom:7px;
+  }
+
+  .nav{
+    display:flex;
+    gap:4px;
+    overflow-x:auto;
+  }
+
+  .nav a{
+    white-space:nowrap;
+    margin:0;
+    padding:8px 10px;
+  }
+
+  .main{
+    padding:16px 12px;
+  }
+
+  .page-head{
+    align-items:flex-start;
+  }
+
+  .page-head h1{
+    font-size:20px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .box-top{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .controls{
+    width:100%;
+  }
+
+  .search,
+  .filter{
+    width:50%;
+  }
+
+  .search input,
+  .filter select{
+    width:100%;
+  }
+}
+
+@media(max-width:420px){
+
+  .stats{
+    gap:8px;
+  }
+
+  .card{
+    padding:12px;
+  }
+
+  .card-number{
+    font-size:20px;
+  }
+
+  .add-btn{
+    padding:8px 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+  <div class="logo">
+    ClientFlow
+  </div>
+
+  <div class="admin">
+    <span>Admin</span>
+    <div class="avatar">A</div>
+  </div>
+
+</header>
+
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+  <div class="brand">
+    <div class="brand-icon">C</div>
+    ClientFlow
+  </div>
+
+  <nav class="nav">
+
+    <a href="index.html">
+      Dashboard
+    </a>
+
+    <a href="leads.html" class="active">
+      Leads
+    </a>
+
+    <a href="#">
+      Companies
+    </a>
+
+    <a href="#">
+      Activities
+    </a>
+
+    <a href="#">
+      Settings
+    </a>
+
+  </nav>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+  <div class="page-head">
+
+    <div>
+      <h1>Leads</h1>
+      <p>Track and manage your potential customers.</p>
+    </div>
+
+    <button class="add-btn" onclick="openModal()">
+      + Add Lead
+    </button>
+
+  </div>
+
+
+  <!-- STATS -->
+
+  <section class="stats">
+
+    <div class="card">
+      <div class="card-title">Total Leads</div>
+      <div class="card-number" id="totalLeads">5</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">New Leads</div>
+      <div class="card-number" id="newLeads">2</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Qualified</div>
+      <div class="card-number" id="qualifiedLeads">1</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Conversion Rate</div>
+      <div class="card-number" id="conversionRate">20%</div>
+    </div>
+
+  </section>
+
+
+  <!-- LEADS -->
+
+  <section class="leads-box">
+
+    <div class="box-top">
+
+      <h2>All Leads</h2>
+
+      <div class="controls">
+
+        <div class="search">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search leads..."
+            oninput="filterLeads()"
+          >
+        </div>
+
+        <div class="filter">
+          <select id="statusFilter" onchange="filterLeads()">
+            <option value="all">All Status</option>
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Qualified">Qualified</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Company</th>
+            <th>Contact</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>Last Activity</th>
+            <th></th>
+          </tr>
+
+        </thead>
+
+
+        <tbody id="leadTable">
+
+          <tr data-status="New">
+
+            <td>
+              <div class="lead-name">
+                Acme Technologies
+              </div>
+              <div class="lead-role">
+                Technology
+              </div>
+            </td>
+
+            <td>Rahul Sharma</td>
+
+            <td>
+              <span class="badge new">
+                New
+              </span>
+            </td>
+
+            <td>Website</td>
+
+            <td>Today</td>
+
+            <td>
+              <button class="view-btn"
+              onclick="viewLead('Acme Technologies')">
+                View
+              </button>
+            </td>
+
+          </tr>
+
+
+          <tr data-status="Contacted">
+
+            <td>
+              <div class="lead-name">
+                Growth Labs
+              </div>
+              <div class="lead-role">
+                Marketing
+              </div>
+            </td>
+
+            <td>Priya Mehta</td>
+
+            <td>
+              <span class="badge contacted">
+                Contacted
+              </span>
+            </td>
+
+            <td>LinkedIn</td>
+
+            <td>Yesterday</td>
+
+            <td>
+              <button class="view-btn"
+              onclick="viewLead('Growth Labs')">
+                View
+              </button>
+            </td>
+
+          </tr>
+
+
+          <tr data-status="Qualified">
+
+            <td>
+              <div class="lead-name">
+                Nova Systems
+              </div>
+              <div class="lead-role">
+                SaaS
+              </div>
+            </td>
+
+            <td>Arjun Kumar</td>
+
+            <td>
+              <span class="badge qualified">
+                Qualified
+              </span>
+            </td>
+
+            <td>Referral</td>
+
+            <td>2 days ago</td>
+
+            <td>
+              <button class="view-btn"
+              onclick="viewLead('Nova Systems')">
+                View
+              </button>
+            </td>
+
+          </tr>
+
+
+          <tr data-status="New">
+
+            <td>
+              <div class="lead-name">
+                PixelWorks
+              </div>
+              <div class="lead-role">
+                Design
+              </div>
+            </td>
+
+            <td>Ananya Rao</td>
+
+            <td>
+              <span class="badge new">
+                New
+              </span>
+            </td>
+
+            <td>Google</td>
+
+            <td>3 days ago</td>
+
+            <td>
+              <button class="view-btn"
+              onclick="viewLead('PixelWorks')">
+                View
+              </button>
+            </td>
+
+          </tr>
+
+
+          <tr data-status="Lost">
+
+            <td>
+              <div class="lead-name">
+                Bright Media
+              </div>
+              <div class="lead-role">
+                Advertising
+              </div>
+            </td>
+
+            <td>Vikram Singh</td>
+
+            <td>
+              <span class="badge lost">
+                Lost
+              </span>
+            </td>
+
+            <td>Referral</td>
+
+            <td>5 days ago</td>
+
+            <td>
+              <button class="view-btn"
+              onclick="viewLead('Bright Media')">
+                View
+              </button>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+</div>
+
+
+<!-- ADD LEAD MODAL -->
+
+<div class="modal" id="leadModal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Add New Lead</h2>
+
+      <button class="close" onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+
+    <form onsubmit="addLead(event)">
+
+      <div class="form-group">
+        <label>Company</label>
+        <input type="text" id="company" required>
+      </div>
+
+      <div class="form-group">
+        <label>Contact Name</label>
+        <input type="text" id="contact" required>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email">
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+
+        <select id="status">
+
+          <option value="New">
+            New
+          </option>
+
+          <option value="Contacted">
+            Contacted
+          </option>
+
+          <option value="Qualified">
+            Qualified
+          </option>
+
+          <option value="Lost">
+            Lost
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Source</label>
+
+        <select id="source">
+
+          <option>Website</option>
+          <option>LinkedIn</option>
+          <option>Google</option>
+          <option>Referral</option>
+          <option>Other</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="cancel"
+          onclick="closeModal()">
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="save">
+          Save Lead
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+
+function openModal(){
+
+  document.getElementById("leadModal").style.display="flex";
+
+}
+
+
+function closeModal(){
+
+  document.getElementById("leadModal").style.display="none";
+
+}
+
+
+function viewLead(company){
+
+  alert("Lead: " + company);
+
+}
+
+
+function addLead(event){
+
+  event.preventDefault();
+
+  var company=document.getElementById("company").value;
+
+  var contact=document.getElementById("contact").value;
+
+  var email=document.getElementById("email").value;
+
+  var status=document.getElementById("status").value;
+
+  var source=document.getElementById("source").value;
+
+
+  var badgeClass=status.toLowerCase();
+
+
+  var row=document.createElement("tr");
+
+  row.setAttribute("data-status",status);
+
+
+  row.innerHTML=
+
+  "<td>" +
+
+  "<div class='lead-name'>" +
+  company +
+  "</div>" +
+
+  "<div class='lead-role'>" +
+  "New Lead" +
+  "</div>" +
+
+  "</td>" +
+
+  "<td>" +
+  contact +
+  "</td>" +
+
+  "<td>" +
+
+  "<span class='badge " +
+  badgeClass +
+  "'>" +
+  status +
+  "</span>" +
+
+  "</td>" +
+
+  "<td>" +
+  source +
+  "</td>" +
+
+  "<td>" +
+  "Just now" +
+  "</td>" +
+
+  "<td>" +
+
+  "<button class='view-btn' " +
+
+  "onclick=\"viewLead('" +
+  company +
+  "')\">" +
+
+  "View" +
+
+  "</button>" +
+
+  "</td>";
+
+
+  document
+  .getElementById("leadTable")
+  .appendChild(row);
+
+
+  document.getElementById("company").value="";
+
+  document.getElementById("contact").value="";
+
+  document.getElementById("email").value="";
+
+
+  closeModal();
+
+  updateStats();
+
+  filterLeads();
+
+}
+
+
+function filterLeads(){
+
+  var search=
+  document
+  .getElementById("searchInput")
+  .value
+  .toLowerCase();
+
+
+  var status=
+  document
+  .getElementById("statusFilter")
+  .value;
+
+
+  var rows=
+  document.querySelectorAll(
+    "#leadTable tr"
+  );
+
+
+  rows.forEach(function(row){
+
+    var text=
+    row.innerText.toLowerCase();
+
+    var rowStatus=
+    row.getAttribute("data-status");
+
+
+    var searchMatch=
+    text.indexOf(search)!==-1;
+
+
+    var statusMatch=
+    status==="all" ||
+    rowStatus===status;
+
+
+    if(searchMatch && statusMatch){
+
+      row.style.display="";
+
+    }else{
+
+      row.style.display="none";
+
+    }
+
+  });
+
+}
+
+
+function updateStats(){
+
+  var rows=
+  document.querySelectorAll(
+    "#leadTable tr"
+  );
+
+
+  var total=rows.length;
+
+  var newCount=0;
+
+  var qualified=0;
+
+
+  rows.forEach(function(row){
+
+    var status=
+    row.getAttribute("data-status");
+
+
+    if(status==="New"){
+
+      newCount++;
+
+    }
+
+
+    if(status==="Qualified"){
+
+      qualified++;
+
+    }
+
+  });
+
+
+  document.getElementById(
+    "totalLeads"
+  ).innerText=total;
+
+
+  document.getElementById(
+    "newLeads"
+  ).innerText=newCount;
+
+
+  document.getElementById(
+    "qualifiedLeads"
+  ).innerText=qualified;
+
+
+  var rate=
+  total > 0
+  ? Math.round((qualified/total)*100)
+  : 0;
+
+
+  document.getElementById(
+    "conversionRate"
+  ).innerText=rate+"%";
+
+}
+
+
+window.onclick=function(event){
+
+  var modal=
+  document.getElementById("leadModal");
+
+
+  if(event.target===modal){
+
+    closeModal();
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
