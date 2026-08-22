@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ClientFlow - Tasks</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f5f7fb;
+color:#111827;
+}
+
+.app{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:240px;
+background:#111827;
+color:white;
+padding:24px 16px;
+position:fixed;
+top:0;
+bottom:0;
+left:0;
+}
+
+.logo{
+font-size:23px;
+font-weight:700;
+padding:0 12px 28px;
+}
+
+.logo span{color:#6366f1}
+
+.menu{list-style:none}
+
+.menu li{margin-bottom:6px}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px;
+color:#cbd5e1;
+text-decoration:none;
+border-radius:8px;
+font-size:14px;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#1f2937;
+color:white;
+}
+
+.icon{
+width:20px;
+text-align:center;
+}
+
+.main{
+margin-left:240px;
+width:calc(100% - 240px);
+}
+
+.topbar{
+height:70px;
+background:white;
+border-bottom:1px solid #e5e7eb;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 28px;
+}
+
+.page-title{
+font-size:20px;
+font-weight:700;
+}
+
+.user{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.avatar{
+width:36px;
+height:36px;
+border-radius:50%;
+background:#6366f1;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.content{
+padding:28px;
+}
+
+.heading{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:24px;
+}
+
+.heading h1{
+font-size:26px;
+margin-bottom:5px;
+}
+
+.heading p{
+color:#6b7280;
+font-size:14px;
+}
+
+.btn{
+border:none;
+background:#6366f1;
+color:white;
+padding:11px 17px;
+border-radius:8px;
+cursor:pointer;
+font-size:14px;
+font-weight:600;
+}
+
+.btn:hover{background:#4f46e5}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:24px;
+}
+
+.card{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:20px;
+}
+
+.card-label{
+color:#6b7280;
+font-size:13px;
+margin-bottom:9px;
+}
+
+.card-value{
+font-size:25px;
+font-weight:700;
+}
+
+.card-small{
+font-size:12px;
+margin-top:6px;
+color:#6b7280;
+}
+
+.toolbar{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:12px 12px 0 0;
+padding:16px;
+display:flex;
+gap:12px;
+}
+
+.search{
+flex:1;
+}
+
+.search input,
+select{
+width:100%;
+padding:11px 14px;
+border:1px solid #d1d5db;
+border-radius:8px;
+outline:none;
+background:white;
+font-size:14px;
+}
+
+.search input:focus,
+select:focus{
+border-color:#6366f1;
+}
+
+.filter{
+width:180px;
+}
+
+.table-box{
+background:white;
+border:1px solid #e5e7eb;
+border-top:none;
+border-radius:0 0 12px 12px;
+overflow-x:auto;
+}
+
+table{
+width:100%;
+min-width:950px;
+border-collapse:collapse;
+}
+
+th{
+text-align:left;
+padding:14px 16px;
+background:#f9fafb;
+color:#6b7280;
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.4px;
+}
+
+td{
+padding:16px;
+border-top:1px solid #f1f5f9;
+font-size:14px;
+}
+
+tr:hover td{background:#fafafa}
+
+.task{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.task-icon{
+width:40px;
+height:40px;
+border-radius:9px;
+background:#eef2ff;
+color:#4f46e5;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.task-name{
+font-weight:600;
+}
+
+.task-company{
+color:#9ca3af;
+font-size:12px;
+margin-top:3px;
+}
+
+.priority,
+.status{
+display:inline-block;
+padding:5px 9px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+}
+
+.high{
+background:#fee2e2;
+color:#dc2626;
+}
+
+.medium{
+background:#fef3c7;
+color:#b45309;
+}
+
+.low{
+background:#dcfce7;
+color:#15803d;
+}
+
+.pending{
+background:#dbeafe;
+color:#2563eb;
+}
+
+.completed{
+background:#dcfce7;
+color:#15803d;
+}
+
+.overdue{
+background:#fee2e2;
+color:#dc2626;
+}
+
+.actions{
+display:flex;
+gap:7px;
+}
+
+.action{
+border:1px solid #e5e7eb;
+background:white;
+padding:7px 9px;
+border-radius:6px;
+cursor:pointer;
+font-size:12px;
+}
+
+.action:hover{background:#f3f4f6}
+
+.no-results{
+display:none;
+text-align:center;
+padding:35px;
+color:#6b7280;
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(15,23,42,.5);
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:100;
+}
+
+.modal-box{
+width:100%;
+max-width:520px;
+max-height:90vh;
+overflow-y:auto;
+background:white;
+border-radius:12px;
+padding:24px;
+}
+
+.modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.modal-header h2{font-size:20px}
+
+.close{
+border:none;
+background:none;
+font-size:24px;
+cursor:pointer;
+color:#6b7280;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.form-group label{
+display:block;
+margin-bottom:6px;
+font-size:13px;
+font-weight:600;
+color:#374151;
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+}
+
+.modal-buttons{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:20px;
+}
+
+.cancel{
+background:#f3f4f6;
+color:#374151;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+width:70px;
+padding:20px 8px;
+}
+
+.logo{
+font-size:0;
+text-align:center;
+padding:0 0 25px;
+}
+
+.logo span{font-size:22px}
+
+.menu a{
+justify-content:center;
+padding:12px 5px;
+}
+
+.menu .label{display:none}
+
+.main{
+margin-left:70px;
+width:calc(100% - 70px);
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+@media(max-width:600px){
+
+.topbar{padding:0 16px}
+
+.content{padding:18px 14px}
+
+.heading{
+gap:12px;
+align-items:flex-start;
+}
+
+.heading h1{font-size:22px}
+
+.heading .btn{white-space:nowrap}
+
+.stats{
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.card{padding:15px}
+
+.card-value{font-size:21px}
+
+.toolbar{
+flex-direction:column;
+}
+
+.filter{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+Client<span>Flow</span>
+</div>
+
+<ul class="menu">
+
+<li>
+<a href="index.html">
+<span class="icon">⌂</span>
+<span class="label">Dashboard</span>
+</a>
+</li>
+
+<li>
+<a href="leads.html">
+<span class="icon">◉</span>
+<span class="label">Leads</span>
+</a>
+</li>
+
+<li>
+<a href="companies.html">
+<span class="icon">▣</span>
+<span class="label">Companies</span>
+</a>
+</li>
+
+<li>
+<a href="contacts.html">
+<span class="icon">♙</span>
+<span class="label">Contacts</span>
+</a>
+</li>
+
+<li>
+<a href="deals.html">
+<span class="icon">◆</span>
+<span class="label">Deals</span>
+</a>
+</li>
+
+<li>
+<a href="tasks.html" class="active">
+<span class="icon">✓</span>
+<span class="label">Tasks</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="icon">▥</span>
+<span class="label">Reports</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="icon">⚙</span>
+<span class="label">Settings</span>
+</a>
+</li>
+
+</ul>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<div class="page-title">Tasks</div>
+
+<div class="user">
+<span>Admin</span>
+<div class="avatar">A</div>
+</div>
+
+</header>
+
+
+<section class="content">
+
+<div class="heading">
+
+<div>
+<h1>Tasks</h1>
+<p>Organize follow-ups and keep your team's work on track.</p>
+</div>
+
+<button class="btn" onclick="openModal()">
++ Add Task
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="card">
+<div class="card-label">Total Tasks</div>
+<div class="card-value" id="totalTasks">8</div>
+<div class="card-small">All tasks</div>
+</div>
+
+<div class="card">
+<div class="card-label">Pending</div>
+<div class="card-value" id="pendingTasks">5</div>
+<div class="card-small">Tasks to complete</div>
+</div>
+
+<div class="card">
+<div class="card-label">Completed</div>
+<div class="card-value" id="completedTasks">2</div>
+<div class="card-small">Successfully finished</div>
+</div>
+
+<div class="card">
+<div class="card-label">Overdue</div>
+<div class="card-value" id="overdueTasks">1</div>
+<div class="card-small">Needs attention</div>
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<div class="search">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search tasks..."
+onkeyup="filterTasks()"
+>
+
+</div>
+
+<div class="filter">
+
+<select id="priorityFilter" onchange="filterTasks()">
+
+<option value="">All Priority</option>
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+
+</select>
+
+</div>
+
+<div class="filter">
+
+<select id="statusFilter" onchange="filterTasks()">
+
+<option value="">All Status</option>
+<option value="Pending">Pending</option>
+<option value="Completed">Completed</option>
+<option value="Overdue">Overdue</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Task</th>
+<th>Assignee</th>
+<th>Due Date</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+
+<tbody id="taskTable">
+
+
+<tr data-priority="High" data-status="Pending">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">☎</div>
+
+<div>
+
+<div class="task-name">
+Call Rahul about CRM proposal
+</div>
+
+<div class="task-company">
+TechNova Solutions
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>25 Aug 2026</td>
+
+<td>
+<span class="priority high">High</span>
+</td>
+
+<td>
+<span class="status pending">Pending</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="Medium" data-status="Pending">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">✉</div>
+
+<div>
+
+<div class="task-name">
+Send marketing proposal
+</div>
+
+<div class="task-company">
+MarketPro Agency
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>27 Aug 2026</td>
+
+<td>
+<span class="priority medium">Medium</span>
+</td>
+
+<td>
+<span class="status pending">Pending</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="High" data-status="Pending">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">★</div>
+
+<div>
+
+<div class="task-name">
+Follow up with FinEdge
+</div>
+
+<div class="task-company">
+FinEdge Capital
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>26 Aug 2026</td>
+
+<td>
+<span class="priority high">High</span>
+</td>
+
+<td>
+<span class="status pending">Pending</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="Low" data-status="Completed">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">✓</div>
+
+<div>
+
+<div class="task-name">
+Update healthcare account
+</div>
+
+<div class="task-company">
+HealthFirst
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>20 Aug 2026</td>
+
+<td>
+<span class="priority low">Low</span>
+</td>
+
+<td>
+<span class="status completed">Completed</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="Medium" data-status="Pending">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">◆</div>
+
+<div>
+
+<div class="task-name">
+Prepare EduGrowth demo
+</div>
+
+<div class="task-company">
+EduGrowth
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>29 Aug 2026</td>
+
+<td>
+<span class="priority medium">Medium</span>
+</td>
+
+<td>
+<span class="status pending">Pending</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="Low" data-status="Completed">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">✓</div>
+
+<div>
+
+<div class="task-name">
+Review CloudCore account
+</div>
+
+<div class="task-company">
+CloudCore
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>21 Aug 2026</td>
+
+<td>
+<span class="priority low">Low</span>
+</td>
+
+<td>
+<span class="status completed">Completed</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="High" data-status="Pending">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">☎</div>
+
+<div>
+
+<div class="task-name">
+Call GrowthWorks founder
+</div>
+
+<div class="task-company">
+GrowthWorks
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>24 Aug 2026</td>
+
+<td>
+<span class="priority high">High</span>
+</td>
+
+<td>
+<span class="status pending">Pending</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+<tr data-priority="High" data-status="Overdue">
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">!</div>
+
+<div>
+
+<div class="task-name">
+Reconnect with DataSphere
+</div>
+
+<div class="task-company">
+DataSphere
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>Admin</td>
+
+<td>18 Aug 2026</td>
+
+<td>
+<span class="priority high">High</span>
+</td>
+
+<td>
+<span class="status overdue">Overdue</span>
+</td>
+
+<td>
+
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+
+<div class="no-results" id="noResults">
+No tasks found.
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- ADD TASK MODAL -->
+
+<div class="modal" id="taskModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>Add Task</h2>
+
+<button class="close" onclick="closeModal()">×</button>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Task Title</label>
+
+<input
+type="text"
+id="taskName"
+placeholder="Enter task title"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Related Company</label>
+
+<select id="taskCompany">
+
+<option>TechNova Solutions</option>
+<option>MarketPro Agency</option>
+<option>FinEdge Capital</option>
+<option>HealthFirst</option>
+<option>EduGrowth</option>
+<option>CloudCore</option>
+<option>GrowthWorks</option>
+<option>DataSphere</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Assignee</label>
+
+<input
+type="text"
+id="taskAssignee"
+placeholder="Enter assignee"
+value="Admin"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Due Date</label>
+
+<input
+type="date"
+id="taskDate"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Priority</label>
+
+<select id="taskPriority">
+
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Status</label>
+
+<select id="taskStatus">
+
+<option value="Pending">Pending</option>
+<option value="Completed">Completed</option>
+<option value="Overdue">Overdue</option>
+
+</select>
+
+</div>
+
+
+<div class="modal-buttons">
+
+<button class="btn cancel" onclick="closeModal()">
+Cancel
+</button>
+
+<button class="btn" onclick="addTask()">
+Add Task
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+function openModal(){
+document.getElementById("taskModal").style.display="flex";
+}
+
+function closeModal(){
+document.getElementById("taskModal").style.display="none";
+}
+
+
+function addTask(){
+
+const name=document.getElementById("taskName").value.trim();
+
+const company=document.getElementById("taskCompany").value;
+
+const assignee=document.getElementById("taskAssignee").value.trim();
+
+const date=document.getElementById("taskDate").value;
+
+const priority=document.getElementById("taskPriority").value;
+
+const status=document.getElementById("taskStatus").value;
+
+
+if(!name){
+
+alert("Please enter a task title.");
+
+return;
+
+}
+
+
+const table=document.getElementById("taskTable");
+
+const row=document.createElement("tr");
+
+row.setAttribute("data-priority",priority);
+
+row.setAttribute("data-status",status);
+
+
+let priorityClass="medium";
+
+if(priority==="High"){
+priorityClass="high";
+}
+
+if(priority==="Low"){
+priorityClass="low";
+}
+
+
+let statusClass="pending";
+
+if(status==="Completed"){
+statusClass="completed";
+}
+
+if(status==="Overdue"){
+statusClass="overdue";
+}
+
+
+let displayDate="-";
+
+if(date){
+
+const d=new Date(date);
+
+displayDate=d.toLocaleDateString(
+"en-IN",
+{
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+
+row.innerHTML=`
+
+<td>
+
+<div class="task">
+
+<div class="task-icon">
+${name.charAt(0).toUpperCase()}
+</div>
+
+<div>
+
+<div class="task-name">
+${name}
+</div>
+
+<div class="task-company">
+${company}
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>${assignee || "-"}</td>
+
+<td>${displayDate}</td>
+
+<td>
+
+<span class="priority ${priorityClass}">
+${priority}
+</span>
+
+</td>
+
+<td>
+
+<span class="status ${statusClass}">
+${status}
+</span>
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action">
+View
+</button>
+
+<button class="action">
+Edit
+</button>
+
+</div>
+
+</td>
+
+`;
+
+
+table.appendChild(row);
+
+
+document.getElementById("taskName").value="";
+
+document.getElementById("taskAssignee").value="Admin";
+
+document.getElementById("taskDate").value="";
+
+
+closeModal();
+
+updateStats();
+
+filterTasks();
+
+}
+
+
+function filterTasks(){
+
+const search=document
+.getElementById("searchInput")
+.value
+.toLowerCase();
+
+const priority=document
+.getElementById("priorityFilter")
+.value;
+
+const status=document
+.getElementById("statusFilter")
+.value;
+
+
+const rows=document.querySelectorAll("#taskTable tr");
+
+let visible=0;
+
+
+rows.forEach(function(row){
+
+const text=row.innerText.toLowerCase();
+
+const rowPriority=row.getAttribute("data-priority");
+
+const rowStatus=row.getAttribute("data-status");
+
+
+const searchMatch=text.includes(search);
+
+const priorityMatch=
+!priority || rowPriority===priority;
+
+const statusMatch=
+!status || rowStatus===status;
+
+
+if(searchMatch && priorityMatch && statusMatch){
+
+row.style.display="";
+
+visible++;
+
+}else{
+
+row.style.display="none";
+
+}
+
+});
+
+
+document.getElementById("noResults").style.display=
+visible===0 ? "block" : "none";
+
+}
+
+
+function updateStats(){
+
+const rows=document.querySelectorAll("#taskTable tr");
+
+let pending=0;
+
+let completed=0;
+
+let overdue=0;
+
+
+rows.forEach(function(row){
+
+const status=row.getAttribute("data-status");
+
+
+if(status==="Pending"){
+pending++;
+}
+
+if(status==="Completed"){
+completed++;
+}
+
+if(status==="Overdue"){
+overdue++;
+}
+
+});
+
+
+document.getElementById("totalTasks").innerText=rows.length;
+
+document.getElementById("pendingTasks").innerText=pending;
+
+document.getElementById("completedTasks").innerText=completed;
+
+document.getElementById("overdueTasks").innerText=overdue;
+
+}
+
+
+window.onclick=function(event){
+
+const modal=document.getElementById("taskModal");
+
+if(event.target===modal){
+
+closeModal();
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
