@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ClientFlow - Companies</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
+
+/* Layout */
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* Sidebar */
+
+.sidebar{
+  width:240px;
+  background:#111827;
+  color:white;
+  padding:24px 16px;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:700;
+  padding:0 12px 28px;
+}
+
+.logo span{
+  color:#6366f1;
+}
+
+.menu{
+  list-style:none;
+}
+
+.menu li{
+  margin-bottom:6px;
+}
+
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  color:#cbd5e1;
+  text-decoration:none;
+  border-radius:8px;
+  font-size:14px;
+}
+
+.menu a:hover,
+.menu a.active{
+  background:#1f2937;
+  color:white;
+}
+
+.icon{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* Main */
+
+.main{
+  margin-left:240px;
+  width:calc(100% - 240px);
+}
+
+/* Topbar */
+
+.topbar{
+  height:70px;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+}
+
+.page-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+.user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#6366f1;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* Content */
+
+.content{
+  padding:28px;
+}
+
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.heading h1{
+  font-size:26px;
+  margin-bottom:5px;
+}
+
+.heading p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+/* Button */
+
+.btn{
+  border:none;
+  background:#6366f1;
+  color:white;
+  padding:11px 17px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+}
+
+.btn:hover{
+  background:#4f46e5;
+}
+
+/* Cards */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:20px;
+}
+
+.card-label{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.card-value{
+  font-size:25px;
+  font-weight:700;
+}
+
+.card-small{
+  color:#16a34a;
+  font-size:12px;
+  margin-top:6px;
+}
+
+/* Toolbar */
+
+.toolbar{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:12px 12px 0 0;
+  padding:16px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.search{
+  flex:1;
+  position:relative;
+}
+
+.search input{
+  width:100%;
+  padding:11px 14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+  font-size:14px;
+}
+
+.search input:focus{
+  border-color:#6366f1;
+}
+
+select{
+  padding:11px 14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  background:white;
+  color:#374151;
+  outline:none;
+}
+
+/* Table */
+
+.table-box{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-top:none;
+  border-radius:0 0 12px 12px;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+th{
+  text-align:left;
+  padding:14px 16px;
+  background:#f9fafb;
+  color:#6b7280;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+td{
+  padding:16px;
+  border-top:1px solid #f1f5f9;
+  font-size:14px;
+}
+
+tr:hover td{
+  background:#fafafa;
+}
+
+/* Company */
+
+.company{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.company-logo{
+  width:38px;
+  height:38px;
+  border-radius:9px;
+  background:#eef2ff;
+  color:#4f46e5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+.company-name{
+  font-weight:600;
+  color:#111827;
+}
+
+.company-type{
+  color:#9ca3af;
+  font-size:12px;
+  margin-top:3px;
+}
+
+/* Status */
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.active{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.inactive{
+  background:#f3f4f6;
+  color:#6b7280;
+}
+
+.prospect{
+  background:#dbeafe;
+  color:#2563eb;
+}
+
+/* Actions */
+
+.actions{
+  display:flex;
+  gap:7px;
+}
+
+.action{
+  border:1px solid #e5e7eb;
+  background:white;
+  padding:7px 9px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.action:hover{
+  background:#f3f4f6;
+}
+
+/* Empty message */
+
+.no-results{
+  display:none;
+  text-align:center;
+  padding:35px;
+  color:#6b7280;
+}
+
+/* Modal */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.5);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal-box{
+  width:100%;
+  max-width:500px;
+  background:white;
+  border-radius:12px;
+  padding:24px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-size:20px;
+}
+
+.close{
+  border:none;
+  background:none;
+  font-size:24px;
+  cursor:pointer;
+  color:#6b7280;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:600;
+  color:#374151;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.cancel{
+  background:#f3f4f6;
+  color:#374151;
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+  .sidebar{
+    width:70px;
+    padding:20px 8px;
+  }
+
+  .logo{
+    font-size:0;
+    text-align:center;
+    padding:0 0 25px;
+  }
+
+  .logo span{
+    font-size:22px;
+  }
+
+  .menu a{
+    justify-content:center;
+    padding:12px 5px;
+  }
+
+  .menu a .label{
+    display:none;
+  }
+
+  .main{
+    margin-left:70px;
+    width:calc(100% - 70px);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .page-title{
+    font-size:17px;
+  }
+
+  .content{
+    padding:18px 14px;
+  }
+
+  .heading{
+    align-items:flex-start;
+    gap:15px;
+  }
+
+  .heading h1{
+    font-size:22px;
+  }
+
+  .heading .btn{
+    white-space:nowrap;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .card-value{
+    font-size:21px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .toolbar select{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      Client<span>Flow</span>
+    </div>
+
+    <ul class="menu">
+
+      <li>
+        <a href="index.html">
+          <span class="icon">⌂</span>
+          <span class="label">Dashboard</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="leads.html">
+          <span class="icon">◉</span>
+          <span class="label">Leads</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="companies.html" class="active">
+          <span class="icon">▣</span>
+          <span class="label">Companies</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="icon">♙</span>
+          <span class="label">Contacts</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="icon">◆</span>
+          <span class="label">Deals</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="icon">✓</span>
+          <span class="label">Tasks</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="icon">▥</span>
+          <span class="label">Reports</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#">
+          <span class="icon">⚙</span>
+          <span class="label">Settings</span>
+        </a>
+      </li>
+
+    </ul>
+
+  </aside>
+
+
+  <!-- Main -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="page-title">
+        Companies
+      </div>
+
+      <div class="user">
+        <span>Admin</span>
+        <div class="avatar">A</div>
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+      <!-- Heading -->
+
+      <div class="heading">
+
+        <div>
+          <h1>Companies</h1>
+          <p>Manage and track all your company accounts.</p>
+        </div>
+
+        <button class="btn" onclick="openModal()">
+          + Add Company
+        </button>
+
+      </div>
+
+
+      <!-- Statistics -->
+
+      <div class="stats">
+
+        <div class="card">
+          <div class="card-label">Total Companies</div>
+          <div class="card-value" id="totalCompanies">8</div>
+          <div class="card-small">All accounts</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Active</div>
+          <div class="card-value" id="activeCompanies">5</div>
+          <div class="card-small">Currently active</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Prospects</div>
+          <div class="card-value" id="prospectCompanies">2</div>
+          <div class="card-small">Potential accounts</div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Inactive</div>
+          <div class="card-value" id="inactiveCompanies">1</div>
+          <div class="card-small">Needs attention</div>
+        </div>
+
+      </div>
+
+
+      <!-- Search / Filter -->
+
+      <div class="toolbar">
+
+        <div class="search">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search companies..."
+            onkeyup="filterCompanies()"
+          >
+        </div>
+
+        <select id="industryFilter" onchange="filterCompanies()">
+          <option value="">All Industries</option>
+          <option value="Technology">Technology</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Finance">Finance</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Education">Education</option>
+        </select>
+
+        <select id="statusFilter" onchange="filterCompanies()">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Prospect">Prospect</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+
+      </div>
+
+
+      <!-- Companies Table -->
+
+      <div class="table-box">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Industry</th>
+              <th>Location</th>
+              <th>Employees</th>
+              <th>Contact</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="companyTable">
+
+            <tr data-industry="Technology" data-status="Active">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">T</div>
+                  <div>
+                    <div class="company-name">TechNova Solutions</div>
+                    <div class="company-type">Technology</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Technology</td>
+              <td>Hyderabad</td>
+              <td>51-200</td>
+              <td>Rahul Sharma</td>
+
+              <td>
+                <span class="status active">Active</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Marketing" data-status="Active">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">M</div>
+                  <div>
+                    <div class="company-name">MarketPro Agency</div>
+                    <div class="company-type">Marketing</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Marketing</td>
+              <td>Bengaluru</td>
+              <td>11-50</td>
+              <td>Priya Reddy</td>
+
+              <td>
+                <span class="status active">Active</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Finance" data-status="Prospect">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">F</div>
+                  <div>
+                    <div class="company-name">FinEdge Capital</div>
+                    <div class="company-type">Finance</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Finance</td>
+              <td>Mumbai</td>
+              <td>201-500</td>
+              <td>Arjun Mehta</td>
+
+              <td>
+                <span class="status prospect">Prospect</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Healthcare" data-status="Active">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">H</div>
+                  <div>
+                    <div class="company-name">HealthFirst</div>
+                    <div class="company-type">Healthcare</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Healthcare</td>
+              <td>Chennai</td>
+              <td>51-200</td>
+              <td>Ananya Rao</td>
+
+              <td>
+                <span class="status active">Active</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Education" data-status="Prospect">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">E</div>
+                  <div>
+                    <div class="company-name">EduGrowth</div>
+                    <div class="company-type">Education</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Education</td>
+              <td>Delhi</td>
+              <td>11-50</td>
+              <td>Vikram Singh</td>
+
+              <td>
+                <span class="status prospect">Prospect</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Technology" data-status="Active">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">C</div>
+                  <div>
+                    <div class="company-name">CloudCore</div>
+                    <div class="company-type">Technology</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Technology</td>
+              <td>Pune</td>
+              <td>51-200</td>
+              <td>Neha Kapoor</td>
+
+              <td>
+                <span class="status active">Active</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Marketing" data-status="Active">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">G</div>
+                  <div>
+                    <div class="company-name">GrowthWorks</div>
+                    <div class="company-type">Marketing</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Marketing</td>
+              <td>Ahmedabad</td>
+              <td>11-50</td>
+              <td>Rohan Patel</td>
+
+              <td>
+                <span class="status active">Active</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+
+            <tr data-industry="Technology" data-status="Inactive">
+
+              <td>
+                <div class="company">
+                  <div class="company-logo">D</div>
+                  <div>
+                    <div class="company-name">DataSphere</div>
+                    <div class="company-type">Technology</div>
+                  </div>
+                </div>
+              </td>
+
+              <td>Technology</td>
+              <td>Noida</td>
+              <td>51-200</td>
+              <td>Sameer Khan</td>
+
+              <td>
+                <span class="status inactive">Inactive</span>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button class="action">View</button>
+                  <button class="action">Edit</button>
+                </div>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <div class="no-results" id="noResults">
+          No companies found.
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- Add Company Modal -->
+
+<div class="modal" id="companyModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>Add Company</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="form-group">
+      <label>Company Name</label>
+      <input type="text" id="companyName" placeholder="Enter company name">
+    </div>
+
+    <div class="form-group">
+      <label>Industry</label>
+
+      <select id="companyIndustry">
+        <option value="Technology">Technology</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Finance">Finance</option>
+        <option value="Healthcare">Healthcare</option>
+        <option value="Education">Education</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" id="companyLocation" placeholder="Enter location">
+    </div>
+
+    <div class="form-group">
+      <label>Employees</label>
+      <input type="text" id="companyEmployees" placeholder="Example: 11-50">
+    </div>
+
+    <div class="form-group">
+      <label>Contact Person</label>
+      <input type="text" id="companyContact" placeholder="Enter contact name">
+    </div>
+
+    <div class="form-group">
+      <label>Status</label>
+
+      <select id="companyStatus">
+        <option value="Active">Active</option>
+        <option value="Prospect">Prospect</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+
+    </div>
+
+    <div class="modal-buttons">
+
+      <button class="btn cancel" onclick="closeModal()">
+        Cancel
+      </button>
+
+      <button class="btn" onclick="addCompany()">
+        Add Company
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* Open modal */
+
+function openModal(){
+  document.getElementById("companyModal").style.display="flex";
+}
+
+/* Close modal */
+
+function closeModal(){
+  document.getElementById("companyModal").style.display="none";
+}
+
+/* Add company */
+
+function addCompany(){
+
+  const name=document.getElementById("companyName").value.trim();
+  const industry=document.getElementById("companyIndustry").value;
+  const location=document.getElementById("companyLocation").value.trim();
+  const employees=document.getElementById("companyEmployees").value.trim();
+  const contact=document.getElementById("companyContact").value.trim();
+  const status=document.getEleme
