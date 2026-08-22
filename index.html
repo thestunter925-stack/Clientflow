@@ -1,318 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClientFlow - CRM</title>
 
-  <title>ClientFlow - Lead Management</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
-    }
+button,input,select,textarea{font:inherit}
 
-    .sidebar {
-      position: fixed;
-      width: 230px;
-      height: 100vh;
-      background: #111827;
-      color: white;
-      padding: 25px 15px;
-    }
+button{cursor:pointer}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  width:230px;
+  height:100vh;
+  background:#111827;
+  color:white;
+  padding:24px 15px;
+  z-index:10;
+}
 
-    .logo span {
-      display: inline-block;
-      background: #2563eb;
-      padding: 8px;
-      border-radius: 8px;
-      margin-right: 7px;
-    }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:30px;
+}
 
-    .nav button {
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      padding: 12px;
-      margin-bottom: 5px;
-      border-radius: 8px;
-      text-align: left;
-      cursor: pointer;
-    }
+.logo-box{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#2563eb;
+  border-radius:10px;
+}
 
-    .nav button:hover,
-    .nav button.active {
-      background: #1f2937;
-      color: white;
-    }
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#9ca3af;
+  padding:12px 13px;
+  margin-bottom:5px;
+  border-radius:9px;
+  text-align:left;
+}
 
-    .main {
-      margin-left: 230px;
-      padding: 30px;
-    }
+.nav button:hover,
+.nav button.active{
+  background:#1f2937;
+  color:#fff;
+}
 
-    .header {
-      margin-bottom: 25px;
-    }
+.main{
+  margin-left:230px;
+  padding:30px;
+}
 
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
 
-    .header p {
-      color: #6b7280;
-    }
+.page-title h1{
+  font-size:28px;
+  margin-bottom:5px;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
+.page-title p{
+  color:#6b7280;
+  font-size:14px;
+}
 
-    .stat {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 20px;
-    }
+.primary{
+  border:0;
+  background:#2563eb;
+  color:#fff;
+  padding:11px 16px;
+  border-radius:9px;
+  font-weight:600;
+}
 
-    .stat p {
-      color: #6b7280;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
+.primary:hover{background:#1d4ed8}
 
-    .stat h2 {
-      font-size: 27px;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
 
-    .card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      overflow: hidden;
-    }
+.stat{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:20px;
+}
 
-    .card-header {
-      padding: 20px;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
+.stat-label{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:9px;
+}
 
-    .card-header h2 {
-      font-size: 18px;
-    }
+.stat-number{
+  font-size:27px;
+  font-weight:700;
+}
 
-    .search {
-      width: 240px;
-      padding: 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      outline: none;
-    }
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  overflow:hidden;
+}
 
-    .search:focus {
-      border-color: #2563eb;
-    }
+.card-header{
+  padding:18px 20px;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
 
-    .table-container {
-      overflow-x: auto;
-    }
+.card-header h2{
+  font-size:18px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
-    }
+.search{
+  width:240px;
+  padding:10px 12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+}
 
-    th,
-    td {
-      padding: 15px 20px;
-      text-align: left;
-      border-bottom: 1px solid #e5e7eb;
-    }
+.search:focus,
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus{
+  border-color:#2563eb;
+}
 
-    th {
-      color: #6b7280;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
+.table-container{
+  overflow-x:auto;
+}
 
-    .company {
-      font-weight: bold;
-    }
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:750px;
+}
 
-    .industry {
-      color: #6b7280;
-      font-size: 12px;
-      margin-top: 4px;
-    }
+th,td{
+  padding:14px 20px;
+  text-align:left;
+  border-bottom:1px solid #e5e7eb;
+}
 
-    .status {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
+th{
+  color:#6b7280;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
 
-    .new {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
+.company-name{
+  font-weight:700;
+}
 
-    .contacted {
-      background: #fef3c7;
-      color: #92400e;
-    }
+.industry{
+  color:#6b7280;
+  font-size:12px;
+  margin-top:4px;
+}
 
-    .qualified {
-      background: #dcfce7;
-      color: #166534;
-    }
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+}
 
-    @media (max-width: 800px) {
-      .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-      }
+.status-new{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
 
-      .nav {
-        display: flex;
-        overflow-x: auto;
-        gap: 5px;
-      }
+.status-contacted{
+  background:#fef3c7;
+  color:#92400e;
+}
 
-      .nav button {
-        width: auto;
-        white-space: nowrap;
-      }
+.status-qualified{
+  background:#dcfce7;
+  color:#166534;
+}
 
-      .main {
-        margin-left: 0;
-        padding: 20px;
-      }
+.status-converted{
+  background:#ede9fe;
+  color:#6d28d9;
+}
 
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+.status-lost{
+  background:#fee2e2;
+  color:#b91c1c;
+}
 
-      .card-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
+.actions{
+  display:flex;
+  gap:6px;
+}
 
-      .search {
-        width: 100%;
-      }
-    }
+.action-btn{
+  border:1px solid #d1d5db;
+  background:#fff;
+  color:#374151;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:12px;
+}
 
-    @media (max-width: 450px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
+.action-btn:hover{
+  background:#f3f4f6;
+}
 
-      .main {
-        padding: 15px;
-      }
+.delete-btn:hover{
+  color:#dc2626;
+  border-color:#fca5a5;
+}
 
-      .header h1 {
-        font-size: 24px;
-      }
-    }
-  </style>
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.empty{
+  text-align:center;
+  padding:45px 20px;
+  color:#6b7280;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-width:500px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:14px;
+  padding:22px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-size:20px;
+}
+
+.close{
+  border:0;
+  background:#f3f4f6;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  font-size:18px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+.form-input,
+.form-select,
+.form-textarea{
+  width:100%;
+  padding:10px 11px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+  background:#fff;
+}
+
+.form-textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.secondary{
+  border:1px solid #d1d5db;
+  background:#fff;
+  color:#374151;
+  padding:10px 15px;
+  border-radius:8px;
+}
+
+.secondary:hover{
+  background:#f3f4f6;
+}
+
+.company-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.company-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:18px;
+}
+
+.company-card h3{
+  margin-bottom:7px;
+}
+
+.company-card p{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.activity{
+  padding:18px 20px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.activity:last-child{
+  border-bottom:0;
+}
+
+.activity-title{
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.activity-meta{
+  color:#6b7280;
+  font-size:13px;
+}
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#111827;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:9px;
+  display:none;
+  z-index:100;
+  font-size:14px;
+}
+
+.toast.show{
+  display:block;
+}
+
+@media(max-width:900px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .company-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:700px){
+  .sidebar{
+    position:static;
+    width:100%;
+    height:auto;
+    padding:15px;
+  }
+
+  .logo{
+    margin-bottom:15px;
+  }
+
+  .nav{
+    display:flex;
+    overflow-x:auto;
+    gap:5px;
+  }
+
+  .nav button{
+    width:auto;
+    white-space:nowrap;
+    margin-bottom:0;
+  }
+
+  .main{
+    margin-left:0;
+    padding:18px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+  }
+
+  .topbar .primary{
+    white-space:nowrap;
+  }
+
+  .card-header{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .company-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:450px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .page-title h1{
+    font-size:23px;
+  }
+
+  .main{
+    padding:14px;
+  }
+
+  .topbar .primary{
+    padding:9px 11px;
+    font-size:12px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <aside class="sidebar">
+<aside class="sidebar">
 
-    <div class="logo">
-      <span>C</span>ClientFlow
+  <div class="logo">
+    <div class="logo-box">C</div>
+    <span>ClientFlow</span>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+    <button class="nav-btn" data-page="leads">Leads</button>
+    <button class="nav-btn" data-page="companies">Companies</button>
+    <button class="nav-btn" data-page="activities">Activities</button>
+  </nav>
+
+</aside>
+
+
+<main class="main">
+
+  <!-- DASHBOARD -->
+
+  <section id="dashboard" class="page active">
+
+    <div class="topbar">
+      <div class="page-title">
+        <h1>Dashboard</h1>
+        <p>Track and manage your sales pipeline.</p>
+      </div>
+
+      <button class="primary" onclick="openAddLead()">
+        + Add Lead
+      </button>
     </div>
-
-    <nav class="nav">
-      <button class="active">Dashboard</button>
-      <button>Leads</button>
-      <button>Companies</button>
-      <button>Activities</button>
-      <button>Settings</button>
-    </nav>
-
-  </aside>
-
-
-  <main class="main">
-
-    <header class="header">
-      <h1>Dashboard</h1>
-      <p>Track and manage your sales pipeline.</p>
-    </header>
-
 
     <section class="stats">
 
       <div class="stat">
-        <p>Total Leads</p>
-        <h2>4</h2>
+        <div class="stat-label">Total Leads</div>
+        <div class="stat-number" id="totalLeads">0</div>
       </div>
 
       <div class="stat">
-        <p>New Leads</p>
-        <h2>2</h2>
+        <div class="stat-label">New Leads</div>
+        <div class="stat-number" id="newLeads">0</div>
       </div>
 
       <div class="stat">
-        <p>Qualified</p>
-        <h2>1</h2>
+        <div class="stat-label">Qualified</div>
+        <div class="stat-number" id="qualifiedLeads">0</div>
       </div>
 
       <div class="stat">
-        <p>Conversion Rate</p>
-        <h2>24%</h2>
+        <div class="stat-label">Conversion Rate</div>
+        <div class="stat-number" id="conversionRate">0%</div>
       </div>
 
     </section>
 
-
     <section class="card">
 
       <div class="card-header">
-
         <h2>Recent Leads</h2>
-
         <input
-          id="search"
+          id="dashboardSearch"
           class="search"
           type="search"
           placeholder="Search leads..."
         >
-
       </div>
 
-
       <div class="table-container">
-
         <table>
 
           <thead>
@@ -324,96 +579,62 @@
             </tr>
           </thead>
 
-          <tbody id="leads">
+          <tbody id="dashboardLeads"></tbody>
 
+        </table>
+      </div>
+
+    </section>
+
+  </section>
+
+
+  <!-- LEADS -->
+
+  <section id="leads" class="page">
+
+    <div class="topbar">
+      <div class="page-title">
+        <h1>Leads</h1>
+        <p>Manage your sales prospects.</p>
+      </div>
+
+      <button class="primary" onclick="openAddLead()">
+        + Add Lead
+      </button>
+    </div>
+
+    <section class="card">
+
+      <div class="card-header">
+
+        <h2>All Leads</h2>
+
+        <input
+          id="leadSearch"
+          class="search"
+          type="search"
+          placeholder="Search leads..."
+        >
+
+      </div>
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
             <tr>
-              <td>
-                <div class="company">
-                  Acme Technologies
-                </div>
-                <div class="industry">
-                  Technology
-                </div>
-              </td>
-
-              <td>Rahul Sharma</td>
-
-              <td>
-                <span class="status new">
-                  New
-                </span>
-              </td>
-
-              <td>Today</td>
+              <th>Company</th>
+              <th>Contact</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Activity</th>
+              <th>Actions</th>
             </tr>
+          </thead>
 
-
-            <tr>
-              <td>
-                <div class="company">
-                  Growth Labs
-                </div>
-                <div class="industry">
-                  Marketing
-                </div>
-              </td>
-
-              <td>Priya Mehta</td>
-
-              <td>
-                <span class="status contacted">
-                  Contacted
-                </span>
-              </td>
-
-              <td>Yesterday</td>
-            </tr>
-
-
-            <tr>
-              <td>
-                <div class="company">
-                  Nova Systems
-                </div>
-                <div class="industry">
-                  SaaS
-                </div>
-              </td>
-
-              <td>Arjun Kumar</td>
-
-              <td>
-                <span class="status qualified">
-                  Qualified
-                </span>
-              </td>
-
-              <td>2 days ago</td>
-            </tr>
-
-
-            <tr>
-              <td>
-                <div class="company">
-                  PixelWorks
-                </div>
-                <div class="industry">
-                  Design
-                </div>
-              </td>
-
-              <td>Ananya Rao</td>
-
-              <td>
-                <span class="status new">
-                  New
-                </span>
-              </td>
-
-              <td>3 days ago</td>
-            </tr>
-
-          </tbody>
+          <tbody id="leadTable"></tbody>
 
         </table>
 
@@ -421,38 +642,613 @@
 
     </section>
 
-  </main>
+  </section>
 
 
-  <script>
+  <!-- COMPANIES -->
 
-    const search =
-      document.getElementById("search");
+  <section id="companies" class="page">
 
-    const leads =
-      document.querySelectorAll("#leads tr");
+    <div class="topbar">
 
-    search.addEventListener("input", function () {
+      <div class="page-title">
+        <h1>Companies</h1>
+        <p>Companies connected to your leads.</p>
+      </div>
 
-      const value =
-        search.value.toLowerCase();
+    </div>
 
-      leads.forEach(function (lead) {
+    <div id="companyGrid" class="company-grid"></div>
 
-        const text =
-          lead.textContent.toLowerCase();
+  </section>
 
-        if (text.includes(value)) {
-          lead.style.display = "";
-        } else {
-          lead.style.display = "none";
-        }
 
-      });
+  <!-- ACTIVITIES -->
 
-    });
+  <section id="activities" class="page">
 
-  </script>
+    <div class="topbar">
 
-</body>
-        </html>
+      <div class="page-title">
+        <h1>Activities</h1>
+        <p>Your recent CRM activity.</p>
+      </div>
+
+    </div>
+
+    <section class="card">
+
+      <div id="activityList"></div>
+
+    </section>
+
+  </section>
+
+</main>
+
+
+<!-- ADD / EDIT MODAL -->
+
+<div id="leadModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">Add Lead</h2>
+
+      <button class="close" onclick="closeModal()">×</button>
+
+    </div>
+
+    <form id="leadForm">
+
+      <input type="hidden" id="leadId">
+
+      <div class="form-group">
+        <label class="form-label">Company Name</label>
+        <input
+          id="companyInput"
+          class="form-input"
+          type="text"
+          placeholder="e.g. Acme Technologies"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Industry</label>
+        <input
+          id="industryInput"
+          class="form-input"
+          type="text"
+          placeholder="e.g. SaaS"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contact Person</label>
+        <input
+          id="contactInput"
+          class="form-input"
+          type="text"
+          placeholder="e.g. Rahul Sharma"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input
+          id="emailInput"
+          class="form-input"
+          type="email"
+          placeholder="example@company.com"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Status</label>
+
+        <select id="statusInput" class="form-select">
+
+          <option value="New">New</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Qualified">Qualified</option>
+          <option value="Converted">Converted</option>
+          <option value="Lost">Lost</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Activity</label>
+
+        <input
+          id="activityInput"
+          class="form-input"
+          type="text"
+          placeholder="e.g. Follow-up call"
+        >
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+        <button type="submit" class="primary">
+          Save Lead
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+const STORAGE_KEY = "clientflow_leads";
+
+
+const defaultLeads = [
+
+  {
+    id:1,
+    company:"Acme Technologies",
+    industry:"Technology",
+    contact:"Rahul Sharma",
+    email:"rahul@acme.com",
+    status:"New",
+    activity:"Today"
+  },
+
+  {
+    id:2,
+    company:"Growth Labs",
+    industry:"Marketing",
+    contact:"Priya Mehta",
+    email:"priya@growthlabs.com",
+    status:"Contacted",
+    activity:"Yesterday"
+  },
+
+  {
+    id:3,
+    company:"Nova Systems",
+    industry:"SaaS",
+    contact:"Arjun Kumar",
+    email:"arjun@novasystems.com",
+    status:"Qualified",
+    activity:"2 days ago"
+  },
+
+  {
+    id:4,
+    company:"PixelWorks",
+    industry:"Design",
+    contact:"Ananya Rao",
+    email:"ananya@pixelworks.com",
+    status:"New",
+    activity:"3 days ago"
+  }
+
+];
+
+
+let leads = loadLeads();
+
+
+function loadLeads(){
+
+  const saved = localStorage.getItem(STORAGE_KEY);
+
+  if(saved){
+
+    try{
+      return JSON.parse(saved);
+    }catch(error){
+      return defaultLeads;
+    }
+
+  }
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(defaultLeads)
+  );
+
+  return defaultLeads;
+
+}
+
+
+function saveLeads(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(leads)
+  );
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function statusClass(status){
+
+  const map = {
+    "New":"status-new",
+    "Contacted":"status-contacted",
+    "Qualified":"status-qualified",
+    "Converted":"status-converted",
+    "Lost":"status-lost"
+  };
+
+  return map[status] || "status-new";
+
+}
+
+
+function renderDashboard(){
+
+  const container =
+    document.getElementById("dashboardLeads");
+
+  const search =
+    document.getElementById("dashboardSearch").value
+    .toLowerCase();
+
+  const filtered =
+    leads.filter(lead =>
+      `${lead.company} ${lead.contact} ${lead.industry} ${lead.status}`
+      .toLowerCase()
+      .includes(search)
+    );
+
+  if(filtered.length === 0){
+
+    container.innerHTML =
+      `<tr><td colspan="4">
+        <div class="empty">No leads found.</div>
+      </td></tr>`;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    filtered.map(lead => `
+
+      <tr>
+
+        <td>
+          <div class="company-name">
+            ${escapeHTML(lead.company)}
+          </div>
+
+          <div class="industry">
+            ${escapeHTML(lead.industry)}
+          </div>
+        </td>
+
+        <td>
+          ${escapeHTML(lead.contact)}
+        </td>
+
+        <td>
+          <span class="status ${statusClass(lead.status)}">
+            ${escapeHTML(lead.status)}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHTML(lead.activity || "No activity")}
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function renderLeads(){
+
+  const table =
+    document.getElementById("leadTable");
+
+  const search =
+    document.getElementById("leadSearch").value
+    .toLowerCase();
+
+  const filtered =
+    leads.filter(lead =>
+      `${lead.company} ${lead.contact} ${lead.email} ${lead.industry} ${lead.status}`
+      .toLowerCase()
+      .includes(search)
+    );
+
+  if(filtered.length === 0){
+
+    table.innerHTML =
+      `<tr><td colspan="6">
+        <div class="empty">No leads found.</div>
+      </td></tr>`;
+
+    return;
+
+  }
+
+  table.innerHTML =
+    filtered.map(lead => `
+
+      <tr>
+
+        <td>
+
+          <div class="company-name">
+            ${escapeHTML(lead.company)}
+          </div>
+
+          <div class="industry">
+            ${escapeHTML(lead.industry)}
+          </div>
+
+        </td>
+
+        <td>
+          ${escapeHTML(lead.contact)}
+        </td>
+
+        <td>
+          ${escapeHTML(lead.email || "-")}
+        </td>
+
+        <td>
+
+          <select
+            class="form-select"
+            style="width:auto;padding:6px"
+            onchange="changeStatus(${lead.id},this.value)"
+          >
+
+            ${["New","Contacted","Qualified","Converted","Lost"]
+              .map(status =>
+                `<option
+                  value="${status}"
+                  ${lead.status === status ? "selected" : ""}
+                >
+                  ${status}
+                </option>`
+              ).join("")}
+
+          </select>
+
+        </td>
+
+        <td>
+          ${escapeHTML(lead.activity || "-")}
+        </td>
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="action-btn"
+              onclick="editLead(${lead.id})"
+            >
+              Edit
+            </button>
+
+            <button
+              class="action-btn delete-btn"
+              onclick="deleteLead(${lead.id})"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+function updateStats(){
+
+  const total = leads.length;
+
+  const newCount =
+    leads.filter(l => l.status === "New").length;
+
+  const qualified =
+    leads.filter(l => l.status === "Qualified").length;
+
+  const converted =
+    leads.filter(l => l.status === "Converted").length;
+
+  const conversion =
+    total === 0
+      ? 0
+      : Math.round((converted / total) * 100);
+
+  document.getElementById("totalLeads").textContent = total;
+  document.getElementById("newLeads").textContent = newCount;
+  document.getElementById("qualifiedLeads").textContent = qualified;
+  document.getElementById("conversionRate").textContent =
+    conversion + "%";
+
+}
+
+
+function renderCompanies(){
+
+  const grid =
+    document.getElementById("companyGrid");
+
+  const companies = {};
+
+  leads.forEach(lead => {
+
+    if(!companies[lead.company]){
+
+      companies[lead.company] = {
+        company:lead.company,
+        industry:lead.industry,
+        contacts:0
+      };
+
+    }
+
+    companies[lead.company].contacts++;
+
+  });
+
+  const list = Object.values(companies);
+
+  if(list.length === 0){
+
+    grid.innerHTML =
+      `<div class="empty">No companies yet.</div>`;
+
+    return;
+
+  }
+
+  grid.innerHTML =
+    list.map(company => `
+
+      <div class="company-card">
+
+        <h3>
+          ${escapeHTML(company.company)}
+        </h3>
+
+        <p>
+          Industry: ${escapeHTML(company.industry)}
+        </p>
+
+        <p>
+          Leads: ${company.contacts}
+        </p>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function renderActivities(){
+
+  const list =
+    document.getElementById("activityList");
+
+  const sorted =
+    [...leads].reverse();
+
+  if(sorted.length === 0){
+
+    list.innerHTML =
+      `<div class="empty">No activities yet.</div>`;
+
+    return;
+
+  }
+
+  list.innerHTML =
+    sorted.map(lead => `
+
+      <div class="activity">
+
+        <div class="activity-title">
+          ${escapeHTML(lead.activity || "Lead created")}
+        </div>
+
+        <div class="activity-meta">
+          ${escapeHTML(lead.company)}
+          •
+          ${escapeHTML(lead.contact)}
+          •
+          ${escapeHTML(lead.status)}
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function refresh(){
+
+  updateStats();
+  renderDashboard();
+  renderLeads();
+  renderCompanies();
+  renderActivities();
+
+}
+
+
+function openAddLead(){
+
+  document.getElementById("leadForm").reset();
+
+  document.getElementById("leadId").value = "";
+
+  document.getElementById("modalTitle").textContent =
+    "Add Lead";
+
+  document.getElementById("leadModal").classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  document.getElementById("leadModal").classList.remove("show");
+
+}
+
+
+function editLead(id){
+
+  const lead =
+    leads.find(item => item.id === id);
+
+  if(!lead) return;
+
+  document.getElementById("leadId").value = lead.id;
+  do
