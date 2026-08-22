@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ClientFlow - Deals</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#111827;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:240px;
+  background:#111827;
+  color:white;
+  padding:24px 16px;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:700;
+  padding:0 12px 28px;
+}
+
+.logo span{
+  color:#6366f1;
+}
+
+.menu{
+  list-style:none;
+}
+
+.menu li{
+  margin-bottom:6px;
+}
+
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  color:#cbd5e1;
+  text-decoration:none;
+  border-radius:8px;
+  font-size:14px;
+}
+
+.menu a:hover,
+.menu a.active{
+  background:#1f2937;
+  color:white;
+}
+
+.icon{
+  width:20px;
+  text-align:center;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:240px;
+  width:calc(100% - 240px);
+}
+
+/* TOPBAR */
+
+.topbar{
+  height:70px;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+}
+
+.page-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+.user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#6366f1;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* CONTENT */
+
+.content{
+  padding:28px;
+}
+
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.heading h1{
+  font-size:26px;
+  margin-bottom:5px;
+}
+
+.heading p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+/* BUTTON */
+
+.btn{
+  border:none;
+  background:#6366f1;
+  color:white;
+  padding:11px 17px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+}
+
+.btn:hover{
+  background:#4f46e5;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:20px;
+}
+
+.card-label{
+  color:#6b7280;
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.card-value{
+  font-size:24px;
+  font-weight:700;
+}
+
+.card-small{
+  color:#16a34a;
+  font-size:12px;
+  margin-top:6px;
+}
+
+/* TOOLBAR */
+
+.toolbar{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:12px 12px 0 0;
+  padding:16px;
+  display:flex;
+  gap:12px;
+}
+
+.search{
+  flex:1;
+}
+
+.search input,
+select{
+  width:100%;
+  padding:11px 14px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+  background:white;
+  font-size:14px;
+}
+
+.search input:focus,
+select:focus{
+  border-color:#6366f1;
+}
+
+.filter{
+  width:180px;
+}
+
+/* TABLE */
+
+.table-box{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-top:none;
+  border-radius:0 0 12px 12px;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  min-width:1050px;
+  border-collapse:collapse;
+}
+
+th{
+  text-align:left;
+  padding:14px 16px;
+  background:#f9fafb;
+  color:#6b7280;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+td{
+  padding:16px;
+  border-top:1px solid #f1f5f9;
+  font-size:14px;
+}
+
+tr:hover td{
+  background:#fafafa;
+}
+
+/* DEAL */
+
+.deal{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.deal-icon{
+  width:40px;
+  height:40px;
+  border-radius:9px;
+  background:#eef2ff;
+  color:#4f46e5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.deal-name{
+  font-weight:600;
+}
+
+.deal-company{
+  color:#9ca3af;
+  font-size:12px;
+  margin-top:3px;
+}
+
+/* STAGE */
+
+.stage{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.new{
+  background:#dbeafe;
+  color:#2563eb;
+}
+
+.qualified{
+  background:#ede9fe;
+  color:#7c3aed;
+}
+
+.proposal{
+  background:#fef3c7;
+  color:#b45309;
+}
+
+.negotiation{
+  background:#fce7f3;
+  color:#be185d;
+}
+
+.closed{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+/* STATUS */
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.open{
+  background:#dbeafe;
+  color:#2563eb;
+}
+
+.won{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.lost{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+/* ACTIONS */
+
+.actions{
+  display:flex;
+  gap:7px;
+}
+
+.action{
+  border:1px solid #e5e7eb;
+  background:white;
+  padding:7px 9px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.action:hover{
+  background:#f3f4f6;
+}
+
+.no-results{
+  display:none;
+  text-align:center;
+  padding:35px;
+  color:#6b7280;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.5);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal-box{
+  width:100%;
+  max-width:520px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:12px;
+  padding:24px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-size:20px;
+}
+
+.close{
+  border:none;
+  background:none;
+  font-size:24px;
+  cursor:pointer;
+  color:#6b7280;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:600;
+  color:#374151;
+}
+
+.form-group input,
+.form-group select{
+  width:100%;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.cancel{
+  background:#f3f4f6;
+  color:#374151;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:900px){
+
+  .sidebar{
+    width:70px;
+    padding:20px 8px;
+  }
+
+  .logo{
+    font-size:0;
+    text-align:center;
+    padding:0 0 25px;
+  }
+
+  .logo span{
+    font-size:22px;
+  }
+
+  .menu a{
+    justify-content:center;
+    padding:12px 5px;
+  }
+
+  .menu .label{
+    display:none;
+  }
+
+  .main{
+    margin-left:70px;
+    width:calc(100% - 70px);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .content{
+    padding:18px 14px;
+  }
+
+  .heading{
+    gap:12px;
+    align-items:flex-start;
+  }
+
+  .heading h1{
+    font-size:22px;
+  }
+
+  .heading .btn{
+    white-space:nowrap;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .card-value{
+    font-size:20px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+  }
+
+  .filter{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+Client<span>Flow</span>
+</div>
+
+<ul class="menu">
+
+<li>
+<a href="index.html">
+<span class="icon">⌂</span>
+<span class="label">Dashboard</span>
+</a>
+</li>
+
+<li>
+<a href="leads.html">
+<span class="icon">◉</span>
+<span class="label">Leads</span>
+</a>
+</li>
+
+<li>
+<a href="companies.html">
+<span class="icon">▣</span>
+<span class="label">Companies</span>
+</a>
+</li>
+
+<li>
+<a href="contacts.html">
+<span class="icon">♙</span>
+<span class="label">Contacts</span>
+</a>
+</li>
+
+<li>
+<a href="deals.html" class="active">
+<span class="icon">◆</span>
+<span class="label">Deals</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="icon">✓</span>
+<span class="label">Tasks</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="icon">▥</span>
+<span class="label">Reports</span>
+</a>
+</li>
+
+<li>
+<a href="#">
+<span class="icon">⚙</span>
+<span class="label">Settings</span>
+</a>
+</li>
+
+</ul>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+<div class="page-title">
+Deals
+</div>
+
+<div class="user">
+<span>Admin</span>
+<div class="avatar">A</div>
+</div>
+
+</header>
+
+
+<section class="content">
+
+<!-- HEADING -->
+
+<div class="heading">
+
+<div>
+<h1>Deals</h1>
+<p>Track sales opportunities and manage your pipeline.</p>
+</div>
+
+<button class="btn" onclick="openModal()">
++ Add Deal
+</button>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="card">
+<div class="card-label">Total Deals</div>
+<div class="card-value" id="totalDeals">8</div>
+<div class="card-small">All opportunities</div>
+</div>
+
+<div class="card">
+<div class="card-label">Open Deals</div>
+<div class="card-value" id="openDeals">5</div>
+<div class="card-small">In pipeline</div>
+</div>
+
+<div class="card">
+<div class="card-label">Won</div>
+<div class="card-value" id="wonDeals">2</div>
+<div class="card-small">Successfully closed</div>
+</div>
+
+<div class="card">
+<div class="card-label">Lost</div>
+<div class="card-value" id="lostDeals">1</div>
+<div class="card-small">Closed lost</div>
+</div>
+
+<div class="card">
+<div class="card-label">Pipeline Value</div>
+<div class="card-value" id="pipelineValue">₹42.5L</div>
+<div class="card-small">Open opportunity value</div>
+</div>
+
+</div>
+
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+<div class="search">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search deals..."
+onkeyup="filterDeals()"
+>
+
+</div>
+
+<div class="filter">
+
+<select id="stageFilter" onchange="filterDeals()">
+
+<option value="">All Stages</option>
+<option value="New">New</option>
+<option value="Qualified">Qualified</option>
+<option value="Proposal">Proposal</option>
+<option value="Negotiation">Negotiation</option>
+<option value="Closed">Closed</option>
+
+</select>
+
+</div>
+
+<div class="filter">
+
+<select id="statusFilter" onchange="filterDeals()">
+
+<option value="">All Status</option>
+<option value="Open">Open</option>
+<option value="Won">Won</option>
+<option value="Lost">Lost</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- DEAL TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Deal</th>
+<th>Contact</th>
+<th>Value</th>
+<th>Stage</th>
+<th>Close Date</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+
+<tbody id="dealTable">
+
+
+<tr data-stage="Negotiation" data-status="Open" data-value="850000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">T</div>
+
+<div>
+<div class="deal-name">Enterprise CRM Project</div>
+<div class="deal-company">TechNova Solutions</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Rahul Sharma</td>
+
+<td>₹8.5L</td>
+
+<td>
+<span class="stage negotiation">Negotiation</span>
+</td>
+
+<td>30 Sep 2026</td>
+
+<td>
+<span class="status open">Open</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Proposal" data-status="Open" data-value="650000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">M</div>
+
+<div>
+<div class="deal-name">Marketing Retainer</div>
+<div class="deal-company">MarketPro Agency</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Priya Reddy</td>
+
+<td>₹6.5L</td>
+
+<td>
+<span class="stage proposal">Proposal</span>
+</td>
+
+<td>15 Oct 2026</td>
+
+<td>
+<span class="status open">Open</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Qualified" data-status="Open" data-value="420000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">F</div>
+
+<div>
+<div class="deal-name">Financial Software</div>
+<div class="deal-company">FinEdge Capital</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Arjun Mehta</td>
+
+<td>₹4.2L</td>
+
+<td>
+<span class="stage qualified">Qualified</span>
+</td>
+
+<td>20 Oct 2026</td>
+
+<td>
+<span class="status open">Open</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="New" data-status="Open" data-value="300000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">H</div>
+
+<div>
+<div class="deal-name">Healthcare Platform</div>
+<div class="deal-company">HealthFirst</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Ananya Rao</td>
+
+<td>₹3L</td>
+
+<td>
+<span class="stage new">New</span>
+</td>
+
+<td>05 Nov 2026</td>
+
+<td>
+<span class="status open">Open</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Proposal" data-status="Open" data-value="500000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">E</div>
+
+<div>
+<div class="deal-name">Education Growth Plan</div>
+<div class="deal-company">EduGrowth</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Vikram Singh</td>
+
+<td>₹5L</td>
+
+<td>
+<span class="stage proposal">Proposal</span>
+</td>
+
+<td>12 Nov 2026</td>
+
+<td>
+<span class="status open">Open</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Closed" data-status="Won" data-value="900000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">C</div>
+
+<div>
+<div class="deal-name">Cloud Migration</div>
+<div class="deal-company">CloudCore</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Neha Kapoor</td>
+
+<td>₹9L</td>
+
+<td>
+<span class="stage closed">Closed</span>
+</td>
+
+<td>18 Aug 2026</td>
+
+<td>
+<span class="status won">Won</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Closed" data-status="Won" data-value="700000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">G</div>
+
+<div>
+<div class="deal-name">Growth Campaign</div>
+<div class="deal-company">GrowthWorks</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Rohan Patel</td>
+
+<td>₹7L</td>
+
+<td>
+<span class="stage closed">Closed</span>
+</td>
+
+<td>10 Aug 2026</td>
+
+<td>
+<span class="status won">Won</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+<tr data-stage="Closed" data-status="Lost" data-value="350000">
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">D</div>
+
+<div>
+<div class="deal-name">Data Analytics Project</div>
+<div class="deal-company">DataSphere</div>
+</div>
+
+</div>
+
+</td>
+
+<td>Sameer Khan</td>
+
+<td>₹3.5L</td>
+
+<td>
+<span class="stage closed">Closed</span>
+</td>
+
+<td>05 Aug 2026</td>
+
+<td>
+<span class="status lost">Lost</span>
+</td>
+
+<td>
+<div class="actions">
+<button class="action">View</button>
+<button class="action">Edit</button>
+</div>
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+
+<div class="no-results" id="noResults">
+No deals found.
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- ADD DEAL MODAL -->
+
+<div class="modal" id="dealModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<h2>Add Deal</h2>
+
+<button class="close" onclick="closeModal()">×</button>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Deal Name</label>
+
+<input
+type="text"
+id="dealName"
+placeholder="Enter deal name"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Company</label>
+
+<select id="dealCompany">
+
+<option>TechNova Solutions</option>
+<option>MarketPro Agency</option>
+<option>FinEdge Capital</option>
+<option>HealthFirst</option>
+<option>EduGrowth</option>
+<option>CloudCore</option>
+<option>GrowthWorks</option>
+<option>DataSphere</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Contact</label>
+
+<input
+type="text"
+id="dealContact"
+placeholder="Enter contact name"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Deal Value</label>
+
+<input
+type="number"
+id="dealValue"
+placeholder="Enter value in ₹"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Stage</label>
+
+<select id="dealStage">
+
+<option value="New">New</option>
+<option value="Qualified">Qualified</option>
+<option value="Proposal">Proposal</option>
+<option value="Negotiation">Negotiation</option>
+<option value="Closed">Closed</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Expected Close Date</label>
+
+<input
+type="date"
+id="dealDate"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Status</label>
+
+<select id="dealStatus">
+
+<option value="Open">Open</option>
+<option value="Won">Won</option>
+<option value="Lost">Lost</option>
+
+</select>
+
+</div>
+
+
+<div class="modal-buttons">
+
+<button class="btn cancel" onclick="closeModal()">
+Cancel
+</button>
+
+<button class="btn" onclick="addDeal()">
+Add Deal
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* OPEN MODAL */
+
+function openModal(){
+  document.getElementById("dealModal").style.display="flex";
+}
+
+
+/* CLOSE MODAL */
+
+function closeModal(){
+  document.getElementById("dealModal").style.display="none";
+}
+
+
+/* ADD DEAL */
+
+function addDeal(){
+
+  const name=document.getElementById("dealName").value.trim();
+  const company=document.getElementById("dealCompany").value;
+  const contact=document.getElementById("dealContact").value.trim();
+  const value=document.getElementById("dealValue").value;
+  const stage=document.getElementById("dealStage").value;
+  const date=document.getElementById("dealDate").value;
+  const status=document.getElementById("dealStatus").value;
+
+  if(!name){
+    alert("Please enter a deal name.");
+    return;
+  }
+
+  const table=document.getElementById("dealTable");
+
+  const row=document.createElement("tr");
+
+  row.setAttribute("data-stage",stage);
+  row.setAttribute("data-status",status);
+  row.setAttribute("data-value",value || 0);
+
+  let stageClass="new";
+
+  if(stage==="Qualified"){
+    stageClass="qualified";
+  }
+
+  if(stage==="Proposal"){
+    stageClass="proposal";
+  }
+
+  if(stage==="Negotiation"){
+    stageClass="negotiation";
+  }
+
+  if(stage==="Closed"){
+    stageClass="closed";
+  }
+
+  let statusClass="open";
+
+  if(status==="Won"){
+    statusClass="won";
+  }
+
+  if(status==="Lost"){
+    statusClass="lost";
+  }
+
+  const displayValue=value
+    ? "₹"+Number(value).toLocaleString("en-IN")
+    : "₹0";
+
+  let displayDate="-";
+
+  if(date){
+
+    const d=new Date(date);
+
+    displayDate=d.toLocaleDateString(
+      "en-IN",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    );
+
+  }
+
+  row.innerHTML=`
+
+<td>
+
+<div class="deal">
+
+<div class="deal-icon">
+${name.charAt(0).toUpperCase()}
+</div>
+
+<div>
+
+<div class="deal-name">
+${name}
+</div>
+
+<div class="deal-company">
+${company}
+</div>
+
+</div>
+
+</div>
+
+</td>
+
+<td>${contact || "-"}</td>
+
+<td>${displayValue}</td>
+
+<td>
+<span class="stage ${stageClass}">
+${stage}
+</span>
+</td>
+
+<td>${displayDate}</td>
+
+<td>
+<span class="status ${statusClass}">
+${status}
+</span>
+</td>
+
+<td>
+
+<div class="actions">
+
+<button class="action">
+View
+</button>
+
+<button class="action">
+Edit
+</button>
+
+</div>
+
+</td>
+
+`;
+
+  table.appendChild(row);
+
+  document.getElementById("dealName").value="";
+  document.getElementById("dealContact").value="";
+  document.getElementById("dealValue").value="";
+  document.getElementById("dealDate").value="";
+
+  closeModal();
+
+  updateStats();
+
+  filterDeals();
+}
+
+
+/* FILTER DEALS */
+
+function filterDeals(){
+
+  const search=document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  const stage=document
+    .getElementById("stageFilter")
+    .value;
+
+  const status=document
+    .getElementById("statusFilter")
+    .value;
+
+  const rows=document.querySelectorAll("#dealTable tr");
+
+  let visible=0;
+
+  rows.forEach(function(row){
+
+    const text=row.innerText.toLowerCase();
+
+    const rowStage=row.getAttribute("data-stage");
+
+    const rowStatus=row.getAttribute("data-status");
+
+    const searchMatch=text.includes(search);
+
+    const stageMatch=
+      !stage || rowStage===stage;
+
+    const statusMatch=
+      !status || rowStatus===status;
+
+    if(searchMatch && stageMatch && statusMatch){
+
+      row.style.display="";
+      visible++;
+
+    }else{
+
+      row.style.display="none";
+
+    }
+
+  });
+
+  document.getElementById("noResults").style.display=
+    visible===0 ? "block" : "none";
+}
+
+
+/* UPDATE STATS */
+
+function updateStats(){
+
+  const rows=document.querySelectorAll("#dealTable tr");
+
+  let open=0;
+  let won=0;
+  let lost=0;
+  let pipeline=0;
+
+  rows.forEach(function(row){
+
+    const status=row.getAttribute("data-status");
+
+    const value=Number(
+      row.getAttribute("data-value")
+    ) || 0;
+
+    if(status==="Open"){
+
+      open++;
+
+      pipeline+=value;
+
+    }
+
+    if(status==="Won"){
+      won++;
+    }
+
+    if(status==="Lost"){
+      lost++;
+    }
+
+  });
+
+  document.getElementById("totalDeals").innerText=rows.length;
+
+  document.getElementById("openDeals").innerText=open;
+
+  document.getElementById("wo
