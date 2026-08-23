@@ -2,257 +2,476 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
 <title>ClientFlow - Settings</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#f5f7fb;
+--card:#fff;
+--soft:#f8fafc;
+--text:#111827;
+--muted:#6b7280;
+--border:#e5e7eb;
+--primary:#2563eb;
+--red:#dc2626;
+--sidebar:#111827;
+--side:#cbd5e1
+}
+
+body.dark{
+--bg:#0b1120;
+--card:#111827;
+--soft:#172033;
+--text:#f8fafc;
+--muted:#94a3b8;
+--border:#243044;
+--sidebar:#070d18
 }
 
 body{
-font-family:Arial,Helvetica,sans-serif;
-background:#f5f7fb;
-color:#111827;
+background:var(--bg);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif
 }
 
-.app{
-display:flex;
-min-height:100vh;
+button,input,select,textarea{
+font:inherit
+}
+
+button{
+cursor:pointer
+}
+
+a{
+text-decoration:none;
+color:inherit
 }
 
 /* SIDEBAR */
 
 .sidebar{
-width:240px;
-background:#111827;
-color:white;
-padding:24px 16px;
 position:fixed;
-top:0;
-bottom:0;
-left:0;
+inset:0 auto 0 0;
+width:245px;
+background:var(--sidebar);
+color:#fff;
+z-index:50;
+display:flex;
+flex-direction:column;
+transition:.2s
 }
 
 .logo{
-font-size:23px;
-font-weight:700;
-padding:0 12px 28px;
+height:72px;
+padding:0 22px;
+display:flex;
+align-items:center;
+gap:11px;
+border-bottom:1px solid rgba(255,255,255,.08)
 }
 
-.logo span{
-color:#6366f1;
+.logoMark{
+width:36px;
+height:36px;
+border-radius:10px;
+background:#2563eb;
+display:grid;
+place-items:center;
+font-weight:bold
 }
 
-.menu{
-list-style:none;
+.logo strong{
+font-size:19px
 }
 
-.menu li{
-margin-bottom:6px;
+.logo small{
+display:block;
+color:#94a3b8;
+font-size:9px;
+margin-top:2px
 }
 
-.menu a{
+.nav{
+padding:17px 12px;
+overflow:auto;
+flex:1
+}
+
+.navTitle{
+font-size:10px;
+color:#64748b;
+font-weight:bold;
+padding:10px 12px 7px;
+text-transform:uppercase;
+letter-spacing:.08em
+}
+
+.nav a{
 display:flex;
 align-items:center;
 gap:12px;
-padding:12px;
-color:#cbd5e1;
-text-decoration:none;
-border-radius:8px;
+padding:11px 12px;
+border-radius:9px;
+color:var(--side);
 font-size:14px;
+margin:2px 0
 }
 
-.menu a:hover,
-.menu a.active{
-background:#1f2937;
-color:white;
+.nav a:hover{
+background:rgba(255,255,255,.07);
+color:#fff
+}
+
+.nav a.active{
+background:#2563eb;
+color:#fff
 }
 
 .icon{
 width:20px;
-text-align:center;
+text-align:center
+}
+
+.user{
+padding:14px;
+border-top:1px solid rgba(255,255,255,.08);
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.avatar{
+width:34px;
+height:34px;
+border-radius:50%;
+background:#2563eb;
+display:grid;
+place-items:center;
+font-size:11px;
+font-weight:bold
+}
+
+.user small{
+display:block;
+color:#94a3b8;
+font-size:10px
 }
 
 /* MAIN */
 
 .main{
-margin-left:240px;
-width:calc(100% - 240px);
+margin-left:245px;
+min-height:100vh
 }
 
 .topbar{
-height:70px;
-background:white;
-border-bottom:1px solid #e5e7eb;
+height:72px;
+background:var(--card);
+border-bottom:1px solid var(--border);
 display:flex;
 align-items:center;
-justify-content:space-between;
-padding:0 28px;
+gap:14px;
+padding:0 24px;
+position:sticky;
+top:0;
+z-index:30
 }
 
-.page-title{
-font-size:20px;
-font-weight:700;
+.menu{
+display:none;
+width:38px;
+height:38px;
+border:1px solid var(--border);
+background:var(--soft);
+color:var(--text);
+border-radius:9px
 }
 
-.user{
+.search{
+position:relative;
+max-width:430px;
+flex:1
+}
+
+.search input{
+width:100%;
+height:40px;
+background:var(--soft);
+color:var(--text);
+border:1px solid var(--border);
+border-radius:9px;
+padding:0 12px 0 36px;
+outline:none
+}
+
+.searchIcon{
+position:absolute;
+left:13px;
+top:11px;
+color:var(--muted)
+}
+
+.topRight{
+margin-left:auto;
 display:flex;
-align-items:center;
-gap:10px;
+gap:8px
 }
 
-.avatar{
-width:36px;
-height:36px;
-border-radius:50%;
-background:#6366f1;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
+.iconBtn{
+width:38px;
+height:38px;
+border:1px solid var(--border);
+background:var(--soft);
+color:var(--text);
+border-radius:9px
 }
 
 /* CONTENT */
 
 .content{
-padding:28px;
-max-width:1100px;
+padding:24px;
+max-width:1250px;
+margin:auto
 }
 
-.heading{
-margin-bottom:24px;
+.header{
+margin-bottom:22px
 }
 
-.heading h1{
-font-size:26px;
-margin-bottom:5px;
+.header h1{
+font-size:25px
 }
 
-.heading p{
-font-size:14px;
-color:#6b7280;
+.header p{
+font-size:13px;
+color:var(--muted);
+margin-top:5px
 }
 
-/* SETTINGS LAYOUT */
+/* LAYOUT */
 
-.settings-layout{
+.settingsLayout{
 display:grid;
 grid-template-columns:210px 1fr;
-gap:20px;
+gap:18px;
+align-items:start
 }
 
-/* SETTINGS NAV */
-
-.settings-nav{
-background:white;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:10px;
-height:max-content;
+.settingsNav{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:13px;
+padding:8px
 }
 
-.settings-nav button{
+.settingsNav button{
+display:block;
 width:100%;
-border:none;
-background:white;
 text-align:left;
+border:0;
+background:none;
+color:var(--muted);
 padding:11px 12px;
 border-radius:8px;
-cursor:pointer;
-font-size:13px;
-color:#4b5563;
-margin-bottom:4px;
+font-size:12px;
+margin:2px 0
 }
 
-.settings-nav button:hover,
-.settings-nav button.active{
-background:#eef2ff;
-color:#4f46e5;
-font-weight:600;
+.settingsNav button:hover{
+background:var(--soft);
+color:var(--text)
 }
 
-/* SECTION */
-
-.settings-section{
-display:none;
+.settingsNav button.active{
+background:#dbeafe;
+color:#1d4ed8;
+font-weight:bold
 }
 
-.settings-section.active{
-display:block;
+.settingsContent{
+display:flex;
+flex-direction:column;
+gap:15px
 }
 
-.panel{
-background:white;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:24px;
-margin-bottom:18px;
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+padding:20px
 }
 
-.panel-header{
-margin-bottom:20px;
+.cardHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding-bottom:15px;
+margin-bottom:17px;
+border-bottom:1px solid var(--border)
 }
 
-.panel-header h2{
-font-size:18px;
-margin-bottom:5px;
+.cardHead h2{
+font-size:14px
 }
 
-.panel-header p{
-font-size:13px;
-color:#6b7280;
+.cardHead p{
+font-size:10px;
+color:var(--muted);
+margin-top:4px
 }
 
-/* FORM */
+/* FORMS */
 
-.form-grid{
+.formGrid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:18px;
+gap:14px
 }
 
-.form-group{
-margin-bottom:4px;
+.full{
+grid-column:1/-1
 }
 
-.form-group.full{
-grid-column:1/-1;
-}
-
-.form-group label{
+.field label{
 display:block;
-font-size:13px;
-font-weight:600;
-color:#374151;
-margin-bottom:7px;
+font-size:10px;
+font-weight:bold;
+margin-bottom:6px
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
+.field input,
+.field select,
+.field textarea{
 width:100%;
-padding:11px 13px;
-border:1px solid #d1d5db;
+height:40px;
+border:1px solid var(--border);
+background:var(--soft);
+color:var(--text);
 border-radius:8px;
-outline:none;
-font-size:14px;
-background:white;
-font-family:inherit;
+padding:0 10px;
+outline:none
 }
 
-.form-group textarea{
-min-height:90px;
-resize:vertical;
+.field textarea{
+height:80px;
+padding:10px;
+resize:vertical
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-border-color:#6366f1;
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+border-color:var(--primary)
+}
+
+.help{
+font-size:9px;
+color:var(--muted);
+margin-top:5px
+}
+
+/* SAVE */
+
+.cardFoot{
+display:flex;
+justify-content:flex-end;
+gap:8px;
+margin-top:18px;
+padding-top:15px;
+border-top:1px solid var(--border)
+}
+
+.primary{
+height:40px;
+padding:0 16px;
+background:var(--primary);
+color:#fff;
+border:0;
+border-radius:9px;
+font-weight:bold
+}
+
+.secondary{
+height:40px;
+padding:0 14px;
+background:var(--card);
+color:var(--text);
+border:1px solid var(--border);
+border-radius:9px
+}
+
+.danger{
+color:var(--red)
+}
+
+/* TOGGLE */
+
+.settingRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+padding:13px 0;
+border-bottom:1px solid var(--border)
+}
+
+.settingRow:last-child{
+border-bottom:0
+}
+
+.settingInfo strong{
+display:block;
+font-size:12px
+}
+
+.settingInfo span{
+display:block;
+font-size:10px;
+color:var(--muted);
+margin-top:4px
+}
+
+.switch{
+position:relative;
+width:42px;
+height:23px;
+flex:none
+}
+
+.switch input{
+display:none
+}
+
+.slider{
+position:absolute;
+inset:0;
+background:#cbd5e1;
+border-radius:20px;
+transition:.2s
+}
+
+.slider:before{
+content:"";
+position:absolute;
+width:17px;
+height:17px;
+left:3px;
+top:3px;
+background:#fff;
+border-radius:50%;
+transition:.2s
+}
+
+.switch input:checked+.slider{
+background:var(--primary)
+}
+
+.switch input:checked+.slider:before{
+transform:translateX(19px)
 }
 
 /* PROFILE */
@@ -260,244 +479,128 @@ border-color:#6366f1;
 .profile{
 display:flex;
 align-items:center;
-gap:15px;
-margin-bottom:22px;
-padding-bottom:20px;
-border-bottom:1px solid #e5e7eb;
+gap:14px;
+margin-bottom:18px
 }
 
-.profile-avatar{
-width:65px;
-height:65px;
+.profileAvatar{
+width:58px;
+height:58px;
 border-radius:50%;
-background:#6366f1;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
+background:#2563eb;
+color:#fff;
+display:grid;
+place-items:center;
 font-weight:bold;
+font-size:17px
 }
 
-.profile h3{
-font-size:17px;
-margin-bottom:4px;
+.profile strong{
+font-size:14px
 }
 
-.profile p{
-font-size:12px;
-color:#6b7280;
+.profile span{
+display:block;
+font-size:10px;
+color:var(--muted);
+margin-top:4px
 }
 
-/* TOGGLE */
+/* HIDDEN */
 
-.setting-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:20px;
-padding:17px 0;
-border-bottom:1px solid #f1f5f9;
+.panel{
+display:none
 }
 
-.setting-row:last-child{
-border-bottom:none;
+.panel.active{
+display:block
 }
 
-.setting-title{
-font-size:14px;
-font-weight:600;
-margin-bottom:4px;
-}
+/* TOAST */
 
-.setting-description{
-font-size:12px;
-color:#6b7280;
-line-height:1.5;
-}
-
-.toggle{
-position:relative;
-width:44px;
-height:24px;
-flex-shrink:0;
-}
-
-.toggle input{
-opacity:0;
-width:0;
-height:0;
-}
-
-.slider{
-position:absolute;
-cursor:pointer;
-inset:0;
-background:#d1d5db;
-border-radius:20px;
-transition:.2s;
-}
-
-.slider:before{
-content:"";
-position:absolute;
-height:18px;
-width:18px;
-left:3px;
-top:3px;
-background:white;
-border-radius:50%;
-transition:.2s;
-}
-
-.toggle input:checked + .slider{
-background:#6366f1;
-}
-
-.toggle input:checked + .slider:before{
-transform:translateX(20px);
-}
-
-/* BUTTON */
-
-.actions{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:20px;
-}
-
-.btn{
-border:none;
-background:#6366f1;
-color:white;
-padding:11px 17px;
-border-radius:8px;
-cursor:pointer;
-font-size:13px;
-font-weight:600;
-}
-
-.btn:hover{
-background:#4f46e5;
-}
-
-.btn.secondary{
-background:#f3f4f6;
-color:#374151;
-}
-
-.btn.danger{
-background:#fee2e2;
-color:#dc2626;
-}
-
-/* SECURITY */
-
-.security-box{
-padding:15px;
-border:1px solid #e5e7eb;
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#111827;
+color:#fff;
+padding:11px 15px;
 border-radius:9px;
-margin-bottom:12px;
-}
-
-.security-box strong{
-font-size:14px;
-}
-
-.security-box p{
 font-size:12px;
-color:#6b7280;
-margin-top:5px;
+z-index:200;
+opacity:0;
+transform:translateY(15px);
+transition:.2s
 }
 
-.status-badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:20px;
-font-size:11px;
-font-weight:600;
-background:#dcfce7;
-color:#15803d;
-margin-top:10px;
+.toast.show{
+opacity:1;
+transform:none
 }
 
 /* MOBILE */
 
-@media(max-width:900px){
+@media(max-width:800px){
 
 .sidebar{
-width:70px;
-padding:20px 8px;
+transform:translateX(-100%);
+width:250px
 }
 
-.logo{
-font-size:0;
-text-align:center;
-padding:0 0 25px;
-}
-
-.logo span{
-font-size:22px;
-}
-
-.menu a{
-justify-content:center;
-padding:12px 5px;
-}
-
-.menu .label{
-display:none;
+.sidebar.open{
+transform:translateX(0)
 }
 
 .main{
-margin-left:70px;
-width:calc(100% - 70px);
+margin-left:0
 }
 
+.menu{
+display:block
 }
-
-@media(max-width:700px){
 
 .topbar{
-padding:0 16px;
+height:62px;
+padding:0 13px
 }
 
 .content{
-padding:18px 14px;
+padding:17px 13px
 }
 
-.heading h1{
-font-size:22px;
+.settingsLayout{
+grid-template-columns:1fr
 }
 
-.settings-layout{
-grid-template-columns:1fr;
-}
-
-.settings-nav{
+.settingsNav{
 display:flex;
-overflow-x:auto;
-gap:5px;
+overflow:auto;
+gap:4px
 }
 
-.settings-nav button{
+.settingsNav button{
 white-space:nowrap;
-width:auto;
-margin:0;
+width:auto
 }
 
-.panel{
-padding:18px;
+.formGrid{
+grid-template-columns:1fr
 }
 
-.form-grid{
-grid-template-columns:1fr;
-gap:15px;
+.full{
+grid-column:auto
 }
 
-.form-group.full{
-grid-column:auto;
+}
+
+@media(max-width:450px){
+
+.card{
+padding:15px
+}
+
+.header h1{
+font-size:21px
 }
 
 }
@@ -506,244 +609,250 @@ grid-column:auto;
 
 <body>
 
-<div class="app">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
 <div class="logo">
-Client<span>Flow</span>
+
+<div class="logoMark">CF</div>
+
+<div>
+<strong>ClientFlow</strong>
+<small>CRM PLATFORM</small>
 </div>
 
-<ul class="menu">
+</div>
 
-<li>
+<nav class="nav">
+
+<div class="navTitle">Workspace</div>
+
 <a href="index.html">
 <span class="icon">⌂</span>
-<span class="label">Dashboard</span>
+Dashboard
 </a>
-</li>
 
-<li>
 <a href="leads.html">
-<span class="icon">◉</span>
-<span class="label">Leads</span>
+<span class="icon">♢</span>
+Leads
 </a>
-</li>
 
-<li>
+<a href="contacts.html">
+<span class="icon">◉</span>
+Contacts
+</a>
+
 <a href="companies.html">
 <span class="icon">▣</span>
-<span class="label">Companies</span>
+Companies
 </a>
-</li>
 
-<li>
-<a href="contacts.html">
-<span class="icon">♙</span>
-<span class="label">Contacts</span>
-</a>
-</li>
-
-<li>
 <a href="deals.html">
-<span class="icon">◆</span>
-<span class="label">Deals</span>
+<span class="icon">◇</span>
+Deals
 </a>
-</li>
 
-<li>
 <a href="tasks.html">
 <span class="icon">✓</span>
-<span class="label">Tasks</span>
+Tasks
 </a>
-</li>
 
-<li>
+<div class="navTitle">Insights</div>
+
 <a href="reports.html">
 <span class="icon">▥</span>
-<span class="label">Reports</span>
+Reports
 </a>
-</li>
 
-<li>
 <a href="settings.html" class="active">
 <span class="icon">⚙</span>
-<span class="label">Settings</span>
+Settings
 </a>
-</li>
 
-</ul>
+</nav>
+
+<div class="user">
+
+<div class="avatar">NA</div>
+
+<div>
+<strong style="font-size:12px">
+Admin User
+</strong>
+
+<small>
+Workspace Admin
+</small>
+</div>
+
+</div>
 
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
 <header class="topbar">
 
-<div class="page-title">
-Settings
+<button class="menu" id="menu">
+☰
+</button>
+
+<div class="search">
+
+<span class="searchIcon">⌕</span>
+
+<input
+id="globalSearch"
+placeholder="Search settings..."
+>
+
 </div>
 
-<div class="user">
-<span>Admin</span>
-<div class="avatar">A</div>
+<div class="topRight">
+
+<button class="iconBtn" id="theme">
+☾
+</button>
+
 </div>
 
 </header>
 
-
 <section class="content">
 
-<div class="heading">
+<div class="header">
 
 <h1>Settings</h1>
 
 <p>
-Manage your ClientFlow account and preferences.
+Manage your ClientFlow workspace and preferences.
 </p>
 
 </div>
 
+<div class="settingsLayout">
 
-<div class="settings-layout">
+<nav class="settingsNav">
 
-<!-- SETTINGS NAV -->
-
-<div class="settings-nav">
-
-<button
-class="active"
-onclick="showSection('profile',this)">
+<button class="active" data-panel="profile">
 Profile
 </button>
 
-<button
-onclick="showSection('company',this)">
-Company
+<button data-panel="workspace">
+Workspace
 </button>
 
-<button
-onclick="showSection('notifications',this)">
+<button data-panel="appearance">
+Appearance
+</button>
+
+<button data-panel="notifications">
 Notifications
 </button>
 
-<button
-onclick="showSection('preferences',this)">
-Preferences
+<button data-panel="data">
+Data
 </button>
 
-<button
-onclick="showSection('security',this)">
-Security
-</button>
+</nav>
 
-</div>
-
+<div class="settingsContent">
 
 <!-- PROFILE -->
 
+<div class="panel active" id="profile">
+
+<div class="card">
+
+<div class="cardHead">
+
 <div>
-
-<section
-id="profile"
-class="settings-section active">
-
-<div class="panel">
-
-<div class="panel-header">
 
 <h2>Profile Settings</h2>
 
 <p>
-Update your personal account information.
+Update your personal information.
 </p>
 
 </div>
 
+</div>
 
 <div class="profile">
 
-<div class="profile-avatar">
-A
+<div class="profileAvatar">
+NA
 </div>
 
 <div>
 
-<h3>Admin User</h3>
+<strong id="profileName">
+Admin User
+</strong>
 
-<p>
-Administrator
-</p>
+<span>
+Workspace Administrator
+</span>
 
 </div>
 
 </div>
 
+<div class="formGrid">
 
-<div class="form-grid">
+<div class="field">
 
-<div class="form-group">
-
-<label>First Name</label>
+<label>FULL NAME</label>
 
 <input
-type="text"
-id="firstName"
-value="Admin"
+id="fullName"
+value="Admin User"
 >
 
 </div>
 
+<div class="field">
 
-<div class="form-group">
-
-<label>Last Name</label>
-
-<input
-type="text"
-id="lastName"
-value="User"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>Email</label>
+<label>EMAIL</label>
 
 <input
+id="email"
 type="email"
 value="admin@clientflow.com"
 >
 
 </div>
 
+<div class="field">
 
-<div class="form-group">
-
-<label>Phone</label>
+<label>PHONE</label>
 
 <input
-type="tel"
+id="phone"
 placeholder="+91 XXXXX XXXXX"
+>
+
+</div>
+
+<div class="field">
+
+<label>ROLE</label>
+
+<input
+value="Administrator"
+disabled
 >
 
 </div>
 
 </div>
 
+<div class="cardFoot">
 
-<div class="actions">
+<button class="secondary" id="resetProfile">
+Reset
+</button>
 
-<button
-class="btn"
-onclick="saveSettings()">
+<button class="primary" id="saveProfile">
 Save Changes
 </button>
 
@@ -751,452 +860,363 @@ Save Changes
 
 </div>
 
-</section>
+</div>
 
+<!-- WORKSPACE -->
 
-<!-- COMPANY -->
+<div class="panel" id="workspace">
 
-<section
-id="company"
-class="settings-section">
+<div class="card">
 
-<div class="panel">
+<div class="cardHead">
 
-<div class="panel-header">
+<div>
 
-<h2>Company Information</h2>
+<h2>Workspace</h2>
 
 <p>
-Manage your business information.
+Configure your CRM workspace.
 </p>
 
 </div>
 
+</div>
 
-<div class="form-grid">
+<div class="formGrid">
 
-<div class="form-group">
+<div class="field">
 
-<label>Company Name</label>
+<label>WORKSPACE NAME</label>
 
 <input
-type="text"
+id="workspaceName"
 value="ClientFlow"
 >
 
 </div>
 
+<div class="field">
 
-<div class="form-group">
+<label>INDUSTRY</label>
 
-<label>Industry</label>
+<select id="industry">
 
-<select>
-
-<option>Software & Technology</option>
+<option>SaaS</option>
+<option>Technology</option>
 <option>Marketing</option>
 <option>Consulting</option>
-<option>Finance</option>
+<option>Agency</option>
 <option>Other</option>
 
 </select>
 
 </div>
 
+<div class="field">
 
-<div class="form-group">
+<label>TIME ZONE</label>
 
-<label>Website</label>
+<select id="timezone">
 
-<input
-type="text"
-placeholder="https://example.com"
->
+<option>
+Asia/Kolkata
+</option>
 
-</div>
+<option>
+Asia/Dubai
+</option>
 
+<option>
+Asia/Singapore
+</option>
 
-<div class="form-group">
+<option>
+Europe/London
+</option>
 
-<label>Company Size</label>
-
-<select>
-
-<option>1-10</option>
-<option>11-50</option>
-<option>51-200</option>
-<option>201-500</option>
-<option>500+</option>
+<option>
+America/New_York
+</option>
 
 </select>
 
 </div>
 
+<div class="field">
 
-<div class="form-group full">
+<label>CURRENCY</label>
 
-<label>Company Address</label>
+<select id="currency">
+
+<option>INR - ₹</option>
+<option>USD - $</option>
+<option>EUR - €</option>
+<option>GBP - £</option>
+
+</select>
+
+</div>
+
+<div class="field full">
+
+<label>WORKSPACE DESCRIPTION</label>
 
 <textarea
-placeholder="Enter company address">
-</textarea>
+id="workspaceDescription"
+placeholder="Describe your workspace..."
+></textarea>
 
 </div>
 
 </div>
 
+<div class="cardFoot">
 
-<div class="actions">
-
-<button
-class="btn"
-onclick="saveSettings()">
-Save Changes
+<button class="primary" id="saveWorkspace">
+Save Workspace
 </button>
 
 </div>
 
 </div>
 
-</section>
+</div>
 
+<!-- APPEARANCE -->
 
-<!-- NOTIFICATIONS -->
+<div class="panel" id="appearance">
 
-<section
-id="notifications"
-class="settings-section">
+<div class="card">
 
-<div class="panel">
+<div class="cardHead">
 
-<div class="panel-header">
+<div>
 
-<h2>Notifications</h2>
+<h2>Appearance</h2>
 
 <p>
-Choose which notifications you want to receive.
+Customize the look and feel of ClientFlow.
 </p>
 
 </div>
 
-
-<div class="setting-row">
-
-<div>
-
-<div class="setting-title">
-New Lead Notifications
 </div>
 
-<div class="setting-description">
-Receive a notification when a new lead is added.
-</div>
+<div class="settingRow">
 
-</div>
+<div class="settingInfo">
 
-<label class="toggle">
+<strong>Dark Mode</strong>
 
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="setting-row">
-
-<div>
-
-<div class="setting-title">
-Deal Updates
-</div>
-
-<div class="setting-description">
-Get notified when a deal changes stage or status.
-</div>
-
-</div>
-
-<label class="toggle">
-
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="setting-row">
-
-<div>
-
-<div class="setting-title">
-Task Reminders
-</div>
-
-<div class="setting-description">
-Receive reminders for upcoming tasks.
-</div>
-
-</div>
-
-<label class="toggle">
-
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="setting-row">
-
-<div>
-
-<div class="setting-title">
-Weekly Reports
-</div>
-
-<div class="setting-description">
-Receive a weekly summary of your CRM activity.
-</div>
-
-</div>
-
-<label class="toggle">
-
-<input
-type="checkbox"
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="btn"
-onclick="saveSettings()">
-Save Preferences
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- PREFERENCES -->
-
-<section
-id="preferences"
-class="settings-section">
-
-<div class="panel">
-
-<div class="panel-header">
-
-<h2>CRM Preferences</h2>
-
-<p>
-Customize how ClientFlow works for you.
-</p>
-
-</div>
-
-
-<div class="form-grid">
-
-<div class="form-group">
-
-<label>Default Currency</label>
-
-<select>
-
-<option>INR - Indian Rupee</option>
-<option>USD - US Dollar</option>
-<option>EUR - Euro</option>
-<option>GBP - British Pound</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Date Format</label>
-
-<select>
-
-<option>DD MMM YYYY</option>
-<option>DD/MM/YYYY</option>
-<option>MM/DD/YYYY</option>
-<option>YYYY-MM-DD</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Default Lead Status</label>
-
-<select>
-
-<option>New</option>
-<option>Contacted</option>
-<option>Qualified</option>
-<option>Converted</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Default Deal Stage</label>
-
-<select>
-
-<option>New</option>
-<option>Qualified</option>
-<option>Proposal</option>
-<option>Negotiation</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="btn"
-onclick="saveSettings()">
-Save Preferences
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- SECURITY -->
-
-<section
-id="security"
-class="settings-section">
-
-<div class="panel">
-
-<div class="panel-header">
-
-<h2>Security</h2>
-
-<p>
-Manage your account security.
-</p>
-
-</div>
-
-
-<div class="security-box">
-
-<strong>Password</strong>
-
-<p>
-Last changed recently.
-</p>
-
-<span class="status-badge">
-Account Protected
+<span>
+Use a darker interface for low-light environments.
 </span>
 
 </div>
 
+<label class="switch">
 
-<div class="security-box">
+<input
+type="checkbox"
+id="darkMode"
+>
 
-<strong>Two-Factor Authentication</strong>
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Compact Interface</strong>
+
+<span>
+Reduce spacing to display more CRM information.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="compact"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- NOTIFICATIONS -->
+
+<div class="panel" id="notifications">
+
+<div class="card">
+
+<div class="cardHead">
+
+<div>
+
+<h2>Notifications</h2>
 
 <p>
-Add an extra layer of protection to your account.
+Choose which notifications you receive.
 </p>
 
-<div class="actions">
+</div>
 
-<button
-class="btn secondary"
-onclick="alert('Two-factor authentication setup coming soon.')">
-Enable 2FA
-</button>
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Task Reminders</strong>
+
+<span>
+Get reminders for upcoming tasks.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="taskNotifications"
+checked
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Deal Updates</strong>
+
+<span>
+Notify me when deal stages change.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="dealNotifications"
+checked
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Lead Notifications</strong>
+
+<span>
+Notify me when new leads are created.
+</span>
+
+</div>
+
+<label class="switch">
+
+<input
+type="checkbox"
+id="leadNotifications"
+checked
+>
+
+<span class="slider"></span>
+
+</label>
 
 </div>
 
 </div>
 
+</div>
 
-<div class="security-box">
+<!-- DATA -->
 
-<strong>Active Sessions</strong>
+<div class="panel" id="data">
+
+<div class="card">
+
+<div class="cardHead">
+
+<div>
+
+<h2>Data Management</h2>
 
 <p>
-You are currently signed in on this device.
+Manage locally stored ClientFlow data.
 </p>
 
-<div class="actions">
+</div>
 
-<button
-class="btn danger"
-onclick="alert('All other sessions have been signed out.')">
-Sign Out Other Sessions
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Export CRM Data</strong>
+
+<span>
+Download your locally stored CRM information.
+</span>
+
+</div>
+
+<button class="secondary" id="exportData">
+Export
+</button>
+
+</div>
+
+<div class="settingRow">
+
+<div class="settingInfo">
+
+<strong>Clear Local Data</strong>
+
+<span>
+Remove ClientFlow data stored in this browser.
+</span>
+
+</div>
+
+<button class="secondary danger" id="clearData">
+Clear Data
 </button>
 
 </div>
 
 </div>
 
-
-<div class="actions">
-
-<button
-class="btn danger"
-onclick="alert('Account deletion requires confirmation.')">
-Delete Account
-</button>
-
 </div>
-
-</div>
-
-</section>
 
 </div>
 
@@ -1206,49 +1226,546 @@ Delete Account
 
 </main>
 
-</div>
-
-
+<div class="toast" id="toast"></div>
 <script>
+"use strict";
 
-function showSection(id,button){
+const Settings=(()=>{
 
-const sections=document.querySelectorAll(
-".settings-section"
+const PROFILE_KEY="clientflow_profile";
+const WORKSPACE_KEY="clientflow_workspace";
+const NOTIFY_KEY="clientflow_notifications";
+
+const $=id=>document.getElementById(id);
+
+function toast(message){
+
+const box=$("toast");
+
+box.textContent=message;
+box.classList.add("show");
+
+clearTimeout(window.__settingsToast);
+
+window.__settingsToast=setTimeout(()=>{
+box.classList.remove("show");
+},2200);
+
+}
+
+function load(key,fallback){
+
+try{
+
+const value=localStorage.getItem(key);
+
+return value?
+JSON.parse(value):
+fallback;
+
+}catch(e){
+
+return fallback;
+
+}
+
+}
+
+function save(key,value){
+
+localStorage.setItem(
+key,
+JSON.stringify(value)
 );
 
-sections.forEach(function(section){
+}
 
-section.classList.remove("active");
+function loadProfile(){
 
-});
-
-
-const buttons=document.querySelectorAll(
-".settings-nav button"
+const data=load(
+PROFILE_KEY,
+{
+name:"Admin User",
+email:"admin@clientflow.com",
+phone:""
+}
 );
 
-buttons.forEach(function(btn){
+$("fullName").value=data.name||"";
+$("email").value=data.email||"";
+$("phone").value=data.phone||"";
 
-btn.classList.remove("active");
+$("profileName").textContent=
+data.name||"Admin User";
 
+}
+
+function loadWorkspace(){
+
+const data=load(
+WORKSPACE_KEY,
+{
+name:"ClientFlow",
+industry:"SaaS",
+timezone:"Asia/Kolkata",
+currency:"INR - ₹",
+description:""
+}
+);
+
+$("workspaceName").value=data.name||"ClientFlow";
+
+$("industry").value=
+data.industry||"SaaS";
+
+$("timezone").value=
+data.timezone||"Asia/Kolkata";
+
+$("currency").value=
+data.currency||"INR - ₹";
+
+$("workspaceDescription").value=
+data.description||"";
+
+}
+
+function loadNotifications(){
+
+const data=load(
+NOTIFY_KEY,
+{
+tasks:true,
+deals:true,
+leads:true
+}
+);
+
+$("taskNotifications").checked=
+data.tasks!==false;
+
+$("dealNotifications").checked=
+data.deals!==false;
+
+$("leadNotifications").checked=
+data.leads!==false;
+
+}
+
+function saveProfile(){
+
+const name=
+$("fullName").value.trim();
+
+const email=
+$("email").value.trim();
+
+const phone=
+$("phone").value.trim();
+
+if(!name){
+
+toast("Name is required");
+
+$("fullName").focus();
+
+return;
+
+}
+
+save(
+PROFILE_KEY,
+{
+name,
+email,
+phone
+}
+);
+
+$("profileName").textContent=name;
+
+toast("Profile saved");
+
+}
+
+function saveWorkspace(){
+
+const data={
+name:$("workspaceName").value.trim()||"ClientFlow",
+industry:$("industry").value,
+timezone:$("timezone").value,
+currency:$("currency").value,
+description:$("workspaceDescription").value.trim()
+};
+
+save(
+WORKSPACE_KEY,
+data
+);
+
+toast("Workspace saved");
+
+}
+
+function saveNotifications(){
+
+save(
+NOTIFY_KEY,
+{
+tasks:$("taskNotifications").checked,
+deals:$("dealNotifications").checked,
+leads:$("leadNotifications").checked
+}
+);
+
+}
+
+function updateTheme(){
+
+const dark=
+document.body.classList.contains("dark");
+
+$("darkMode").checked=dark;
+
+}
+
+function setDarkMode(enabled){
+
+document.body.classList.toggle(
+"dark",
+enabled
+);
+
+localStorage.setItem(
+"clientflow_theme",
+enabled?"dark":"light"
+);
+
+toast(
+enabled?
+"Dark mode enabled":
+"Dark mode disabled"
+);
+
+}
+
+function setCompact(enabled){
+
+document.body.classList.toggle(
+"compactMode",
+enabled
+);
+
+localStorage.setItem(
+"clientflow_compact",
+enabled?"1":"0"
+);
+
+}
+
+function loadAppearance(){
+
+const dark=
+localStorage.getItem(
+"clientflow_theme"
+)==="dark";
+
+const compact=
+localStorage.getItem(
+"clientflow_compact"
+)==="1";
+
+$("darkMode").checked=dark;
+
+$("compact").checked=compact;
+
+document.body.classList.toggle(
+"dark",
+dark
+);
+
+document.body.classList.toggle(
+"compactMode",
+compact
+);
+
+}
+
+function resetProfile(){
+
+if(!confirm(
+"Reset profile information?"
+))return;
+
+localStorage.removeItem(
+PROFILE_KEY
+);
+
+loadProfile();
+
+toast("Profile reset");
+
+}
+
+function exportData(){
+
+const data={
+
+profile:load(
+PROFILE_KEY,
+{}
+),
+
+workspace:load(
+WORKSPACE_KEY,
+{}
+),
+
+notifications:load(
+NOTIFY_KEY,
+{}
+),
+
+leads:load(
+"clientflow_leads_v1",
+[]
+),
+
+contacts:load(
+"clientflow_contacts_v1",
+[]
+),
+
+companies:load(
+"clientflow_companies_v1",
+[]
+),
+
+deals:load(
+"clientflow_deals_v1",
+[]
+),
+
+tasks:load(
+"clientflow_tasks_v1",
+[])
+
+};
+
+const json=
+JSON.stringify(
+data,
+null,
+2
+);
+
+const blob=
+new Blob(
+[json],
+{
+type:"application/json"
+}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const a=
+document.createElement("a");
+
+a.href=url;
+
+a.download=
+"clientflow-backup.json";
+
+document.body.appendChild(a);
+
+a.click();
+
+a.remove();
+
+URL.revokeObjectURL(url);
+
+toast("Backup exported");
+
+}
+
+function clearData(){
+
+const ok=confirm(
+"This will remove locally stored ClientFlow CRM data. Continue?"
+);
+
+if(!ok)return;
+
+const keys=[
+
+"clientflow_leads_v1",
+"clientflow_contacts_v1",
+"clientflow_companies_v1",
+"clientflow_deals_v1",
+"clientflow_tasks_v1"
+
+];
+
+keys.forEach(key=>{
+localStorage.removeItem(key);
 });
 
+toast(
+"CRM data cleared"
+);
 
-document.getElementById(id)
-.classList.add("active");
+}
+
+function setupNavigation(){
+
+document
+.querySelectorAll(".settingsNav button")
+.forEach(button=>{
+
+button.onclick=()=>{
+
+document
+.querySelectorAll(
+".settingsNav button"
+)
+.forEach(b=>{
+b.classList.remove("active");
+});
+
+document
+.querySelectorAll(".panel")
+.forEach(panel=>{
+panel.classList.remove("active");
+});
 
 button.classList.add("active");
 
+const panel=
+$(button.dataset.panel);
+
+if(panel)
+panel.classList.add("active");
+
+};
+
+});
+
 }
 
+function setupSidebar(){
 
-function saveSettings(){
+$("menu").onclick=()=>{
 
-alert("Your settings have been saved successfully.");
+$("sidebar")
+.classList.toggle("open");
+
+};
 
 }
 
+function setupTheme(){
+
+$("theme").onclick=()=>{
+
+const enabled=
+!document.body.classList.contains("dark");
+
+setDarkMode(enabled);
+
+$("darkMode").checked=enabled;
+
+};
+
+$("darkMode").onchange=e=>{
+setDarkMode(e.target.checked);
+};
+
+}
+
+function setup(){
+
+setupNavigation();
+
+setupSidebar();
+
+setupTheme();
+
+$("saveProfile").onclick=
+saveProfile;
+
+$("resetProfile").onclick=
+resetProfile;
+
+$("saveWorkspace").onclick=
+saveWorkspace;
+
+$("darkMode").onchange=e=>{
+setDarkMode(e.target.checked);
+};
+
+$("compact").onchange=e=>{
+setCompact(e.target.checked);
+};
+
+[
+"taskNotifications",
+"dealNotifications",
+"leadNotifications"
+].forEach(id=>{
+
+$(id).onchange=
+saveNotifications;
+
+});
+
+$("exportData").onclick=
+exportData;
+
+$("clearData").onclick=
+clearData;
+
+$("globalSearch").oninput=e=>{
+
+const query=
+e.target.value
+.toLowerCase()
+.trim();
+
+if(!query)return;
+
+const buttons=
+document.querySelectorAll(
+".settingsNav button"
+);
+
+buttons.forEach(button=>{
+
+const match=
+button.textContent
+.toLowerCase()
+.includes(query);
+
+button.style.display=
+match?"block":"none";
+
+});
+
+};
+
+}
+
+loadProfile();
+
+loadWorkspace();
+
+loadNotifications();
+
+loadAppearance();
+
+setup();
+
+})();
 </script>
 
 </body>
