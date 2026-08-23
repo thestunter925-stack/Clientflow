@@ -2,1360 +2,859 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
 <title>ClientFlow - Contacts</title>
-
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f5f7fb;--card:#fff;--soft:#f8fafc;--text:#111827;
+--muted:#6b7280;--border:#e5e7eb;--primary:#2563eb;
+--primary2:#1d4ed8;--success:#16a34a;--danger:#dc2626;
+--sidebar:#111827;--side:#cbd5e1;
 }
-
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#f5f7fb;
-color:#111827;
+body.dark{
+--bg:#0b1120;--card:#111827;--soft:#172033;--text:#f8fafc;
+--muted:#94a3b8;--border:#243044;--sidebar:#070d18
 }
-
-button,input,select{
-font:inherit;
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
 /* SIDEBAR */
-
 .sidebar{
-position:fixed;
-left:0;
-top:0;
-bottom:0;
-width:163px;
-background:#101827;
-padding:15px 10px;
+position:fixed;inset:0 auto 0 0;width:245px;background:var(--sidebar);
+color:white;z-index:50;display:flex;flex-direction:column;
+transition:.2s
 }
-
-.brand{
-display:flex;
-align-items:center;
-gap:7px;
-color:#fff;
-font-size:14px;
-font-weight:700;
-margin-bottom:28px;
+.logo{
+height:72px;padding:0 22px;display:flex;align-items:center;gap:11px;
+border-bottom:1px solid rgba(255,255,255,.08)
 }
-
-.brand-icon{
-width:26px;
-height:26px;
-border-radius:6px;
-background:#2563eb;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:14px;
-font-weight:bold;
+.logoMark{
+width:36px;height:36px;border-radius:10px;background:#2563eb;
+display:grid;place-items:center;font-weight:bold
 }
-
-.nav{
-list-style:none;
+.logo strong{font-size:19px}
+.logo small{display:block;color:#94a3b8;font-size:9px;margin-top:2px}
+.nav{padding:17px 12px;overflow:auto;flex:1}
+.navTitle{
+font-size:10px;color:#64748b;font-weight:bold;padding:10px 12px 7px;
+text-transform:uppercase;letter-spacing:.08em
 }
-
-.nav li{
-margin-bottom:4px;
-}
-
 .nav a{
-display:block;
-padding:9px;
-border-radius:7px;
-text-decoration:none;
-color:#9ca3af;
-font-size:11px;
+display:flex;align-items:center;gap:12px;padding:11px 12px;
+border-radius:9px;color:var(--side);font-size:14px;margin:2px 0
 }
-
-.nav a:hover,
-.nav a.active{
-background:#1d293b;
-color:#fff;
+.nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav a.active{background:#2563eb;color:#fff}
+.navIcon{width:20px;text-align:center}
+.user{
+padding:14px;border-top:1px solid rgba(255,255,255,.08);
+display:flex;align-items:center;gap:10px
 }
+.avatar{
+width:34px;height:34px;border-radius:50%;background:#2563eb;
+display:grid;place-items:center;font-size:11px;font-weight:bold
+}
+.user small{display:block;color:#94a3b8;font-size:10px}
 
 /* MAIN */
-
-.main{
-margin-left:163px;
-min-height:100vh;
-padding:20px;
+.main{margin-left:245px;min-height:100vh}
+.topbar{
+height:72px;background:var(--card);border-bottom:1px solid var(--border);
+display:flex;align-items:center;gap:14px;padding:0 24px;
+position:sticky;top:0;z-index:30
 }
+.menu{
+display:none;width:38px;height:38px;border-radius:9px;
+border:1px solid var(--border);background:var(--soft);color:var(--text)
+}
+.search{position:relative;max-width:430px;flex:1}
+.search input{
+width:100%;height:40px;border:1px solid var(--border);
+background:var(--soft);color:var(--text);border-radius:9px;
+padding:0 12px 0 36px;outline:none
+}
+.searchIcon{position:absolute;left:13px;top:11px;color:var(--muted)}
+.topRight{margin-left:auto;display:flex;gap:8px}
+.iconBtn{
+width:38px;height:38px;border:1px solid var(--border);
+background:var(--soft);color:var(--text);border-radius:9px
+}
+.primary{
+height:40px;padding:0 15px;background:var(--primary);
+color:white;border:0;border-radius:9px;font-weight:bold
+}
+.primary:hover{background:var(--primary2)}
+.content{padding:24px;max-width:1600px;margin:auto}
 
 /* HEADER */
-
 .header{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:18px;
+display:flex;justify-content:space-between;align-items:center;
+gap:15px;margin-bottom:22px
 }
-
-.title{
-font-size:21px;
-font-weight:700;
-}
-
-.subtitle{
-font-size:10px;
-color:#8b95a5;
-margin-top:3px;
-}
-
-.btn{
-border:0;
-border-radius:6px;
-padding:9px 13px;
-font-size:10px;
-font-weight:600;
-cursor:pointer;
-}
-
-.primary{
-background:#2563eb;
-color:#fff;
-}
-
-.primary:hover{
-background:#1d4ed8;
-}
-
+.header h1{font-size:25px}
+.header p{font-size:13px;color:var(--muted);margin-top:5px}
+.actions{display:flex;gap:8px}
 .secondary{
-background:#fff;
-color:#374151;
-border:1px solid #dfe3e8;
+height:40px;padding:0 14px;border:1px solid var(--border);
+background:var(--card);color:var(--text);border-radius:9px
 }
 
 /* STATS */
-
 .stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:18px;
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:15px;margin-bottom:18px
 }
+.stat{
+background:var(--card);border:1px solid var(--border);
+border-radius:14px;padding:17px
+}
+.statTop{display:flex;justify-content:space-between}
+.statLabel{font-size:11px;color:var(--muted);font-weight:bold}
+.statIcon{
+width:34px;height:34px;border-radius:9px;background:#eff6ff;
+color:var(--primary);display:grid;place-items:center
+}
+.statValue{font-size:24px;font-weight:bold;margin-top:10px}
+.statChange{font-size:10px;color:var(--success);margin-top:5px}
 
+/* CARD */
 .card{
-background:#fff;
-border:1px solid #e7eaf0;
-border-radius:9px;
-padding:15px;
+background:var(--card);border:1px solid var(--border);
+border-radius:14px;overflow:hidden
 }
-
-.card-title{
-font-size:9px;
-color:#7b8492;
-margin-bottom:7px;
+.toolbar{
+padding:14px;border-bottom:1px solid var(--border);
+display:flex;gap:9px;align-items:center
 }
-
-.card-value{
-font-size:20px;
-font-weight:700;
+.filter{
+height:38px;border:1px solid var(--border);
+background:var(--soft);color:var(--text);
+border-radius:8px;padding:0 10px
 }
-
-/* PANEL */
-
-.panel{
-background:#fff;
-border:1px solid #e7eaf0;
-border-radius:9px;
-overflow:hidden;
-}
-
-.panel-header{
-min-height:52px;
-padding:10px 14px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-border-bottom:1px solid #edf0f4;
-}
-
-.panel-title{
-font-size:13px;
-font-weight:700;
-}
-
-.tools{
-display:flex;
-gap:7px;
-}
-
-.search{
-width:180px;
-height:30px;
-border:1px solid #dfe3e8;
-border-radius:6px;
-padding:0 10px;
-font-size:10px;
-outline:none;
-}
-
-.search:focus{
-border-color:#2563eb;
-}
-
-/* TABLE */
-
-.table-wrap{
-overflow-x:auto;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:750px;
-}
-
+.tableWrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
 th{
-padding:10px 14px;
-text-align:left;
-font-size:8px;
-color:#7b8492;
-font-weight:700;
-border-bottom:1px solid #edf0f4;
+padding:12px 14px;text-align:left;background:var(--soft);
+color:var(--muted);font-size:10px;border-bottom:1px solid var(--border)
 }
-
 td{
-padding:12px 14px;
-font-size:10px;
-border-bottom:1px solid #f0f2f5;
+padding:13px 14px;font-size:12px;border-bottom:1px solid var(--border)
 }
-
-tr:last-child td{
-border-bottom:0;
+tr:hover td{background:rgba(37,99,235,.025)}
+.person{display:flex;align-items:center;gap:10px}
+.personAvatar{
+width:34px;height:34px;border-radius:50%;background:#dbeafe;
+color:#2563eb;display:grid;place-items:center;
+font-size:11px;font-weight:bold
 }
-
-tr:hover td{
-background:#fafbfc;
+.personName{font-weight:bold}
+.sub{font-size:10px;color:var(--muted);margin-top:3px}
+.tag{
+display:inline-block;padding:4px 8px;border-radius:20px;
+font-size:9px;font-weight:bold;background:#eff6ff;color:#2563eb
 }
-
-.name{
-font-weight:600;
-}
-
+.tag.customer{background:#dcfce7;color:#166534}
+.tag.prospect{background:#fff7ed;color:#c2410c}
+.rowActions{display:flex;gap:5px}
 .small{
-font-size:9px;
-color:#8b95a5;
-margin-top:3px;
+height:30px;padding:0 9px;border-radius:7px;
+border:1px solid var(--border);background:var(--soft);
+color:var(--text);font-size:10px
 }
-
-.badge{
-display:inline-block;
-padding:4px 7px;
-border-radius:20px;
-font-size:8px;
-font-weight:600;
-}
-
-.active-badge{
-background:#dcfce7;
-color:#15803d;
-}
-
-.inactive-badge{
-background:#f3f4f6;
-color:#6b7280;
-}
-
-.action{
-border:1px solid #e1e5eb;
-background:#fff;
-border-radius:5px;
-padding:5px 7px;
-font-size:9px;
-cursor:pointer;
-}
-
-.action:hover{
-background:#f3f4f6;
-}
-
-.empty{
-text-align:center;
-padding:35px 15px;
-color:#9ca3af;
-font-size:11px;
-}
+.small:hover{border-color:var(--primary)}
+.danger:hover{border-color:var(--danger);color:var(--danger)}
+.empty{text-align:center;padding:50px;color:var(--muted);font-size:12px}
 
 /* MODAL */
-
+.overlay{
+display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);
+z-index:100;align-items:center;justify-content:center;padding:15px
+}
+.overlay.show{display:flex}
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.55);
-z-index:100;
-align-items:center;
-justify-content:center;
-padding:15px;
+width:min(560px,100%);background:var(--card);
+border:1px solid var(--border);border-radius:15px
 }
-
-.modal.show{
-display:flex;
+.modalHead{
+padding:17px 18px;border-bottom:1px solid var(--border);
+display:flex;justify-content:space-between
 }
-
-.modal-box{
-width:100%;
-max-width:500px;
-max-height:92vh;
-overflow-y:auto;
-background:#fff;
-border-radius:10px;
-padding:20px;
-}
-
-.modal-head{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:18px;
-}
-
-.modal-head h2{
-font-size:17px;
-}
-
-.close{
-border:0;
-background:none;
-font-size:22px;
-color:#6b7280;
-cursor:pointer;
-}
-
-.form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.field.full{
-grid-column:1/-1;
-}
-
+.modalHead h2{font-size:15px}
+.close{border:0;background:none;color:var(--muted);font-size:20px}
+.modalBody{padding:18px}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .field label{
-display:block;
-font-size:9px;
-font-weight:600;
-color:#374151;
-margin-bottom:5px;
+display:block;font-size:10px;font-weight:bold;margin-bottom:6px
 }
-
-.field input,
-.field select{
-width:100%;
-height:36px;
-border:1px solid #dfe3e8;
-border-radius:6px;
-padding:0 9px;
-font-size:10px;
-outline:none;
-background:#fff;
+.field input,.field select{
+width:100%;height:40px;background:var(--soft);
+color:var(--text);border:1px solid var(--border);
+border-radius:8px;padding:0 10px;outline:none
 }
-
-.field input:focus,
-.field select:focus{
-border-color:#2563eb;
-}
-
-.modal-actions{
-display:flex;
-justify-content:flex-end;
-gap:7px;
-margin-top:18px;
+.field input:focus,.field select:focus{border-color:var(--primary)}
+.modalFoot{
+padding:14px 18px;border-top:1px solid var(--border);
+display:flex;justify-content:flex-end;gap:8px
 }
 
 /* TOAST */
-
 .toast{
-position:fixed;
-right:20px;
-bottom:20px;
-background:#111827;
-color:#fff;
-padding:10px 14px;
-border-radius:7px;
-font-size:10px;
-opacity:0;
-transform:translateY(10px);
-transition:.25s;
-z-index:200;
+position:fixed;right:20px;bottom:20px;background:#111827;color:white;
+padding:11px 15px;border-radius:9px;font-size:12px;z-index:200;
+opacity:0;transform:translateY(15px);transition:.2s
 }
+.toast.show{opacity:1;transform:none}
 
-.toast.show{
-opacity:1;
-transform:translateY(0);
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+.sidebar{transform:translateX(-100%);width:250px}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0}
+.menu{display:block}
+.topbar{height:62px;padding:0 13px}
+.topRight .primary{display:none}
+.content{padding:17px 13px}
+.header{align-items:flex-start}
+.header h1{font-size:21px}
+.actions .secondary{display:none}
+.stats{gap:10px}
+.stat{padding:13px}
+.statValue{font-size:19px}
 }
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-.sidebar{
-width:130px;
-}
-
-.main{
-margin-left:130px;
-padding:12px;
-}
-
-.stats{
-grid-template-columns:1fr;
-}
-
-.header{
-align-items:flex-start;
-gap:10px;
-}
-
-.panel-header{
-align-items:flex-start;
-flex-direction:column;
-}
-
-.tools{
-width:100%;
-}
-
-.search{
-width:100%;
-}
-
-.form-grid{
-grid-template-columns:1fr;
-}
-
-.field.full{
-grid-column:auto;
-}
-
+@media(max-width:430px){
+.formGrid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
 
-<aside class="sidebar">
-
-<div class="brand">
-<div class="brand-icon">C</div>
-<span>ClientFlow</span>
+<div class="logo">
+<div class="logoMark">CF</div>
+<div>
+<strong>ClientFlow</strong>
+<small>CRM PLATFORM</small>
+</div>
 </div>
 
-<ul class="nav">
+<nav class="nav">
+<div class="navTitle">Workspace</div>
 
-<li>
-<a href="index.html">
-Dashboard
-</a>
-</li>
+<a href="index.html"><span class="navIcon">⌂</span>Dashboard</a>
+<a href="leads.html"><span class="navIcon">♢</span>Leads</a>
+<a href="contacts.html" class="active"><span class="navIcon">◉</span>Contacts</a>
+<a href="companies.html"><span class="navIcon">▣</span>Companies</a>
+<a href="deals.html"><span class="navIcon">◇</span>Deals</a>
+<a href="tasks.html"><span class="navIcon">✓</span>Tasks</a>
 
-<li>
-<a href="leads.html">
-Leads
-</a>
-</li>
+<div class="navTitle">Insights</div>
 
-<li>
-<a href="companies.html">
-Companies
-</a>
-</li>
+<a href="reports.html"><span class="navIcon">▥</span>Reports</a>
+<a href="settings.html"><span class="navIcon">⚙</span>Settings</a>
+</nav>
 
-<li>
-<a href="contacts.html" class="active">
-Contacts
-</a>
-</li>
-
-<li>
-<a href="deals.html">
-Deals
-</a>
-</li>
-
-<li>
-<a href="tasks.html">
-Tasks
-</a>
-</li>
-
-<li>
-<a href="reports.html">
-Reports
-</a>
-</li>
-
-<li>
-<a href="settings.html">
-Settings
-</a>
-</li>
-
-</ul>
+<div class="user">
+<div class="avatar">NA</div>
+<div>
+<strong style="font-size:12px">Admin User</strong>
+<small>Workspace Admin</small>
+</div>
+</div>
 
 </aside>
 
-
-<!-- MAIN -->
-
 <main class="main">
 
+<header class="topbar">
+
+<button class="menu" id="menu">☰</button>
+
+<div class="search">
+<span class="searchIcon">⌕</span>
+<input id="globalSearch" placeholder="Search contacts...">
+</div>
+
+<div class="topRight">
+<button class="iconBtn" id="theme">☾</button>
+<button class="iconBtn">♧</button>
+<button class="primary" id="topAdd">+ Add Contact</button>
+</div>
+
+</header>
+
+<section class="content">
+
 <div class="header">
-
 <div>
-
-<div class="title">
-Contacts
+<h1>Contacts</h1>
+<p>Keep every customer and prospect relationship organized.</p>
 </div>
 
-<div class="subtitle">
-Manage people connected to your companies and leads.
+<div class="actions">
+<button class="secondary" id="export">↓ Export</button>
+<button class="primary" id="add">+ Add Contact</button>
 </div>
-
 </div>
-
-<button
-class="btn primary"
-onclick="openModal()">
-
-+ Add Contact
-
-</button>
-
-</div>
-
-
-<!-- STATS -->
 
 <div class="stats">
 
+<div class="stat">
+<div class="statTop">
+<span class="statLabel">TOTAL CONTACTS</span>
+<div class="statIcon">◉</div>
+</div>
+<div class="statValue" id="total">0</div>
+<div class="statChange">All contacts</div>
+</div>
+
+<div class="stat">
+<div class="statTop">
+<span class="statLabel">CUSTOMERS</span>
+<div class="statIcon">★</div>
+</div>
+<div class="statValue" id="customers">0</div>
+<div class="statChange">Active customers</div>
+</div>
+
+<div class="stat">
+<div class="statTop">
+<span class="statLabel">PROSPECTS</span>
+<div class="statIcon">♢</div>
+</div>
+<div class="statValue" id="prospects">0</div>
+<div class="statChange">Potential customers</div>
+</div>
+
+<div class="stat">
+<div class="statTop">
+<span class="statLabel">COMPANIES</span>
+<div class="statIcon">▣</div>
+</div>
+<div class="statValue" id="companies">0</div>
+<div class="statChange">Unique organizations</div>
+</div>
+
+</div>
+
 <div class="card">
 
-<div class="card-title">
-Total Contacts
-</div>
-
-<div
-class="card-value"
-id="totalContacts">
-
-0
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-Active Contacts
-</div>
-
-<div
-class="card-value"
-id="activeContacts">
-
-0
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-title">
-Companies
-</div>
-
-<div
-class="card-value"
-id="companyCount">
-
-0
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CONTACTS TABLE -->
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="panel-title">
-All Contacts
-</div>
-
-<div class="tools">
+<div class="toolbar">
 
 <input
-class="search"
+class="filter"
 id="search"
-placeholder="Search contacts..."
-oninput="renderContacts()">
+style="flex:1;min-width:180px"
+placeholder="Search name, email or company..."
+>
 
-</div>
+<select class="filter" id="typeFilter">
+<option value="all">All Types</option>
+<option value="Customer">Customer</option>
+<option value="Prospect">Prospect</option>
+</select>
 
-</div>
-
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-CONTACT
-</th>
-
-<th>
-COMPANY
-</th>
-
-<th>
-EMAIL
-</th>
-
-<th>
-PHONE
-</th>
-
-<th>
-STATUS
-</th>
-
-<th>
-ACTIONS
-</th>
-
-</tr>
-
-</thead>
-
-<tbody id="contactTable">
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</main>
-
-
-<!-- MODAL -->
-
-<div
-class="modal"
-id="modal">
-
-<div class="modal-box">
-
-<div class="modal-head">
-
-<h2 id="modalTitle">
-Add Contact
-</h2>
-
-<button
-class="close"
-onclick="closeModal()">
-
-×
-
-</button>
-
-</div>
-
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>
-Full Name
-</label>
-
-<input
-id="name"
-placeholder="Contact name">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Company
-</label>
-
-<input
-id="company"
-placeholder="Company name">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Email
-</label>
-
-<input
-id="email"
-type="email"
-placeholder="Email address">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Phone
-</label>
-
-<input
-id="phone"
-placeholder="Phone number">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Job Title
-</label>
-
-<input
-id="role"
-placeholder="Job title">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Status
-</label>
-
-<select id="status">
-
-<option>Active</option>
-<option>Inactive</option>
-
+<select class="filter" id="companyFilter">
+<option value="all">All Companies</option>
 </select>
 
 </div>
 
+<div class="tableWrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Contact</th>
+<th>Company</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Type</th>
+<th>Owner</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="table"></tbody>
+
+</table>
+
+<div id="empty" class="empty" style="display:none">
+No contacts found.
 </div>
 
+</div>
+</div>
 
-<div class="modal-actions">
+</section>
+</main>
 
-<button
-class="btn secondary"
-onclick="closeModal()">
+<!-- MODAL -->
+<div class="overlay" id="overlay">
 
-Cancel
+<div class="modal">
 
-</button>
+<div class="modalHead">
+<h2 id="modalTitle">Add Contact</h2>
+<button class="close" id="close">×</button>
+</div>
 
-<button
-class="btn primary"
-onclick="saveContact()">
+<div class="modalBody">
 
-Save Contact
+<div class="formGrid">
 
-</button>
+<div class="field">
+<label>FULL NAME</label>
+<input id="name" placeholder="Contact name">
+</div>
 
+<div class="field">
+<label>JOB TITLE</label>
+<input id="job" placeholder="e.g. CEO">
+</div>
+
+<div class="field">
+<label>COMPANY</label>
+<input id="company" placeholder="Company name">
+</div>
+
+<div class="field">
+<label>EMAIL</label>
+<input id="email" type="email" placeholder="name@company.com">
+</div>
+
+<div class="field">
+<label>PHONE</label>
+<input id="phone" placeholder="+91">
+</div>
+
+<div class="field">
+<label>TYPE</label>
+<select id="type">
+<option>Prospect</option>
+<option>Customer</option>
+</select>
+</div>
+
+<div class="field">
+<label>OWNER</label>
+<input id="owner" placeholder="Admin">
 </div>
 
 </div>
 
 </div>
 
-
-<div
-class="toast"
-id="toast">
+<div class="modalFoot">
+<button class="secondary" id="cancel">Cancel</button>
+<button class="primary" id="save">Save Contact</button>
 </div>
 
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
+"use strict";
 
-const CONTACT_KEY="clientflow_contacts";
+const Contacts=(()=>{
 
-let editingId=null;
+const KEY="clientflow_contacts_v1";
 
+const demo=[
+{
+id:1,name:"Rahul Sharma",job:"CEO",
+company:"TechNova Solutions",
+email:"rahul@technova.com",
+phone:"+91 98765 43210",
+type:"Customer",owner:"Admin"
+},
+{
+id:2,name:"Priya Mehta",job:"Marketing Head",
+company:"Acme Technologies",
+email:"priya@acme.com",
+phone:"+91 98765 11223",
+type:"Prospect",owner:"Admin"
+},
+{
+id:3,name:"Arjun Kapoor",job:"Founder",
+company:"GrowthLabs",
+email:"arjun@growthlabs.com",
+phone:"+91 99887 66554",
+type:"Prospect",owner:"Admin"
+},
+{
+id:4,name:"Neha Singh",job:"Director",
+company:"CloudBridge",
+email:"neha@cloudbridge.com",
+phone:"+91 98761 23456",
+type:"Customer",owner:"Admin"
+},
+{
+id:5,name:"Vikram Rao",job:"CTO",
+company:"DataSphere",
+email:"vikram@datasphere.com",
+phone:"+91 90000 12345",
+type:"Prospect",owner:"Admin"
+}
+];
 
-/* GET CONTACTS */
+let contacts=load();
+let editId=null;
 
-function getContacts(){
-
+function load(){
 try{
-
-return JSON.parse(
-localStorage.getItem(CONTACT_KEY)
-)||[];
-
-}catch(error){
-
-return[];
-
+const saved=localStorage.getItem(KEY);
+return saved?JSON.parse(saved):demo;
+}catch(e){return demo}
 }
 
+function save(){
+localStorage.setItem(KEY,JSON.stringify(contacts));
 }
 
-
-/* SAVE CONTACTS */
-
-function saveContacts(data){
-
-localStorage.setItem(
-CONTACT_KEY,
-JSON.stringify(data)
-);
-
+function esc(v){
+return String(v||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
 
+function initials(name){
+return String(name||"")
+.split(" ")
+.filter(Boolean)
+.slice(0,2)
+.map(x=>x[0])
+.join("")
+.toUpperCase();
+}
 
-/* OPEN MODAL */
+function toast(msg){
+const t=document.getElementById("toast");
+t.textContent=msg;
+t.classList.add("show");
+clearTimeout(window.__toast);
+window.__toast=setTimeout(()=>t.classList.remove("show"),2200);
+}
 
-function openModal(id=null){
+function updateCompanyFilter(){
 
-editingId=id;
+const select=document.getElementById("companyFilter");
+const current=select.value;
 
-document
-.getElementById("modal")
-.classList.add("show");
+const companies=[...new Set(
+contacts.map(c=>c.company).filter(Boolean)
+)].sort();
 
+select.innerHTML=
+'<option value="all">All Companies</option>'+
+companies.map(c=>`<option>${esc(c)}</option>`).join("");
 
-if(id){
+if(companies.includes(current))select.value=current;
+}
 
-const contact=getContacts()
-.find(function(item){
+function render(){
 
-return item.id===id;
+const q=document.getElementById("search").value.toLowerCase();
+const type=document.getElementById("typeFilter").value;
+const company=document.getElementById("companyFilter").value;
 
+const filtered=contacts.filter(c=>{
+
+const matchSearch=
+!q||
+c.name.toLowerCase().includes(q)||
+c.email.toLowerCase().includes(q)||
+c.company.toLowerCase().includes(q);
+
+const matchType=type==="all"||c.type===type;
+const matchCompany=company==="all"||c.company===company;
+
+return matchSearch&&matchType&&matchCompany;
 });
 
+document.getElementById("total").textContent=contacts.length;
 
-if(!contact)return;
+document.getElementById("customers").textContent=
+contacts.filter(c=>c.type==="Customer").length;
 
+document.getElementById("prospects").textContent=
+contacts.filter(c=>c.type==="Prospect").length;
 
-document.getElementById("modalTitle")
-.innerText="Edit Contact";
+document.getElementById("companies").textContent=
+new Set(contacts.map(c=>c.company)).size;
 
-document.getElementById("name")
-.value=contact.name||"";
-
-document.getElementById("company")
-.value=contact.company||"";
-
-document.getElementById("email")
-.value=contact.email||"";
-
-document.getElementById("phone")
-.value=contact.phone||"";
-
-document.getElementById("role")
-.value=contact.role||"";
-
-document.getElementById("status")
-.value=contact.status||"Active";
-
-}
-
-}
-
-
-/* CLOSE MODAL */
-
-function closeModal(){
-
-document
-.getElementById("modal")
-.classList.remove("show");
-
-editingId=null;
-
-clearForm();
-
-}
-
-
-/* CLEAR FORM */
-
-function clearForm(){
-
-document.getElementById("name").value="";
-document.getElementById("company").value="";
-document.getElementById("email").value="";
-document.getElementById("phone").value="";
-document.getElementById("role").value="";
-document.getElementById("status").value="Active";
-
-}
-
-
-/* SAVE CONTACT */
-
-function saveContact(){
-
-const name=
-document.getElementById("name")
-.value.trim();
-
-const company=
-document.getElementById("company")
-.value.trim();
-
-if(!name){
-
-showToast("Contact name is required");
-
-return;
-
-}
-
-
-const contacts=getContacts();
-
-
-const data={
-
-name:name,
-
-company:company,
-
-email:
-document.getElementById("email")
-.value.trim(),
-
-phone:
-document.getElementById("phone")
-.value.trim(),
-
-role:
-document.getElementById("role")
-.value.trim(),
-
-status:
-document.getElementById("status")
-.value
-
-};
-
-
-if(editingId){
-
-const index=contacts.findIndex(
-function(contact){
-
-return contact.id===editingId;
-
-}
-);
-
-
-if(index!==-1){
-
-contacts[index]={
-...contacts[index],
-...data
-};
-
-}
-
-showToast("Contact updated");
-
-}else{
-
-data.id=Date.now();
-
-data.created=
-new Date().toISOString();
-
-contacts.unshift(data);
-
-showToast("Contact added");
-
-}
-
-
-saveContacts(contacts);
-
-closeModal();
-
-renderContacts();
-
-updateStats();
-
-}
-
-
-/* DELETE CONTACT */
-
-function deleteContact(id){
-
-const contacts=getContacts();
-
-const contact=contacts.find(
-function(item){
-
-return item.id===id;
-
-}
-);
-
-if(!contact)return;
-
-
-if(!confirm(
-"Delete "+contact.name+"?"
-)){
-
-return;
-
-}
-
-
-const updated=contacts.filter(
-function(item){
-
-return item.id!==id;
-
-}
-);
-
-saveContacts(updated);
-
-renderContacts();
-
-updateStats();
-
-showToast("Contact deleted");
-
-}
-
-
-/* RENDER */
-
-function renderContacts(){
-
-const contacts=getContacts();
-
-const query=
-document.getElementById("search")
-.value
-.toLowerCase();
-
-
-const filtered=contacts.filter(
-function(contact){
-
-return (
-
-(contact.name||"")
-.toLowerCase()
-.includes(query)
-
-||
-
-(contact.company||"")
-.toLowerCase()
-.includes(query)
-
-||
-
-(contact.email||"")
-.toLowerCase()
-.includes(query)
-
-||
-
-(contact.phone||"")
-.toLowerCase()
-.includes(query)
-
-||
-
-(contact.role||"")
-.toLowerCase()
-.includes(query)
-
-);
-
-}
-);
-
-
-const table=
-document.getElementById("contactTable");
-
+const table=document.getElementById("table");
+const empty=document.getElementById("empty");
 
 if(!filtered.length){
+table.innerHTML="";
+empty.style.display="block";
+return;
+}
 
-table.innerHTML=`
+empty.style.display="none";
+
+table.innerHTML=filtered.map(c=>`
 
 <tr>
 
-<td colspan="6">
-
-<div class="empty">
-
-No contacts found.<br><br>
-
-Click "+ Add Contact" to create your first contact.
-
+<td>
+<div class="person">
+<div class="personAvatar">${esc(initials(c.name))}</div>
+<div>
+<div class="personName">${esc(c.name)}</div>
+<div class="sub">${esc(c.job)}</div>
 </div>
+</div>
+</td>
 
+<td>${esc(c.company)}</td>
+
+<td>${esc(c.email)}</td>
+
+<td>${esc(c.phone)}</td>
+
+<td>
+<span class="tag ${c.type==="Customer"?"customer":"prospect"}">
+${esc(c.type)}
+</span>
+</td>
+
+<td>${esc(c.owner)}</td>
+
+<td>
+<div class="rowActions">
+<button class="small" data-edit="${c.id}">Edit</button>
+<button class="small danger" data-delete="${c.id}">Delete</button>
+</div>
 </td>
 
 </tr>
 
-`;
-
-return;
+`).join("");
 
 }
 
+function openModal(id=null){
 
-table.innerHTML="";
+editId=id;
 
+document.getElementById("overlay").classList.add("show");
 
-filtered.forEach(function(contact){
+if(id===null){
 
-const row=
-document.createElement("tr");
+document.getElementById("modalTitle").textContent="Add Contact";
+document.getElementById("save").textContent="Save Contact";
 
+["name","job","company","email","phone","owner"]
+.forEach(x=>document.getElementById(x).value="");
 
-const badge=
-contact.status==="Active"
-?
-"active-badge"
-:
-"inactive-badge";
+document.getElementById("type").value="Prospect";
 
+}else{
 
-row.innerHTML=`
+const c=contacts.find(x=>x.id===id);
+if(!c)return;
 
-<td>
+document.getElementById("modalTitle").textContent="Edit Contact";
+document.getElementById("save").textContent="Update Contact";
 
-<div class="name">
-${safe(contact.name)}
-</div>
+document.getElementById("name").value=c.name;
+document.getElementById("job").value=c.job;
+document.getElementById("company").value=c.company;
+document.getElementById("email").value=c.email;
+document.getElementById("phone").value=c.phone;
+document.getElementById("type").value=c.type;
+document.getElementById("owner").value=c.owner;
 
-<div class="small">
-${safe(contact.role||"")}
-</div>
+}
 
-</td>
+setTimeout(()=>document.getElementById("name").focus(),50);
+}
 
+function closeModal(){
+document.getElementById("overlay").classList.remove("show");
+editId=null;
+}
 
-<td>
-${safe(contact.company||"-")}
-</td>
+function saveContact(){
 
+const data={
+name:document.getElementById("name").value.trim(),
+job:document.getElementById("job").value.trim(),
+company:document.getElementById("company").value.trim(),
+email:document.getElementById("email").value.trim(),
+phone:document.getElementById("phone").value.trim(),
+type:document.getElementById("type").value,
+owner:document.getElementById("owner").value.trim()||"Admin"
+};
 
-<td>
-${safe(contact.email||"-")}
-</td>
+if(!data.name||!data.company){
+toast("Name and company are required");
+return;
+}
 
+if(editId!==null){
 
-<td>
-${safe(contact.phone||"-")}
-</td>
+const index=contacts.findIndex(c=>c.id===editId);
 
+if(index!==-1){
+contacts[index]={...contacts[index],...data};
+toast("Contact updated");
+}
 
-<td>
+}else{
 
-<span class="badge ${badge}">
+contacts.unshift({
+id:Date.now(),
+...data
+});
 
-${safe(contact.status)}
+toast("Contact added");
 
-</span>
+}
 
-</td>
+save();
+updateCompanyFilter();
+render();
+closeModal();
 
+}
 
-<td>
+function exportCSV(){
 
-<button
-class="action"
-onclick="openModal(${contact.id})">
+if(!contacts.length){
+toast("No contacts to export");
+return;
+}
 
-Edit
+const headers=[
+"Name","Job Title","Company","Email",
+"Phone","Type","Owner"
+];
 
-</button>
+const rows=contacts.map(c=>[
+c.name,c.job,c.company,c.email,c.phone,c.type,c.owner
+]);
 
-<button
-class="action"
-onclick="deleteContact(${contact.id})">
+const csv=[headers,...rows]
+.map(row=>row.map(v=>
+`"${String(v).replaceAll('"','""')}"`
+).join(","))
+.join("\n");
 
-Delete
+const blob=new Blob([csv],{type:"text/csv"});
+const url=URL.createObjectURL(blob);
 
-</button>
+const a=document.createElement("a");
+a.href=url;
+a.download="clientflow-contacts.csv";
+a.click();
 
-</td>
+URL.revokeObjectURL(url);
 
-`;
+toast("Contacts exported");
+}
 
+function setup(){
 
-table.appendChild(row);
+document.getElementById("menu").onclick=()=>{
+document.getElementById("sidebar").classList.toggle("open");
+};
+
+const theme=localStorage.getItem("clientflow_theme");
+
+if(theme==="dark"){
+document.body.classList.add("dark");
+}
+
+document.getElementById("theme").onclick=()=>{
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"clientflow_theme",
+document.body.classList.contains("dark")?"dark":"light"
+);
+};
+
+document.getElementById("add").onclick=()=>openModal();
+document.getElementById("topAdd").onclick=()=>openModal();
+
+document.getElementById("close").onclick=closeModal;
+document.getElementById("cancel").onclick=closeModal;
+
+document.getElementById("save").onclick=saveContact;
+
+document.getElementById("overlay").onclick=e=>{
+if(e.target===document.getElementById("overlay"))closeModal();
+};
+
+document.getElementById("search").oninput=render;
+document.getElementById("typeFilter").onchange=render;
+document.getElementById("companyFilter").onchange=render;
+
+document.getElementById("globalSearch").oninput=e=>{
+document.getElementById("search").value=e.target.value;
+render();
+};
+
+document.getElementById("table").onclick=e=>{
+
+const edit=e.target.closest("[data-edit]");
+const del=e.target.closest("[data-delete]");
+
+if(edit)openModal(Number(edit.dataset.edit));
+
+if(del){
+
+const id=Number(del.dataset.delete);
+const c=contacts.find(x=>x.id===id);
+
+if(c&&confirm(`Delete ${c.name}?`)){
+
+contacts=contacts.filter(x=>x.id!==id);
+save();
+updateCompanyFilter();
+render();
+toast("Contact deleted");
+
+}
+
+}
+
+};
+
+document.getElementById("export").onclick=exportCSV;
+
+document.addEventListener("keydown",e=>{
+
+if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
+e.preventDefault();
+document.getElementById("globalSearch").focus();
+}
+
+if(e.key==="Escape")closeModal();
 
 });
 
 }
 
+setup();
+updateCompanyFilter();
+render();
 
-/* STATS */
-
-function updateStats(){
-
-const contacts=getContacts();
-
-const total=contacts.length;
-
-const active=contacts.filter(
-function(contact){
-
-return contact.status==="Active";
-
-}
-).length;
-
-
-const companies=new Set(
-contacts
-.map(function(contact){
-
-return contact.company;
-
-})
-.filter(Boolean)
-).size;
-
-
-document.getElementById("totalContacts")
-.innerText=total;
-
-document.getElementById("activeContacts")
-.innerText=active;
-
-document.getElementById("companyCount")
-.innerText=companies;
-
-}
-
-
-/* SAFE HTML */
-
-function safe(value){
-
-return String(value||"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* TOAST */
-
-let toastTimer;
-
-function showToast(message){
-
-const toast=
-document.getElementById("toast");
-
-toast.innerText=message;
-
-toast.classList.add("show");
-
-clearTimeout(toastTimer);
-
-toastTimer=setTimeout(
-function(){
-
-toast.classList.remove("show");
-
-},
-2200
-);
-
-}
-
-
-/* CLOSE OUTSIDE */
-
-document
-.getElementById("modal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target===this){
-
-closeModal();
-
-}
-
-}
-);
-
-
-/* ESCAPE */
-
-document.addEventListener(
-"keydown",
-function(event){
-
-if(event.key==="Escape"){
-
-closeModal();
-
-}
-
-}
-);
-
-
-/* START */
-
-renderContacts();
-
-updateStats();
-
+})();
 </script>
 
 </body>
