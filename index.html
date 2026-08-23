@@ -759,4 +759,976 @@ a{text-decoration:none;color:inherit}
 
             <button class="quick" data-action="lead">
               <div class="quickIcon">♢</div>
+            </button>
+
+            <button class="quick" data-action="contact">
+              <div class="quickIcon">◉</div>
+              <div>
+                <strong>Add Contact</strong>
+                <span>Create a new contact</span>
+              </div>
+            </button>
+
+            <button class="quick" data-action="company">
+              <div class="quickIcon">▣</div>
+              <div>
+                <strong>Add Company</strong>
+                <span>Add a new company</span>
+              </div>
+            </button>
+
+            <button class="quick" data-action="deal">
+              <div class="quickIcon">◇</div>
+              <div>
+                <strong>Add Deal</strong>
+                <span>Create an opportunity</span>
+              </div>
+            </button>
+
+            <button class="quick" data-action="task">
+              <div class="quickIcon">✓</div>
+              <div>
+                <strong>Add Task</strong>
+                <span>Create a task</span>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardHead">
+          <div>
+            <h2>Recent Activity</h2>
+            <p>Latest updates from your CRM</p>
+          </div>
+          <a href="reports.html" class="viewAll">View Reports →</a>
+        </div>
+
+        <div class="cardBody">
+          <div id="activityList" class="activityList">
+            <div class="emptyState">
+              <div class="emptyIcon">◷</div>
+              <strong>No recent activity</strong>
+              <span>Your latest CRM activity will appear here.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- QUICK ACTION MODAL -->
+
+  <div class="modalOverlay" id="modalOverlay">
+
+    <div class="modal">
+
+      <div class="modalHeader">
+
+        <div>
+          <h3 id="modalTitle">Quick Action</h3>
+          <p id="modalSubtitle">Create a new CRM record</p>
+        </div>
+
+        <button
+          class="modalClose"
+          id="modalClose"
+          type="button"
+        >×</button>
+
+      </div>
+
+      <div class="modalBody">
+
+        <div class="field">
+          <label>Name</label>
+          <input
+            id="quickName"
+            type="text"
+            placeholder="Enter name"
+          >
+        </div>
+
+        <div class="field">
+          <label>Company</label>
+          <input
+            id="quickCompany"
+            type="text"
+            placeholder="Company name"
+          >
+        </div>
+
+        <div class="field">
+          <label>Details</label>
+          <textarea
+            id="quickDetails"
+            placeholder="Add details..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="modalFooter">
+
+        <button
+          class="btn secondary"
+          id="modalCancel"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn primary"
+          id="modalSave"
+          type="button"
+        >
+          Create
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+
+  /* =========================================
+     CLIENTFLOW CORE
+     ========================================= */
+
+  window.ClientFlow = {
+
+    keys:{
+      leads:"clientflow_leads_v1",
+      contacts:"clientflow_contacts_v1",
+      companies:"clientflow_companies_v1",
+      deals:"clientflow_deals_v1",
+      tasks:"clientflow_tasks_v1"
+    },
+
+    get:function(key,fallback){
+
+      try{
+
+        const value =
+          localStorage.getItem(
+            this.keys[key] || key
+          );
+
+        return value
+          ? JSON.parse(value)
+          : fallback;
+
+      }catch(error){
+
+        return fallback;
+
+      }
+
+    },
+
+    set:function(key,value){
+
+      try{
+
+        localStorage.setItem(
+          this.keys[key] || key,
+          JSON.stringify(value)
+        );
+
+        return true;
+
+      }catch(error){
+
+        return false;
+
+      }
+
+    },
+
+    uid:function(){
+
+      return Date.now() +
+        Math.random()
+          .toString(36)
+          .substring(2,8);
+
+    },
+
+    money:function(value){
+
+      value=Number(value)||0;
+
+      if(value>=10000000)
+        return "₹"+(value/10000000).toFixed(1)+"Cr";
+
+      if(value>=100000)
+        return "₹"+(value/100000).toFixed(1)+"L";
+
+      if(value>=1000)
+        return "₹"+(value/1000).toFixed(1)+"K";
+
+      return "₹"+value.toLocaleString("en-IN");
+
+    }
+
+  };
+
+
+  /* =========================================
+     DASHBOARD DATA
+     ========================================= */
+
+  function getDashboardData(){
+
+    const leads=
+      ClientFlow.get("leads",[]);
+
+    const contacts=
+      ClientFlow.get("contacts",[]);
+
+    const companies=
+      ClientFlow.get("companies",[]);
+
+    const deals=
+      ClientFlow.get("deals",[]);
+
+    const tasks=
+      ClientFlow.get("tasks",[]);
+
+    let pipeline=0;
+    let won=0;
+
+    deals.forEach(function(deal){
+
+      const value=
+        Number(
+          deal.value ||
+          deal.amount ||
+          deal.dealValue ||
+          0
+        );
+
+      const stage=
+        String(
+          deal.stage ||
+          deal.status ||
+          ""
+        ).toLowerCase();
+
+      if(
+        stage!=="won" &&
+        stage!=="closed won"
+      ){
+
+        pipeline+=value;
+
+      }
+
+      if(
+        stage==="won" ||
+        stage==="closed won"
+      ){
+
+        won+=value;
+
+      }
+
+    });
+
+    return{
+      leads,
+      contacts,
+      companies,
+      deals,
+      tasks,
+      pipeline,
+      won
+    };
+
+  }
+
+
+  /* =========================================
+     UPDATE DASHBOARD
+     ========================================= */
+
+  function refreshDashboard(){
+
+    const data=
+      getDashboardData();
+
+    const counters={
+
+      leads:data.leads.length,
+
+      contacts:data.contacts.length,
+
+      companies:data.companies.length,
+
+      deals:data.deals.length,
+
+      tasks:data.tasks.length
+
+    };
+
+    Object.keys(counters).forEach(function(key){
+
+      const element=
+        document.querySelector(
+          `[data-count="${key}"]`
+        );
+
+      if(element){
+
+        element.textContent=
+          counters[key];
+
+      }
+
+    });
+
+    const pipeline=
+      document.querySelector(
+        "[data-pipeline]"
+      );
+
+    if(pipeline){
+
+      pipeline.textContent=
+        ClientFlow.money(
+          data.pipeline
+        );
+
+    }
+
+    const revenue=
+      document.querySelector(
+        "[data-revenue]"
+      );
+
+    if(revenue){
+
+      revenue.textContent=
+        ClientFlow.money(
+          data.won
+        );
+
+    }
+
+    renderActivity(data);
+
+  }
+
+
+  /* =========================================
+     ACTIVITY
+     ========================================= */
+
+  function renderActivity(data){
+
+    const box=
+      document.getElementById(
+        "activityList"
+      );
+
+    if(!box)return;
+
+    const activities=[];
+
+    data.leads
+      .slice(-5)
+      .reverse()
+      .forEach(function(item){
+
+        activities.push({
+
+          type:"Lead",
+
+          name:
+            item.name ||
+            item.title ||
+            "New Lead",
+
+          time:
+            item.createdAt ||
+            ""
+
+        });
+
+      });
+
+    data.deals
+      .slice(-5)
+      .reverse()
+      .forEach(function(item){
+
+        activities.push({
+
+          type:"Deal",
+
+          name:
+            item.name ||
+            item.title ||
+            "New Deal",
+
+          time:
+            item.createdAt ||
+            ""
+
+        });
+
+      });
+
+    data.tasks
+      .slice(-5)
+      .reverse()
+      .forEach(function(item){
+
+        activities.push({
+
+          type:"Task",
+
+          name:
+            item.name ||
+            item.title ||
+            "New Task",
+
+          time:
+            item.createdAt ||
+            ""
+
+        });
+
+      });
+
+    if(!activities.length){
+
+      box.innerHTML=`
+
+        <div class="emptyState">
+
+          <div class="emptyIcon">◷</div>
+
+          <strong>No recent activity</strong>
+
+          <span>
+            Your latest CRM activity will appear here.
+          </span>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    box.innerHTML=
+      activities
+      .slice(0,8)
+      .map(function(item){
+
+        return`
+
+          <div class="activityItem">
+
+            <div class="activityIcon">
+              ${item.type==="Lead"?"♢":
+                item.type==="Deal"?"◇":"✓"}
+            </div>
+
+            <div class="activityText">
+
+              <strong>
+                ${escapeHTML(item.name)}
+              </strong>
+
+              <span>
+                ${item.type} added to ClientFlow
+              </span>
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+  }
+
+
+  function escapeHTML(value){
+
+    return String(value || "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+
+  }
+
+
+  /* =========================================
+     QUICK ACTIONS
+     ========================================= */
+
+  let currentAction="";
+
+  const overlay=
+    document.getElementById(
+      "modalOverlay"
+    );
+
+  const modalTitle=
+    document.getElementById(
+      "modalTitle"
+    );
+
+  const modalSubtitle=
+    document.getElementById(
+      "modalSubtitle"
+    );
+
+  const nameInput=
+    document.getElementById(
+      "quickName"
+    );
+
+  const companyInput=
+    document.getElementById(
+      "quickCompany"
+    );
+
+  const detailsInput=
+    document.getElementById(
+      "quickDetails"
+    );
+
+
+  function openQuickAction(action){
+
+    currentAction=action;
+
+    const titles={
+
+      lead:"Add Lead",
+
+      contact:"Add Contact",
+
+      company:"Add Company",
+
+      deal:"Add Deal",
+
+      task:"Add Task"
+
+    };
+
+    const subtitles={
+
+      lead:"Create a new sales lead",
+
+      contact:"Create a new contact",
+
+      company:"Create a new company",
+
+      deal:"Create a new opportunity",
+
+      task:"Create a new task"
+
+    };
+
+    modalTitle.textContent=
+      titles[action] || "Quick Action";
+
+    modalSubtitle.textContent=
+      subtitles[action] ||
+      "Create a new CRM record";
+
+    nameInput.value="";
+    companyInput.value="";
+    detailsInput.value="";
+
+    overlay.classList.add("show");
+
+    setTimeout(function(){
+
+      nameInput.focus();
+
+    },80);
+
+  }
+
+
+  function closeQuickAction(){
+
+    overlay.classList.remove("show");
+
+    currentAction="";
+
+  }
+
+
+  function saveQuickAction(){
+
+    const name=
+      nameInput.value.trim();
+
+    const company=
+      companyInput.value.trim();
+
+    const details=
+      detailsInput.value.trim();
+
+    if(!name){
+
+      showToast(
+        "Please enter a name"
+      );
+
+      nameInput.focus();
+
+      return;
+
+    }
+
+    const id=
+      ClientFlow.uid();
+
+    const date=
+      new Date().toISOString();
+
+    if(currentAction==="lead"){
+
+      const data=
+        ClientFlow.get(
+          "leads",
+          []
+        );
+
+      data.push({
+
+        id:id,
+
+        name:name,
+
+        company:company,
+
+        description:details,
+
+        status:"New",
+
+        createdAt:date
+
+      });
+
+      ClientFlow.set(
+        "leads",
+        data
+      );
+
+      showToast(
+        "Lead created"
+      );
+
+    }
+
+
+    if(currentAction==="contact"){
+
+      const data=
+        ClientFlow.get(
+          "contacts",
+          []
+        );
+
+      data.push({
+
+        id:id,
+
+        name:name,
+
+        company:company,
+
+        notes:details,
+
+        createdAt:date
+
+      });
+
+      ClientFlow.set(
+        "contacts",
+        data
+      );
+
+      showToast(
+        "Contact created"
+      );
+
+    }
+
+
+    if(currentAction==="company"){
+
+      const data=
+        ClientFlow.get(
+          "companies",
+          []
+        );
+
+      data.push({
+
+        id:id,
+
+        name:name,
+
+        description:details,
+
+        createdAt:date
+
+      });
+
+      ClientFlow.set(
+        "companies",
+        data
+      );
+
+      showToast(
+        "Company created"
+      );
+
+    }
+
+
+    if(currentAction==="deal"){
+
+      const data=
+        ClientFlow.get(
+          "deals",
+          []
+        );
+
+      data.push({
+
+        id:id,
+
+        name:name,
+
+        company:company,
+
+        description:details,
+
+        value:0,
+
+        stage:"Lead",
+
+        probability:10,
+
+        status:"Open",
+
+        createdAt:date
+
+      });
+
+      ClientFlow.set(
+        "deals",
+        data
+      );
+
+      showToast(
+        "Deal created"
+      );
+
+    }
+
+
+    if(currentAction==="task"){
+
+      const data=
+        ClientFlow.get(
+          "tasks",
+          []
+        );
+
+      data.push({
+
+        id:id,
+
+        name:name,
+
+        company:company,
+
+        description:details,
+
+        status:"To Do",
+
+        priority:"Medium",
+
+        owner:"Admin",
+
+        date:"",
+
+        createdAt:date
+
+      });
+
+      ClientFlow.set(
+        "tasks",
+        data
+      );
+
+      showToast(
+        "Task created"
+      );
+
+    }
+
+    closeQuickAction();
+
+    refreshDashboard();
+
+  }
+
+
+  /* =========================================
+     EVENTS
+     ========================================= */
+
+  document
+    .querySelectorAll(
+      ".quick[data-action]"
+    )
+    .forEach(function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          openQuickAction(
+            button.dataset.action
+          );
+
+        }
+      );
+
+    });
+
+
+  document
+    .getElementById("modalClose")
+    .addEventListener(
+      "click",
+      closeQuickAction
+    );
+
+
+  document
+    .getElementById("modalCancel")
+    .addEventListener(
+      "click",
+      closeQuickAction
+    );
+
+
+  document
+    .getElementById("modalSave")
+    .addEventListener(
+      "click",
+      saveQuickAction
+    );
+
+
+  overlay.addEventListener(
+    "click",
+    function(e){
+
+      if(e.target===overlay){
+
+        closeQuickAction();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key==="Escape"){
+
+        closeQuickAction();
+
+      }
+
+      if(
+        (e.ctrlKey || e.metaKey) &&
+        e.key.toLowerCase()==="k"
+      ){
+
+        e.preventDefault();
+
+        const search=
+          document.querySelector(
+            "#globalSearch,#search"
+          );
+
+        if(search){
+
+          search.focus();
+
+        }
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "storage",
+    function(){
+
+      refreshDashboard();
+
+    }
+  );
+
+
+  window.addEventListener(
+    "clientflow:update",
+    function(){
+
+      refreshDashboard();
+
+    }
+  );
+
+
+  window.refreshDashboard=
+    refreshDashboard;
+
+
+  /* =========================================
+     START
+     ========================================= */
+
+  refreshDashboard();
+
+  </script>
+
+</body>
+</html>
   
