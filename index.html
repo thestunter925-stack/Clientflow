@@ -6,7 +6,11 @@
 <title>ClientFlow - CRM</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
@@ -14,9 +18,9 @@ background:#f5f7fb;
 color:#111827;
 }
 
-button,input,select,textarea{font:inherit}
-
-button{cursor:pointer}
+button,input{
+font:inherit;
+}
 
 /* SIDEBAR */
 
@@ -28,14 +32,13 @@ bottom:0;
 width:163px;
 background:#101827;
 padding:15px 10px;
-z-index:20;
 }
 
 .brand{
 display:flex;
 align-items:center;
 gap:7px;
-color:#fff;
+color:white;
 font-size:14px;
 font-weight:700;
 margin-bottom:28px;
@@ -50,30 +53,30 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:14px;
+font-weight:bold;
 }
 
 .nav{
 list-style:none;
 }
 
-.nav li{margin-bottom:4px}
+.nav li{
+margin-bottom:4px;
+}
 
-.nav button{
-width:100%;
-border:0;
-background:transparent;
-text-align:left;
+.nav a{
 display:block;
 padding:9px;
 border-radius:7px;
+text-decoration:none;
 color:#9ca3af;
 font-size:11px;
 }
 
-.nav button:hover,
-.nav button.active{
+.nav a:hover,
+.nav a.active{
 background:#1d293b;
-color:#fff;
+color:white;
 }
 
 /* MAIN */
@@ -104,7 +107,7 @@ color:#8b95a5;
 margin-top:3px;
 }
 
-.header-actions{
+.header-buttons{
 display:flex;
 gap:7px;
 }
@@ -115,6 +118,7 @@ border-radius:6px;
 padding:9px 13px;
 font-size:10px;
 font-weight:600;
+cursor:pointer;
 }
 
 .primary{
@@ -122,22 +126,14 @@ background:#2563eb;
 color:white;
 }
 
-.primary:hover{background:#1d4ed8}
+.primary:hover{
+background:#1d4ed8;
+}
 
 .secondary{
 background:white;
 color:#374151;
 border:1px solid #dfe3e8;
-}
-
-/* SECTIONS */
-
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
 }
 
 /* STATS */
@@ -168,7 +164,15 @@ font-size:20px;
 font-weight:700;
 }
 
-/* PANELS */
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1.5fr 1fr;
+gap:14px;
+}
+
+/* PANEL */
 
 .panel{
 background:white;
@@ -184,45 +188,12 @@ padding:10px 14px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:10px;
 border-bottom:1px solid #edf0f4;
 }
 
 .panel-title{
 font-size:13px;
 font-weight:700;
-}
-
-.panel-actions{
-display:flex;
-gap:7px;
-align-items:center;
-}
-
-/* SEARCH */
-
-.search{
-width:170px;
-height:30px;
-border:1px solid #dfe3e8;
-border-radius:6px;
-padding:0 10px;
-font-size:10px;
-outline:none;
-}
-
-.search:focus{
-border-color:#2563eb;
-}
-
-.filter{
-height:30px;
-border:1px solid #dfe3e8;
-border-radius:6px;
-padding:0 7px;
-font-size:10px;
-outline:none;
-background:white;
 }
 
 /* TABLE */
@@ -234,7 +205,7 @@ overflow-x:auto;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:850px;
+min-width:520px;
 }
 
 th{
@@ -247,7 +218,7 @@ border-bottom:1px solid #edf0f4;
 }
 
 td{
-padding:11px 14px;
+padding:12px 14px;
 font-size:10px;
 border-bottom:1px solid #f0f2f5;
 }
@@ -256,13 +227,8 @@ tr:last-child td{
 border-bottom:0;
 }
 
-tr:hover td{
-background:#fafbfc;
-}
-
-.company-name{
+.company{
 font-weight:600;
-color:#111827;
 }
 
 .small{
@@ -304,94 +270,73 @@ background:#fee2e2;
 color:#dc2626;
 }
 
-.high{
-background:#fee2e2;
-color:#dc2626;
-}
-
-.medium{
-background:#fef3c7;
-color:#b45309;
-}
-
-.low{
-background:#dcfce7;
-color:#15803d;
-}
-
-/* ACTION BUTTONS */
-
-.action-btn{
-border:1px solid #e1e5eb;
-background:white;
-border-radius:5px;
-padding:5px 7px;
-font-size:9px;
-margin-right:3px;
-}
-
-.action-btn:hover{
-background:#f3f4f6;
-}
-
-/* DASHBOARD GRID */
-
-.dashboard-grid{
-display:grid;
-grid-template-columns:1.5fr 1fr;
-gap:14px;
-}
+/* PIPELINE */
 
 .pipeline{
 padding:15px;
 }
 
-.pipeline-row{
-margin-bottom:14px;
+.pipeline-item{
+margin-bottom:15px;
 }
 
-.pipeline-head{
+.pipeline-item:last-child{
+margin-bottom:0;
+}
+
+.pipeline-top{
 display:flex;
 justify-content:space-between;
 font-size:10px;
 margin-bottom:6px;
 }
 
-.progress{
+.bar{
 height:7px;
 background:#eef1f5;
 border-radius:10px;
 overflow:hidden;
 }
 
-.progress span{
+.bar span{
 display:block;
 height:100%;
 background:#2563eb;
 border-radius:10px;
+width:0%;
 }
 
-.activity{
-padding:11px 14px;
-border-bottom:1px solid #f0f2f5;
+/* QUICK ACTIONS */
+
+.quick-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+padding:14px;
+}
+
+.quick{
+border:1px solid #e5e7eb;
+background:white;
+border-radius:7px;
+padding:12px;
+text-align:left;
+cursor:pointer;
+}
+
+.quick:hover{
+background:#f8fafc;
+}
+
+.quick strong{
+display:block;
 font-size:10px;
+margin-bottom:4px;
 }
 
-.activity:last-child{
-border-bottom:0;
-}
-
-.activity-time{
+.quick span{
 font-size:8px;
-color:#9ca3af;
-margin-top:4px;
-}
-
-.empty{
-text-align:center;
-padding:35px 15px;
-color:#9ca3af;
-font-size:11px;
+color:#8b95a5;
 }
 
 /* MODAL */
@@ -401,10 +346,10 @@ display:none;
 position:fixed;
 inset:0;
 background:rgba(15,23,42,.55);
-z-index:100;
 align-items:center;
 justify-content:center;
 padding:15px;
+z-index:100;
 }
 
 .modal.show{
@@ -412,11 +357,9 @@ display:flex;
 }
 
 .modal-box{
-background:white;
 width:100%;
-max-width:560px;
-max-height:92vh;
-overflow-y:auto;
+max-width:500px;
+background:white;
 border-radius:10px;
 padding:20px;
 }
@@ -425,7 +368,7 @@ padding:20px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-margin-bottom:18px;
+margin-bottom:17px;
 }
 
 .modal-head h2{
@@ -437,58 +380,56 @@ border:0;
 background:none;
 font-size:22px;
 color:#6b7280;
+cursor:pointer;
 }
 
 .form-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:12px;
+gap:11px;
 }
 
-.form-group{
-margin-bottom:4px;
-}
-
-.form-group.full{
+.field.full{
 grid-column:1/-1;
 }
 
-.form-group label{
+.field label{
 display:block;
 font-size:9px;
 font-weight:600;
-color:#374151;
 margin-bottom:5px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
+.field input,
+.field select,
+.field textarea{
 width:100%;
 border:1px solid #dfe3e8;
 border-radius:6px;
 padding:9px;
 font-size:10px;
 outline:none;
-background:white;
 }
 
-.form-group textarea{
-height:70px;
-resize:vertical;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-border-color:#2563eb;
+.field textarea{
+height:65px;
+resize:none;
 }
 
 .modal-actions{
 display:flex;
 justify-content:flex-end;
 gap:7px;
-margin-top:18px;
+margin-top:17px;
+}
+
+/* EMPTY */
+
+.empty{
+text-align:center;
+padding:28px;
+color:#9ca3af;
+font-size:10px;
 }
 
 /* TOAST */
@@ -499,12 +440,11 @@ right:20px;
 bottom:20px;
 background:#111827;
 color:white;
-padding:11px 15px;
+padding:10px 14px;
 border-radius:7px;
 font-size:10px;
 opacity:0;
 transform:translateY(10px);
-pointer-events:none;
 transition:.25s;
 z-index:200;
 }
@@ -514,7 +454,7 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
 @media(max-width:850px){
 
@@ -522,7 +462,7 @@ transform:translateY(0);
 grid-template-columns:repeat(2,1fr);
 }
 
-.dashboard-grid{
+.grid{
 grid-template-columns:1fr;
 }
 
@@ -544,8 +484,8 @@ align-items:flex-start;
 gap:10px;
 }
 
-.title{
-font-size:19px;
+.header-buttons{
+flex-direction:column;
 }
 
 .stats{
@@ -560,37 +500,15 @@ padding:12px;
 font-size:18px;
 }
 
-.panel-header{
-align-items:flex-start;
-flex-direction:column;
-}
-
-.panel-actions{
-width:100%;
-}
-
-.search{
-width:100%;
-}
-
-.filter{
-flex:1;
-}
-
 .form-grid{
 grid-template-columns:1fr;
 }
 
-.form-group.full{
+.field.full{
 grid-column:auto;
 }
 
-.header-actions{
-flex-direction:column;
 }
-
-}
-
 </style>
 </head>
 
@@ -608,27 +526,27 @@ flex-direction:column;
 <ul class="nav">
 
 <li>
-<button class="active" onclick="showSection('dashboard',this)">
+<a href="index.html" class="active">
 Dashboard
-</button>
+</a>
 </li>
 
 <li>
-<button onclick="showSection('leads',this)">
+<a href="leads.html">
 Leads
-</button>
+</a>
 </li>
 
 <li>
-<button onclick="showSection('companies',this)">
+<a href="companies.html">
 Companies
-</button>
+</a>
 </li>
 
 <li>
-<button onclick="showSection('activities',this)">
+<a href="activities.html">
 Activities
-</button>
+</a>
 </li>
 
 </ul>
@@ -640,26 +558,25 @@ Activities
 
 <main class="main">
 
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="section active">
-
 <div class="header">
 
 <div>
-<div class="title">Dashboard</div>
+<div class="title">
+Dashboard
+</div>
+
 <div class="subtitle">
 Track and manage your sales pipeline.
 </div>
 </div>
 
-<div class="header-actions">
+<div class="header-buttons">
 
-<button class="btn secondary" onclick="exportCSV()">
+<button class="btn secondary" onclick="exportData()">
 Export
 </button>
 
-<button class="btn primary" onclick="openLeadModal()">
+<button class="btn primary" onclick="openModal()">
 + Add Lead
 </button>
 
@@ -668,32 +585,39 @@ Export
 </div>
 
 
+<!-- STATISTICS -->
+
 <div class="stats">
 
 <div class="card">
 <div class="card-title">Total Leads</div>
-<div class="card-value" id="totalLeads">0</div>
+<div class="card-value" id="total">0</div>
 </div>
 
 <div class="card">
 <div class="card-title">New Leads</div>
-<div class="card-value" id="newLeads">0</div>
+<div class="card-value" id="new">0</div>
 </div>
 
 <div class="card">
 <div class="card-title">Qualified</div>
-<div class="card-value" id="qualifiedLeads">0</div>
+<div class="card-value" id="qualified">0</div>
 </div>
 
 <div class="card">
 <div class="card-title">Conversion Rate</div>
-<div class="card-value" id="conversionRate">0%</div>
+<div class="card-value" id="conversion">0%</div>
 </div>
 
 </div>
 
 
-<div class="dashboard-grid">
+<!-- MAIN GRID -->
+
+<div class="grid">
+
+
+<!-- RECENT LEADS -->
 
 <div class="panel">
 
@@ -703,9 +627,14 @@ Export
 Recent Leads
 </div>
 
-<button class="btn secondary" onclick="showSection('leads',document.querySelectorAll('.nav button')[1])">
+<a
+href="leads.html"
+class="btn secondary"
+style="text-decoration:none">
+
 View All
-</button>
+
+</a>
 
 </div>
 
@@ -724,7 +653,9 @@ View All
 
 </thead>
 
-<tbody id="recentTable"></tbody>
+<tbody id="recentLeads">
+
+</tbody>
 
 </table>
 
@@ -732,6 +663,10 @@ View All
 
 </div>
 
+
+<!-- PIPELINE -->
+
+<div>
 
 <div class="panel">
 
@@ -745,337 +680,150 @@ Pipeline
 
 <div class="pipeline">
 
-<div class="pipeline-row">
+<div class="pipeline-item">
 
-<div class="pipeline-head">
+<div class="pipeline-top">
 <span>New</span>
-<strong id="pipeNew">0</strong>
+<strong id="pNew">0</strong>
 </div>
 
-<div class="progress">
-<span id="barNew" style="width:0%"></span>
+<div class="bar">
+<span id="bNew"></span>
 </div>
 
 </div>
 
 
-<div class="pipeline-row">
+<div class="pipeline-item">
 
-<div class="pipeline-head">
+<div class="pipeline-top">
 <span>Contacted</span>
-<strong id="pipeContacted">0</strong>
+<strong id="pContacted">0</strong>
 </div>
 
-<div class="progress">
-<span id="barContacted" style="width:0%"></span>
+<div class="bar">
+<span id="bContacted"></span>
 </div>
 
 </div>
 
 
-<div class="pipeline-row">
+<div class="pipeline-item">
 
-<div class="pipeline-head">
+<div class="pipeline-top">
 <span>Qualified</span>
-<strong id="pipeQualified">0</strong>
+<strong id="pQualified">0</strong>
 </div>
 
-<div class="progress">
-<span id="barQualified" style="width:0%"></span>
+<div class="bar">
+<span id="bQualified"></span>
 </div>
 
 </div>
 
 
-<div class="pipeline-row">
+<div class="pipeline-item">
 
-<div class="pipeline-head">
+<div class="pipeline-top">
 <span>Converted</span>
-<strong id="pipeConverted">0</strong>
+<strong id="pConverted">0</strong>
 </div>
 
-<div class="progress">
-<span id="barConverted" style="width:0%"></span>
-</div>
-
-</div>
-
+<div class="bar">
+<span id="bConverted"></span>
 </div>
 
 </div>
 
 </div>
 
-</section>
-
-
-<!-- LEADS -->
-
-<section id="leads" class="section">
-
-<div class="header">
-
-<div>
-
-<div class="title">
-Leads
-</div>
-
-<div class="subtitle">
-Manage your prospects and follow-ups.
-</div>
-
-</div>
-
-<button class="btn primary" onclick="openLeadModal()">
-+ Add Lead
-</button>
-
 </div>
 
 
-<div class="stats">
-
-<div class="card">
-<div class="card-title">Total Leads</div>
-<div class="card-value" id="leadTotal">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">New</div>
-<div class="card-value" id="leadNew">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Qualified</div>
-<div class="card-value" id="leadQualified">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Converted</div>
-<div class="card-value" id="leadConverted">0</div>
-</div>
-
-</div>
-
+<!-- QUICK ACTIONS -->
 
 <div class="panel">
 
 <div class="panel-header">
 
 <div class="panel-title">
-All Leads
-</div>
-
-<div class="panel-actions">
-
-<input
-class="search"
-id="leadSearch"
-placeholder="Search leads..."
-oninput="renderLeads()"
->
-
-<select
-class="filter"
-id="statusFilter"
-onchange="renderLeads()">
-
-<option value="">All Status</option>
-<option>New</option>
-<option>Contacted</option>
-<option>Qualified</option>
-<option>Converted</option>
-<option>Lost</option>
-
-</select>
-
+Quick Actions
 </div>
 
 </div>
 
+<div class="quick-actions">
 
-<div class="table-wrap">
+<button class="quick" onclick="openModal()">
 
-<table>
+<strong>Add Lead</strong>
 
-<thead>
+<span>Create a new prospect</span>
 
-<tr>
-<th>COMPANY</th>
-<th>CONTACT</th>
-<th>SOURCE</th>
-<th>PRIORITY</th>
-<th>STATUS</th>
-<th>FOLLOW-UP</th>
-<th>ACTIONS</th>
-</tr>
-
-</thead>
-
-<tbody id="leadTable"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- COMPANIES -->
-
-<section id="companies" class="section">
-
-<div class="header">
-
-<div>
-
-<div class="title">
-Companies
-</div>
-
-<div class="subtitle">
-Companies connected to your leads.
-</div>
-
-</div>
-
-<button class="btn primary" onclick="openLeadModal()">
-+ Add Company
 </button>
 
-</div>
+
+<a
+href="leads.html"
+class="quick"
+style="text-decoration:none;color:#111827">
+
+<strong>Manage Leads</strong>
+
+<span>View your lead pipeline</span>
+
+</a>
 
 
-<div class="stats">
+<a
+href="companies.html"
+class="quick"
+style="text-decoration:none;color:#111827">
 
-<div class="card">
-<div class="card-title">Companies</div>
-<div class="card-value" id="companyCount">0</div>
-</div>
+<strong>Companies</strong>
 
-<div class="card">
-<div class="card-title">Active Leads</div>
-<div class="card-value" id="activeCompanyLeads">0</div>
-</div>
+<span>View company records</span>
 
-<div class="card">
-<div class="card-title">Qualified</div>
-<div class="card-value" id="companyQualified">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Converted</div>
-<div class="card-value" id="companyConverted">0</div>
-</div>
-
-</div>
+</a>
 
 
-<div class="panel">
+<a
+href="activities.html"
+class="quick"
+style="text-decoration:none;color:#111827">
 
-<div class="panel-header">
+<strong>Activities</strong>
 
-<div class="panel-title">
-Company List
-</div>
+<span>Track recent activity</span>
 
-<input
-class="search"
-id="companySearch"
-placeholder="Search companies..."
-oninput="renderCompanies()"
->
-
-</div>
-
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>COMPANY</th>
-<th>CONTACT</th>
-<th>EMAIL</th>
-<th>PHONE</th>
-<th>STATUS</th>
-</tr>
-
-</thead>
-
-<tbody id="companyTable"></tbody>
-
-</table>
+</a>
 
 </div>
 
 </div>
 
-</section>
-
-
-<!-- ACTIVITIES -->
-
-<section id="activities" class="section">
-
-<div class="header">
-
-<div>
-
-<div class="title">
-Activities
-</div>
-
-<div class="subtitle">
-Track your latest CRM activity.
 </div>
 
 </div>
-
-<button class="btn primary" onclick="openLeadModal()">
-+ Add Activity
-</button>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-header">
-
-<div class="panel-title">
-Activity Timeline
-</div>
-
-</div>
-
-<div id="activityList"></div>
-
-</div>
-
-</section>
 
 </main>
 
 
-<!-- ADD / EDIT LEAD MODAL -->
+<!-- ADD LEAD MODAL -->
 
-<div class="modal" id="leadModal">
+<div class="modal" id="modal">
 
 <div class="modal-box">
 
 <div class="modal-head">
 
-<h2 id="modalTitle">
-Add Lead
+<h2>
+Add New Lead
 </h2>
 
-<button class="close" onclick="closeLeadModal()">
+<button
+class="close"
+onclick="closeModal()">
 ×
 </button>
 
@@ -1084,93 +832,56 @@ Add Lead
 
 <div class="form-grid">
 
-<div class="form-group">
+<div class="field">
 
-<label>Company Name</label>
+<label>Company</label>
 
 <input
-id="companyInput"
-placeholder="Example: TechNova"
->
+id="company"
+placeholder="Company name">
 
 </div>
 
 
-<div class="form-group">
+<div class="field">
 
-<label>Contact Name</label>
+<label>Contact</label>
 
 <input
-id="contactInput"
-placeholder="Example: Rahul Sharma"
->
+id="contact"
+placeholder="Contact name">
 
 </div>
 
 
-<div class="form-group">
+<div class="field">
 
 <label>Email</label>
 
 <input
-id="emailInput"
+id="email"
 type="email"
-placeholder="contact@example.com"
->
+placeholder="Email address">
 
 </div>
 
 
-<div class="form-group">
+<div class="field">
 
 <label>Phone</label>
 
 <input
-id="phoneInput"
-placeholder="+91 XXXXX XXXXX"
->
+id="phone"
+placeholder="Phone number">
 
 </div>
 
 
-<div class="form-group">
-
-<label>Lead Source</label>
-
-<select id="sourceInput">
-
-<option>Website</option>
-<option>LinkedIn</option>
-<option>Referral</option>
-<option>Cold Call</option>
-<option>Email</option>
-<option>Other</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Priority</label>
-
-<select id="priorityInput">
-
-<option>High</option>
-<option selected>Medium</option>
-<option>Low</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
+<div class="field">
 
 <label>Status</label>
 
-<select id="statusInput">
+<select id="status">
 
 <option>New</option>
 <option>Contacted</option>
@@ -1183,26 +894,24 @@ placeholder="+91 XXXXX XXXXX"
 </div>
 
 
-<div class="form-group">
+<div class="field">
 
-<label>Follow-up Date</label>
+<label>Follow-up</label>
 
 <input
-id="followupInput"
-type="date"
->
+id="followup"
+type="date">
 
 </div>
 
 
-<div class="form-group full">
+<div class="field full">
 
 <label>Notes</label>
 
 <textarea
-id="notesInput"
-placeholder="Add notes about this lead..."
-></textarea>
+id="notes"
+placeholder="Add notes..."></textarea>
 
 </div>
 
@@ -1213,7 +922,7 @@ placeholder="Add notes about this lead..."
 
 <button
 class="btn secondary"
-onclick="closeLeadModal()">
+onclick="closeModal()">
 
 Cancel
 
@@ -1234,32 +943,20 @@ Save Lead
 </div>
 
 
-<!-- TOAST -->
-
-<div class="toast" id="toast">
-Saved successfully
-</div>
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* STORAGE */
+const KEY="clientflow_leads";
 
-const STORAGE_KEY="clientflow_leads";
-
-const ACTIVITY_KEY="clientflow_activities";
-
-let editingId=null;
-
-
-/* GET LEADS */
 
 function getLeads(){
 
 try{
 
 return JSON.parse(
-localStorage.getItem(STORAGE_KEY)
+localStorage.getItem(KEY)
 )||[];
 
 }catch(e){
@@ -1271,367 +968,253 @@ return[];
 }
 
 
-/* SAVE LEADS */
-
-function saveLeads(leads){
+function saveLeads(data){
 
 localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify(leads)
+KEY,
+JSON.stringify(data)
 );
 
 }
 
 
-/* GET ACTIVITIES */
+function openModal(){
 
-function getActivities(){
-
-try{
-
-return JSON.parse(
-localStorage.getItem(ACTIVITY_KEY)
-)||[];
-
-}catch(e){
-
-return[];
-
-}
-
-}
-
-
-/* SAVE ACTIVITY */
-
-function addActivity(text){
-
-const activities=getActivities();
-
-activities.unshift({
-
-text:text,
-
-time:new Date().toLocaleString(
-"en-IN",
-{
-day:"2-digit",
-month:"short",
-hour:"2-digit",
-minute:"2-digit"
-}
-)
-
-});
-
-localStorage.setItem(
-ACTIVITY_KEY,
-JSON.stringify(activities.slice(0,30))
-);
-
-}
-
-
-/* NAVIGATION */
-
-function showSection(id,button){
-
-document.querySelectorAll(".section")
-.forEach(function(section){
-
-section.classList.remove("active");
-
-});
-
-document.getElementById(id)
-.classList.add("active");
-
-
-document.querySelectorAll(".nav button")
-.forEach(function(btn){
-
-btn.classList.remove("active");
-
-});
-
-if(button){
-
-button.classList.add("active");
-
-}
-
-updateAll();
-
-}
-
-
-/* MODAL */
-
-function openLeadModal(id=null){
-
-editingId=id;
-
-document.getElementById("leadModal")
+document.getElementById("modal")
 .classList.add("show");
 
-
-if(id){
-
-const lead=getLeads().find(
-function(item){
-return item.id===id;
-}
-);
-
-if(!lead)return;
-
-document.getElementById("modalTitle")
-.innerText="Edit Lead";
-
-document.getElementById("companyInput").value=
-lead.company||"";
-
-document.getElementById("contactInput").value=
-lead.contact||"";
-
-document.getElementById("emailInput").value=
-lead.email||"";
-
-document.getElementById("phoneInput").value=
-lead.phone||"";
-
-document.getElementById("sourceInput").value=
-lead.source||"Website";
-
-document.getElementById("priorityInput").value=
-lead.priority||"Medium";
-
-document.getElementById("statusInput").value=
-lead.status||"New";
-
-document.getElementById("followupInput").value=
-lead.followup||"";
-
-document.getElementById("notesInput").value=
-lead.notes||"";
-
-}else{
-
-document.getElementById("modalTitle")
-.innerText="Add Lead";
-
-clearForm();
-
-}
-
 }
 
 
-/* CLOSE MODAL */
+function closeModal(){
 
-function closeLeadModal(){
-
-document.getElementById("leadModal")
+document.getElementById("modal")
 .classList.remove("show");
 
-editingId=null;
-
-clearForm();
-
-}
-
-
-/* CLEAR FORM */
-
-function clearForm(){
-
-document.getElementById("companyInput").value="";
-
-document.getElementById("contactInput").value="";
-
-document.getElementById("emailInput").value="";
-
-document.getElementById("phoneInput").value="";
-
-document.getElementById("sourceInput").value="Website";
-
-document.getElementById("priorityInput").value="Medium";
-
-document.getElementById("statusInput").value="New";
-
-document.getElementById("followupInput").value="";
-
-document.getElementById("notesInput").value="";
+document.getElementById("company").value="";
+document.getElementById("contact").value="";
+document.getElementById("email").value="";
+document.getElementById("phone").value="";
+document.getElementById("followup").value="";
+document.getElementById("notes").value="";
 
 }
 
-
-/* SAVE LEAD */
 
 function saveLead(){
 
 const company=
-document.getElementById("companyInput")
+document.getElementById("company")
 .value.trim();
 
 const contact=
-document.getElementById("contactInput")
+document.getElementById("contact")
 .value.trim();
 
 if(!company||!contact){
 
-showToast("Company and contact are required");
+showToast(
+"Company and contact are required"
+);
 
 return;
 
 }
 
 
-const leads=getLeads();
+const lead={
 
-const data={
+id:Date.now(),
 
 company:company,
 
 contact:contact,
 
 email:
-document.getElementById("emailInput")
-.value.trim(),
+document.getElementById("email").value.trim(),
 
 phone:
-document.getElementById("phoneInput")
-.value.trim(),
-
-source:
-document.getElementById("sourceInput")
-.value,
-
-priority:
-document.getElementById("priorityInput")
-.value,
+document.getElementById("phone").value.trim(),
 
 status:
-document.getElementById("statusInput")
-.value,
+document.getElementById("status").value,
 
 followup:
-document.getElementById("followupInput")
-.value,
+document.getElementById("followup").value,
 
 notes:
-document.getElementById("notesInput")
-.value.trim()
+document.getElementById("notes").value.trim(),
+
+created:
+new Date().toISOString()
 
 };
 
-
-if(editingId){
-
-const index=leads.findIndex(
-function(lead){
-return lead.id===editingId;
-}
-);
-
-if(index!==-1){
-
-leads[index]={
-...leads[index],
-...data
-};
-
-addActivity(
-"Updated lead: "+company
-);
-
-showToast("Lead updated");
-
-}
-
-}else{
-
-data.id=Date.now();
-
-data.createdAt=new Date().toISOString();
-
-leads.unshift(data);
-
-addActivity(
-"Added new lead: "+company
-);
-
-showToast("Lead added");
-
-}
-
-
-saveLeads(leads);
-
-closeLeadModal();
-
-updateAll();
-
-}
-
-
-/* DELETE */
-
-function deleteLead(id){
 
 const leads=getLeads();
 
-const lead=leads.find(
-function(item){
-return item.id===id;
-}
-);
+leads.unshift(lead);
 
-if(!lead)return;
+saveLeads(leads);
 
-if(!confirm(
-"Delete "+lead.company+"?"
-))return;
+closeModal();
 
-const updated=leads.filter(
-function(item){
-return item.id!==id;
-}
-);
+updateDashboard();
 
-saveLeads(updated);
-
-addActivity(
-"Deleted lead: "+lead.company
-);
-
-showToast("Lead deleted");
-
-updateAll();
+showToast("Lead added successfully");
 
 }
 
 
-/* BADGE CLASS */
+function updateDashboard(){
 
-function statusClass(status){
+const leads=getLeads();
 
-return status
+const total=leads.length;
+
+const count=function(status){
+
+return leads.filter(function(lead){
+
+return lead.status===status;
+
+}).length;
+
+};
+
+
+const newCount=count("New");
+const contacted=count("Contacted");
+const qualified=count("Qualified");
+const converted=count("Converted");
+
+
+document.getElementById("total")
+.innerText=total;
+
+document.getElementById("new")
+.innerText=newCount;
+
+document.getElementById("qualified")
+.innerText=qualified;
+
+
+const rate=total?
+Math.round(converted/total*100):0;
+
+document.getElementById("conversion")
+.innerText=rate+"%";
+
+
+document.getElementById("pNew")
+.innerText=newCount;
+
+document.getElementById("pContacted")
+.innerText=contacted;
+
+document.getElementById("pQualified")
+.innerText=qualified;
+
+document.getElementById("pConverted")
+.innerText=converted;
+
+
+const max=Math.max(total,1);
+
+document.getElementById("bNew")
+.style.width=(newCount/max*100)+"%";
+
+document.getElementById("bContacted")
+.style.width=(contacted/max*100)+"%";
+
+document.getElementById("bQualified")
+.style.width=(qualified/max*100)+"%";
+
+document.getElementById("bConverted")
+.style.width=(converted/max*100)+"%";
+
+
+renderRecent(leads);
+
+}
+
+
+function renderRecent(leads){
+
+const table=
+document.getElementById("recentLeads");
+
+
+if(!leads.length){
+
+table.innerHTML=`
+
+<tr>
+<td colspan="4">
+<div class="empty">
+No leads yet. Click "+ Add Lead" to create one.
+</div>
+</td>
+</tr>
+
+`;
+
+return;
+
+}
+
+
+table.innerHTML="";
+
+
+leads.slice(0,7).forEach(function(lead){
+
+const row=document.createElement("tr");
+
+let statusClass=
+lead.status
 .toLowerCase()
-.replace(/\s/g,"");
+.replace(" ","");
+
+
+row.innerHTML=`
+
+<td>
+
+<div class="company">
+${safe(lead.company)}
+</div>
+
+<div class="small">
+${safe(lead.email||"")}
+</div>
+
+</td>
+
+<td>
+${safe(lead.contact)}
+</td>
+
+<td>
+
+<span class="badge ${statusClass}">
+${safe(lead.status)}
+</span>
+
+</td>
+
+<td>
+${formatDate(lead.followup)}
+</td>
+
+`;
+
+table.appendChild(row);
+
+});
 
 }
 
-
-function priorityClass(priority){
-
-return priority
-.toLowerCase();
-
-}
-
-
-/* DATE */
 
 function formatDate(date){
 
@@ -1641,31 +1224,126 @@ const parts=date.split("-");
 
 if(parts.length!==3)return date;
 
-return parts[2]+"/"+parts[1]+"/"+parts[0];
+return parts[2]+"/"+
+parts[1]+"/"+
+parts[0];
 
 }
 
 
-/* RENDER LEADS */
+function safe(value){
 
-function renderLeads(){
+return String(value||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function exportData(){
 
 const leads=getLeads();
 
-const search=
-(document.getElementById("leadSearch")||{})
-.value||"";
+if(!leads.length){
 
-const filter=
-(document.getElementById("statusFilter")||{})
-.value||"";
+showToast("No leads to export");
 
-const query=search.toLowerCase();
+return;
 
-const filtered=leads.filter(function(lead){
+}
 
-const matchesSearch=
 
-(lead.company||"")
-.toLowerCase()
-.include
+let csv=
+"Company,Contact,Email,Phone,Status,Follow-up,Notes\n";
+
+
+leads.forEach(function(lead){
+
+const row=[
+
+lead.company,
+lead.contact,
+lead.email,
+lead.phone,
+lead.status,
+lead.followup,
+lead.notes
+
+].map(function(value){
+
+return '"'+
+String(value||"")
+.replace(/"/g,'""')+
+'"';
+
+});
+
+csv+=row.join(",")+"\n";
+
+});
+
+
+const blob=new Blob(
+[csv],
+{type:"text/csv"}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const a=
+document.createElement("a");
+
+a.href=url;
+
+a.download=
+"clientflow-leads.csv";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+showToast("Lead data exported");
+
+}
+
+
+function showToast(message){
+
+const toast=
+document.getElementById("toast");
+
+toast.innerText=message;
+
+toast.classList.add("show");
+
+setTimeout(function(){
+
+toast.classList.remove("show");
+
+},2200);
+
+}
+
+
+document.getElementById("modal")
+.addEventListener("click",function(e){
+
+if(e.target===this){
+
+closeModal();
+
+}
+
+});
+
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
