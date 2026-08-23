@@ -2,487 +2,574 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
 <title>ClientFlow - Reports</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#f5f7fb;
-color:#111827;
+:root{
+--bg:#f5f7fb;
+--card:#fff;
+--soft:#f8fafc;
+--text:#111827;
+--muted:#6b7280;
+--border:#e5e7eb;
+--primary:#2563eb;
+--green:#16a34a;
+--red:#dc2626;
+--orange:#d97706;
+--sidebar:#111827;
+--side:#cbd5e1
 }
 
-.app{display:flex;min-height:100vh}
+body.dark{
+--bg:#0b1120;
+--card:#111827;
+--soft:#172033;
+--text:#f8fafc;
+--muted:#94a3b8;
+--border:#243044;
+--sidebar:#070d18
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* SIDEBAR */
 
 .sidebar{
-width:240px;
-background:#111827;
-color:white;
-padding:24px 16px;
 position:fixed;
-top:0;
-bottom:0;
-left:0;
+inset:0 auto 0 0;
+width:245px;
+background:var(--sidebar);
+color:#fff;
+z-index:50;
+display:flex;
+flex-direction:column;
+transition:.2s
 }
 
 .logo{
-font-size:23px;
-font-weight:700;
-padding:0 12px 28px;
+height:72px;
+padding:0 22px;
+display:flex;
+align-items:center;
+gap:11px;
+border-bottom:1px solid rgba(255,255,255,.08)
 }
 
-.logo span{color:#6366f1}
+.logoMark{
+width:36px;
+height:36px;
+border-radius:10px;
+background:#2563eb;
+display:grid;
+place-items:center;
+font-weight:bold
+}
 
-.menu{list-style:none}
-.menu li{margin-bottom:6px}
+.logo strong{font-size:19px}
 
-.menu a{
+.logo small{
+display:block;
+color:#94a3b8;
+font-size:9px;
+margin-top:2px
+}
+
+.nav{
+padding:17px 12px;
+overflow:auto;
+flex:1
+}
+
+.navTitle{
+font-size:10px;
+color:#64748b;
+font-weight:bold;
+padding:10px 12px 7px;
+text-transform:uppercase;
+letter-spacing:.08em
+}
+
+.nav a{
 display:flex;
 align-items:center;
 gap:12px;
-padding:12px;
-color:#cbd5e1;
-text-decoration:none;
-border-radius:8px;
+padding:11px 12px;
+border-radius:9px;
+color:var(--side);
 font-size:14px;
+margin:2px 0
 }
 
-.menu a:hover,
-.menu a.active{
-background:#1f2937;
-color:white;
+.nav a:hover{
+background:rgba(255,255,255,.07);
+color:#fff
+}
+
+.nav a.active{
+background:#2563eb;
+color:#fff
 }
 
 .icon{
 width:20px;
-text-align:center;
-}
-
-.main{
-margin-left:240px;
-width:calc(100% - 240px);
-}
-
-.topbar{
-height:70px;
-background:white;
-border-bottom:1px solid #e5e7eb;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 28px;
-}
-
-.page-title{
-font-size:20px;
-font-weight:700;
+text-align:center
 }
 
 .user{
+padding:14px;
+border-top:1px solid rgba(255,255,255,.08);
 display:flex;
 align-items:center;
-gap:10px;
+gap:10px
 }
 
 .avatar{
-width:36px;
-height:36px;
+width:34px;
+height:34px;
 border-radius:50%;
-background:#6366f1;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
+background:#2563eb;
+display:grid;
+place-items:center;
+font-size:11px;
+font-weight:bold
 }
 
-.content{padding:28px}
+.user small{
+display:block;
+color:#94a3b8;
+font-size:10px
+}
 
-.heading{
+/* MAIN */
+
+.main{
+margin-left:245px;
+min-height:100vh
+}
+
+.topbar{
+height:72px;
+background:var(--card);
+border-bottom:1px solid var(--border);
+display:flex;
+align-items:center;
+gap:14px;
+padding:0 24px;
+position:sticky;
+top:0;
+z-index:30
+}
+
+.menu{
+display:none;
+width:38px;
+height:38px;
+border:1px solid var(--border);
+background:var(--soft);
+color:var(--text);
+border-radius:9px
+}
+
+.search{
+position:relative;
+max-width:430px;
+flex:1
+}
+
+.search input{
+width:100%;
+height:40px;
+background:var(--soft);
+color:var(--text);
+border:1px solid var(--border);
+border-radius:9px;
+padding:0 12px 0 36px;
+outline:none
+}
+
+.searchIcon{
+position:absolute;
+left:13px;
+top:11px;
+color:var(--muted)
+}
+
+.topRight{
+margin-left:auto;
+display:flex;
+gap:8px
+}
+
+.iconBtn{
+width:38px;
+height:38px;
+border:1px solid var(--border);
+background:var(--soft);
+color:var(--text);
+border-radius:9px
+}
+
+.content{
+padding:24px;
+max-width:1600px;
+margin:auto
+}
+
+/* HEADER */
+
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:24px;
+gap:15px;
+margin-bottom:20px
 }
 
-.heading h1{
-font-size:26px;
-margin-bottom:5px;
+.header h1{
+font-size:25px
 }
 
-.heading p{
-color:#6b7280;
-font-size:14px;
+.header p{
+font-size:13px;
+color:var(--muted);
+margin-top:5px
 }
 
-.select{
-padding:10px 14px;
-border:1px solid #d1d5db;
+.actions{
+display:flex;
+gap:8px
+}
+
+.primary{
+height:40px;
+padding:0 15px;
+background:var(--primary);
+color:#fff;
+border:0;
+border-radius:9px;
+font-weight:bold
+}
+
+.secondary{
+height:40px;
+padding:0 14px;
+border:1px solid var(--border);
+background:var(--card);
+color:var(--text);
+border-radius:9px
+}
+
+/* FILTER */
+
+.filterBar{
+display:flex;
+gap:9px;
+margin-bottom:18px
+}
+
+.filter{
+height:38px;
+border:1px solid var(--border);
+background:var(--card);
+color:var(--text);
 border-radius:8px;
-background:white;
-outline:none;
+padding:0 10px
 }
+
+/* STATS */
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:16px;
-margin-bottom:24px;
+gap:15px;
+margin-bottom:18px
+}
+
+.stat{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+padding:17px
+}
+
+.statLabel{
+font-size:10px;
+font-weight:bold;
+color:var(--muted)
+}
+
+.statValue{
+font-size:23px;
+font-weight:bold;
+margin-top:9px
+}
+
+.statSmall{
+font-size:10px;
+margin-top:5px;
+color:var(--green)
+}
+
+/* REPORT GRID */
+
+.reportGrid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:15px;
+margin-bottom:15px
 }
 
 .card{
-background:white;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:20px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+padding:18px
 }
 
-.card-label{
-font-size:13px;
-color:#6b7280;
-margin-bottom:9px;
-}
-
-.card-value{
-font-size:25px;
-font-weight:700;
-}
-
-.card-small{
-font-size:12px;
-margin-top:6px;
-color:#16a34a;
-}
-
-.grid{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:18px;
-margin-bottom:18px;
-}
-
-.panel{
-background:white;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:20px;
-}
-
-.panel-title{
+.cardHead{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:20px;
+margin-bottom:18px
 }
 
-.panel-title h2{
-font-size:17px;
+.cardHead h2{
+font-size:14px
 }
 
-.panel-title span{
-font-size:12px;
-color:#6b7280;
+.cardHead span{
+font-size:10px;
+color:var(--muted)
 }
 
-/* BAR CHART */
+/* CHART */
 
 .chart{
-height:260px;
+height:240px;
 display:flex;
 align-items:flex-end;
-gap:14px;
-padding:15px 5px 30px;
-border-bottom:1px solid #e5e7eb;
+gap:12px;
+padding:10px 5px 0;
+border-bottom:1px solid var(--border)
 }
 
-.bar-wrap{
+.barWrap{
 height:100%;
 flex:1;
 display:flex;
-align-items:flex-end;
-justify-content:center;
-position:relative;
+flex-direction:column;
+justify-content:flex-end;
+align-items:center;
+gap:7px
 }
 
 .bar{
-width:70%;
-max-width:45px;
-background:#6366f1;
+width:min(42px,80%);
+min-height:4px;
+background:var(--primary);
 border-radius:6px 6px 0 0;
-min-height:8px;
-position:relative;
+transition:.2s
 }
 
-.bar:hover{background:#4f46e5}
-
-.bar-value{
-position:absolute;
-top:-22px;
-left:50%;
-transform:translateX(-50%);
-font-size:10px;
-color:#6b7280;
+.bar:hover{
+opacity:.8
 }
 
-.bar-label{
-position:absolute;
-bottom:-27px;
-font-size:11px;
-color:#6b7280;
+.barLabel{
+font-size:9px;
+color:var(--muted)
 }
 
-/* CONVERSION */
-
-.conversion{
-display:flex;
-align-items:center;
-justify-content:center;
-height:260px;
-}
-
-.circle{
-width:170px;
-height:170px;
-border-radius:50%;
-background:conic-gradient(
-#6366f1 0 68%,
-#e5e7eb 68% 100%
-);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.circle-inner{
-width:125px;
-height:125px;
-border-radius:50%;
-background:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-}
-
-.circle-inner strong{
-font-size:28px;
-}
-
-.circle-inner span{
-font-size:12px;
-color:#6b7280;
+.barValue{
+font-size:8px;
+color:var(--text)
 }
 
 /* PIPELINE */
 
-.pipeline-item{
-margin-bottom:18px;
+.pipelineRow{
+margin-bottom:14px
 }
 
-.pipeline-head{
+.pipelineTop{
 display:flex;
 justify-content:space-between;
-font-size:13px;
-margin-bottom:7px;
+font-size:10px;
+margin-bottom:6px
+}
+
+.pipelineTop span:last-child{
+color:var(--muted)
 }
 
 .progress{
 height:8px;
-background:#eef2f7;
-border-radius:20px;
+background:var(--soft);
+border-radius:10px;
 overflow:hidden;
+border:1px solid var(--border)
 }
 
-.progress span{
+.progress i{
 display:block;
 height:100%;
-border-radius:20px;
-background:#6366f1;
+background:var(--primary);
+border-radius:10px
 }
 
-/* TOP COMPANIES */
+/* TABLE */
 
-.company-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:13px 0;
-border-bottom:1px solid #f1f5f9;
+.tableWrap{
+overflow:auto
 }
 
-.company-row:last-child{
-border-bottom:none;
+table{
+width:100%;
+border-collapse:collapse;
+font-size:11px
 }
 
-.company-info{
-display:flex;
-align-items:center;
-gap:11px;
+th{
+text-align:left;
+font-size:9px;
+color:var(--muted);
+padding:11px;
+border-bottom:1px solid var(--border)
 }
 
-.company-icon{
-width:36px;
-height:36px;
-border-radius:8px;
-background:#eef2ff;
-color:#4f46e5;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
+td{
+padding:12px 11px;
+border-bottom:1px solid var(--border)
 }
 
-.company-name{
-font-size:13px;
-font-weight:600;
+td:last-child,
+th:last-child{
+text-align:right
 }
 
-.company-deals{
-font-size:11px;
-color:#9ca3af;
-margin-top:3px;
+.badge{
+font-size:9px;
+padding:4px 7px;
+border-radius:20px
 }
 
-.company-value{
-font-size:13px;
-font-weight:600;
+.badge.green{
+background:#dcfce7;
+color:#166534
 }
 
-/* ACTIVITY */
-
-.activity{
-display:flex;
-gap:12px;
-padding:13px 0;
-border-bottom:1px solid #f1f5f9;
+.badge.blue{
+background:#dbeafe;
+color:#1d4ed8
 }
 
-.activity:last-child{
-border-bottom:none;
+.badge.orange{
+background:#fef3c7;
+color:#b45309
 }
 
-.activity-dot{
-width:9px;
-height:9px;
-border-radius:50%;
-background:#6366f1;
-margin-top:5px;
-flex-shrink:0;
+.badge.red{
+background:#fee2e2;
+color:#b91c1c
 }
-
-.activity-text{
-font-size:13px;
-line-height:1.4;
-}
-
-.activity-time{
-font-size:11px;
-color:#9ca3af;
-margin-top:4px;
-}
-
-/* BUTTON */
-
-.btn{
-border:none;
-background:#6366f1;
-color:white;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-font-size:13px;
-font-weight:600;
-}
-
-.btn:hover{background:#4f46e5}
 
 /* RESPONSIVE */
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
 .stats{
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(2,1fr)
 }
 
-.grid{
-grid-template-columns:1fr;
+.reportGrid{
+grid-template-columns:1fr
 }
 
 }
 
-@media(max-width:900px){
+@media(max-width:760px){
 
 .sidebar{
-width:70px;
-padding:20px 8px;
+transform:translateX(-100%);
+width:250px
 }
 
-.logo{
-font-size:0;
-text-align:center;
-padding:0 0 25px;
+.sidebar.open{
+transform:translateX(0)
 }
-
-.logo span{font-size:22px}
-
-.menu a{
-justify-content:center;
-padding:12px 5px;
-}
-
-.menu .label{display:none}
 
 .main{
-margin-left:70px;
-width:calc(100% - 70px);
+margin-left:0
 }
 
+.menu{
+display:block
 }
-
-@media(max-width:600px){
 
 .topbar{
-padding:0 16px;
+height:62px;
+padding:0 13px
 }
 
 .content{
-padding:18px 14px;
+padding:17px 13px
 }
 
-.heading{
-gap:12px;
-align-items:flex-start;
+.header{
+align-items:flex-start
 }
 
-.heading h1{
-font-size:22px;
+.header h1{
+font-size:21px
+}
+
+.actions .secondary{
+display:none
 }
 
 .stats{
-grid-template-columns:1fr 1fr;
-gap:10px;
+gap:10px
 }
 
-.card{
-padding:15px;
+.stat{
+padding:13px
 }
 
-.card-value{
-font-size:20px;
+.statValue{
+font-size:19px
 }
 
 .chart{
-gap:7px;
+height:200px;
+gap:6px
 }
 
-.bar{
-width:75%;
 }
 
-.panel{
-padding:16px;
+@media(max-width:430px){
+
+.stats{
+grid-template-columns:1fr 1fr
+}
+
+.filterBar{
+flex-wrap:wrap
+}
+
+.filter{
+flex:1
 }
 
 }
@@ -491,557 +578,280 @@ padding:16px;
 
 <body>
 
-<div class="app">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
 <div class="logo">
-Client<span>Flow</span>
+<div class="logoMark">CF</div>
+<div>
+<strong>ClientFlow</strong>
+<small>CRM PLATFORM</small>
+</div>
 </div>
 
-<ul class="menu">
+<nav class="nav">
 
-<li>
+<div class="navTitle">Workspace</div>
+
 <a href="index.html">
-<span class="icon">⌂</span>
-<span class="label">Dashboard</span>
+<span class="icon">⌂</span>Dashboard
 </a>
-</li>
 
-<li>
 <a href="leads.html">
-<span class="icon">◉</span>
-<span class="label">Leads</span>
+<span class="icon">♢</span>Leads
 </a>
-</li>
 
-<li>
-<a href="companies.html">
-<span class="icon">▣</span>
-<span class="label">Companies</span>
-</a>
-</li>
-
-<li>
 <a href="contacts.html">
-<span class="icon">♙</span>
-<span class="label">Contacts</span>
+<span class="icon">◉</span>Contacts
 </a>
-</li>
 
-<li>
+<a href="companies.html">
+<span class="icon">▣</span>Companies
+</a>
+
 <a href="deals.html">
-<span class="icon">◆</span>
-<span class="label">Deals</span>
+<span class="icon">◇</span>Deals
 </a>
-</li>
 
-<li>
 <a href="tasks.html">
-<span class="icon">✓</span>
-<span class="label">Tasks</span>
+<span class="icon">✓</span>Tasks
 </a>
-</li>
 
-<li>
+<div class="navTitle">Insights</div>
+
 <a href="reports.html" class="active">
-<span class="icon">▥</span>
-<span class="label">Reports</span>
+<span class="icon">▥</span>Reports
 </a>
-</li>
 
-<li>
-<a href="#">
-<span class="icon">⚙</span>
-<span class="label">Settings</span>
+<a href="settings.html">
+<span class="icon">⚙</span>Settings
 </a>
-</li>
 
-</ul>
+</nav>
+
+<div class="user">
+<div class="avatar">NA</div>
+<div>
+<strong style="font-size:12px">Admin User</strong>
+<small>Workspace Admin</small>
+</div>
+</div>
 
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
 <header class="topbar">
 
-<div class="page-title">
-Reports
-</div>
-
-<div class="user">
-<span>Admin</span>
-<div class="avatar">A</div>
-</div>
-
-</header>
-
-
-<section class="content">
-
-<!-- HEADING -->
-
-<div class="heading">
-
-<div>
-<h1>Reports</h1>
-<p>Track your sales performance and business growth.</p>
-</div>
-
-<select class="select" id="period" onchange="changePeriod()">
-<option value="month">This Month</option>
-<option value="quarter">This Quarter</option>
-<option value="year">This Year</option>
-</select>
-
-</div>
-
-
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="card">
-
-<div class="card-label">
-Total Revenue
-</div>
-
-<div class="card-value" id="revenue">
-₹18.4L
-</div>
-
-<div class="card-small">
-↑ 18.6% from last month
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-label">
-Pipeline Value
-</div>
-
-<div class="card-value">
-₹42.5L
-</div>
-
-<div class="card-small">
-↑ 12.4% growth
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-label">
-Deals Won
-</div>
-
-<div class="card-value">
-24
-</div>
-
-<div class="card-small">
-↑ 9.2% from last month
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="card-label">
-Conversion Rate
-</div>
-
-<div class="card-value">
-18.4%
-</div>
-
-<div class="card-small">
-↑ 2.8% improvement
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CHART + CONVERSION -->
-
-<div class="grid">
-
-<div class="panel">
-
-<div class="panel-title">
-
-<h2>Revenue Overview</h2>
-
-<span>Monthly revenue</span>
-
-</div>
-
-
-<div class="chart">
-
-<div class="bar-wrap">
-<div class="bar" style="height:35%">
-<span class="bar-value">₹4L</span>
-<span class="bar-label">Mar</span>
-</div>
-</div>
-
-<div class="bar-wrap">
-<div class="bar" style="height:48%">
-<span class="bar-value">₹6L</span>
-<span class="bar-label">Apr</span>
-</div>
-</div>
-
-<div class="bar-wrap">
-<div class="bar" style="height:42%">
-<span class="bar-value">₹5L</span>
-<span class="bar-label">May</span>
-</div>
-</div>
-
-<div class="bar-wrap">
-<div class="bar" style="height:61%">
-<span class="bar-value">₹8L</span>
-<span class="bar-label">Jun</span>
-</div>
-</div>
-
-<div class="bar-wrap">
-<div class="bar" style="height:76%">
-<span class="bar-value">₹10L</span>
-<span class="bar-label">Jul</span>
-</div>
-</div>
-
-<div class="bar-wrap">
-<div class="bar" style="height:92%">
-<span class="bar-value">₹12L</span>
-<span class="bar-label">Aug</span>
-</div>
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-title">
-
-<h2>Lead Conversion</h2>
-
-<span>Current rate</span>
-
-</div>
-
-<div class="conversion">
-
-<div class="circle">
-
-<div class="circle-inner">
-
-<strong>18.4%</strong>
-
-<span>Conversion</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<button class="menu" id="menu">☰</button>
 
-</div>
-
-
-<!-- PIPELINE + COMPANIES -->
-
-<div class="grid">
-
-<div class="panel">
-
-<div class="panel-title">
-
-<h2>Sales Pipeline</h2>
-
-<span>Current deals</span>
-
-</div>
-
-
-<div class="pipeline-item">
-
-<div class="pipeline-head">
-<span>New</span>
-<strong>₹7.2L</strong>
-</div>
-
-<div class="progress">
-<span style="width:35%"></span>
-</div>
-
-</div>
-
-
-<div class="pipeline-item">
-
-<div class="pipeline-head">
-<span>Qualified</span>
-<strong>₹9.8L</strong>
-</div>
-
-<div class="progress">
-<span style="width:48%"></span>
-</div>
-
-</div>
-
-
-<div class="pipeline-item">
-
-<div class="pipeline-head">
-<span>Proposal</span>
-<strong>₹12.4L</strong>
-</div>
-
-<div class="progress">
-<span style="width:63%"></span>
-</div>
-
-</div>
-
-
-<div class="pipeline-item">
-
-<div class="pipeline-head">
-<span>Negotiation</span>
-<strong>₹13.1L</strong>
-</div>
-
-<div class="progress">
-<span style="width:78%"></span>
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-title">
-
-<h2>Top Companies</h2>
-
-<span>By value</span>
-
-</div>
-
-
-<div class="company-row">
-
-<div class="company-info">
-
-<div class="company-icon">T</div>
+<div class="search">
 
-<div>
-<div class="company-name">
-TechNova Solutions
-</div>
-<div class="company-deals">
-5 deals
-</div>
-</div>
-
-</div>
-
-<div class="company-value">
-₹12.5L
-</div>
-
-</div>
-
-
-<div class="company-row">
-
-<div class="company-info">
-
-<div class="company-icon">M</div>
-
-<div>
-<div class="company-name">
-MarketPro Agency
-</div>
-<div class="company-deals">
-4 deals
-</div>
-</div>
-
-</div>
-
-<div class="company-value">
-₹9.2L
-</div>
-
-</div>
-
-
-<div class="company-row">
-
-<div class="company-info">
-
-<div class="company-icon">F</div>
+<span class="searchIcon">⌕</span>
 
-<div>
-<div class="company-name">
-FinEdge Capital
-</div>
-<div class="company-deals">
-3 deals
-</div>
-</div>
-
-</div>
-
-<div class="company-value">
-₹7.8L
-</div>
-
-</div>
-
-
-<div class="company-row">
-
-<div class="company-info">
-
-<div class="company-icon">C</div>
-
-<div>
-<div class="company-name">
-CloudCore
-</div>
-<div class="company-deals">
-3 deals
-</div>
-</div>
-
-</div>
-
-<div class="company-value">
-₹6.4L
-</div>
+<input
+id="globalSearch"
+placeholder="Search reports..."
+>
 
 </div>
-
-</div>
-
-</div>
-
-
-<!-- ACTIVITY -->
-
-<div class="panel">
 
-<div class="panel-title">
+<div class="topRight">
 
-<h2>Recent Activity</h2>
+<button class="iconBtn" id="theme">☾</button>
 
-<button class="btn" onclick="alert('Full activity report coming soon.')">
-View All
+<button class="iconBtn" id="refresh">
+↻
 </button>
 
 </div>
 
+</header>
 
-<div class="activity">
+<section class="content">
 
-<div class="activity-dot"></div>
-
-<div>
-
-<div class="activity-text">
-<strong>TechNova Solutions</strong> deal moved to Negotiation.
-</div>
-
-<div class="activity-time">
-Today, 4:20 PM
-</div>
-
-</div>
-
-</div>
-
-
-<div class="activity">
-
-<div class="activity-dot"></div>
+<div class="header">
 
 <div>
+<h1>Reports & Analytics</h1>
 
-<div class="activity-text">
-Deal worth <strong>₹9L</strong> was marked as Won.
-</div>
-
-<div class="activity-time">
-Yesterday, 3:10 PM
-</div>
+<p>
+Understand pipeline performance, revenue and team activity.
+</p>
 
 </div>
 
-</div>
+<div class="actions">
 
+<button class="secondary" id="export">
+↓ Export
+</button>
 
-<div class="activity">
-
-<div class="activity-dot"></div>
-
-<div>
-
-<div class="activity-text">
-New lead added from <strong>MarketPro Agency</strong>.
-</div>
-
-<div class="activity-time">
-Yesterday, 11:45 AM
-</div>
+<button class="primary" id="refreshTop">
+↻ Refresh
+</button>
 
 </div>
 
 </div>
 
+<div class="filterBar">
 
-<div class="activity">
+<select class="filter" id="period">
 
-<div class="activity-dot"></div>
+<option value="all">
+All Time
+</option>
 
-<div>
+<option value="30">
+Last 30 Days
+</option>
 
-<div class="activity-text">
-Task completed for <strong>CloudCore</strong>.
+<option value="90">
+Last 90 Days
+</option>
+
+<option value="365">
+Last 12 Months
+</option>
+
+</select>
+
 </div>
 
-<div class="activity-time">
-20 Aug 2026, 5:30 PM
+<div class="stats">
+
+<div class="stat">
+
+<div class="statLabel">
+PIPELINE VALUE
+</div>
+
+<div class="statValue" id="pipeline">
+₹0
+</div>
+
+<div class="statSmall">
+Open opportunities
 </div>
 
 </div>
+
+<div class="stat">
+
+<div class="statLabel">
+WON REVENUE
+</div>
+
+<div class="statValue" id="revenue">
+₹0
+</div>
+
+<div class="statSmall">
+Closed deals
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="statLabel">
+TOTAL DEALS
+</div>
+
+<div class="statValue" id="deals">
+0
+</div>
+
+<div class="statSmall">
+All opportunities
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="statLabel">
+TASK COMPLETION
+</div>
+
+<div class="statValue" id="completion">
+0%
+</div>
+
+<div class="statSmall">
+Completed tasks
+</div>
+
+</div>
+
+</div>
+
+<div class="reportGrid">
+
+<div class="card">
+
+<div class="cardHead">
+
+<h2>Pipeline Overview</h2>
+
+<span>Deal value by stage</span>
+
+</div>
+
+<div class="chart" id="chart"></div>
+
+</div>
+
+<div class="card">
+
+<div class="cardHead">
+
+<h2>Pipeline Breakdown</h2>
+
+<span>Current stages</span>
+
+</div>
+
+<div id="pipelineList"></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardHead">
+
+<h2>Recent Deals</h2>
+
+<span id="dealCount">
+0 deals
+</span>
+
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>DEAL</th>
+<th>COMPANY</th>
+<th>VALUE</th>
+<th>STAGE</th>
+<th>PROBABILITY</th>
+<th>STATUS</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dealTable"></tbody>
+
+</table>
 
 </div>
 
@@ -1050,32 +860,661 @@ Task completed for <strong>CloudCore</strong>.
 </section>
 
 </main>
+<script>
+"use strict";
+
+const Reports=(()=>{
+
+const DEAL_KEY="clientflow_deals_v1";
+const TASK_KEY="clientflow_tasks_v1";
+
+const demoDeals=[
+{
+id:1,
+name:"Enterprise CRM",
+company:"TechNova",
+value:125000,
+stage:"Proposal",
+probability:70,
+status:"Open"
+},
+{
+id:2,
+name:"Marketing Automation",
+company:"GrowthLabs",
+value:85000,
+stage:"Negotiation",
+probability:80,
+status:"Open"
+},
+{
+id:3,
+name:"CRM Implementation",
+company:"CloudBridge",
+value:65000,
+stage:"Won",
+probability:100,
+status:"Won"
+},
+{
+id:4,
+name:"Sales Platform",
+company:"DataSphere",
+value:95000,
+stage:"Qualified",
+probability:40,
+status:"Open"
+}
+];
+
+const stages=[
+"Lead",
+"Qualified",
+"Proposal",
+"Negotiation",
+"Won"
+];
+
+function money(n){
+
+n=Number(n)||0;
+
+if(n>=10000000)
+return "₹"+(n/10000000).toFixed(1)+"Cr";
+
+if(n>=100000)
+return "₹"+(n/100000).toFixed(1)+"L";
+
+if(n>=1000)
+return "₹"+(n/1000).toFixed(1)+"K";
+
+return "₹"+n.toLocaleString("en-IN");
+
+}
+
+function load(key,fallback){
+
+try{
+
+const data=localStorage.getItem(key);
+
+return data?
+JSON.parse(data):
+fallback;
+
+}catch(e){
+
+return fallback;
+
+}
+
+}
+
+function normalizeDeals(){
+
+const raw=load(
+DEAL_KEY,
+demoDeals
+);
+
+if(!Array.isArray(raw))
+return demoDeals;
+
+return raw.map((d,i)=>({
+
+id:d.id||Date.now()+i,
+
+name:
+d.name||
+d.title||
+"Untitled Deal",
+
+company:
+d.company||
+d.companyName||
+"Unknown Company",
+
+value:
+Number(
+d.value||
+d.amount||
+d.dealValue||
+0
+),
+
+stage:
+d.stage||
+d.status||
+"Lead",
+
+probability:
+Number(
+d.probability||
+0
+),
+
+status:
+d.status||
+"Open"
+
+}));
+
+}
+
+function normalizeTasks(){
+
+const raw=load(
+TASK_KEY,
+[]
+);
+
+return Array.isArray(raw)?
+raw:[];
+}
+
+function calculate(){
+
+const deals=normalizeDeals();
+const tasks=normalizeTasks();
+
+let pipeline=0;
+let revenue=0;
+
+deals.forEach(d=>{
+
+if(
+d.status!=="Won"&&
+d.stage!=="Won"
+){
+
+pipeline+=d.value;
+
+}
+
+if(
+d.status==="Won"||
+d.stage==="Won"
+){
+
+revenue+=d.value;
+
+}
+
+});
+
+const completed=
+tasks.filter(
+t=>t.status==="Completed"
+).length;
+
+const completion=
+tasks.length?
+Math.round(
+completed/tasks.length*100
+):0;
+
+return{
+deals,
+tasks,
+pipeline,
+revenue,
+completion
+};
+
+}
+
+function renderStats(data){
+
+document.getElementById("pipeline")
+.textContent=money(data.pipeline);
+
+document.getElementById("revenue")
+.textContent=money(data.revenue);
+
+document.getElementById("deals")
+.textContent=data.deals.length;
+
+document.getElementById("completion")
+.textContent=
+data.completion+"%";
+
+}
+
+function renderChart(deals){
+
+const values=stages.map(stage=>{
+
+return deals
+.filter(d=>d.stage===stage)
+.reduce(
+(sum,d)=>sum+d.value,
+0
+);
+
+});
+
+const max=
+Math.max(...values,1);
+
+document.getElementById("chart")
+.innerHTML=
+stages.map((stage,i)=>{
+
+const height=
+Math.max(
+4,
+(values[i]/max)*100
+);
+
+return`
+
+<div class="barWrap">
+
+<div class="barValue">
+${money(values[i])}
+</div>
+
+<div
+class="bar"
+style="height:${height}%"
+title="${stage}: ${money(values[i])}">
+</div>
+
+<div class="barLabel">
+${stage}
+</div>
 
 </div>
 
+`;
 
-<script>
-
-function changePeriod(){
-
-const period=document.getElementById("period").value;
-
-const revenue=document.getElementById("revenue");
-
-if(period==="month"){
-revenue.innerText="₹18.4L";
-}
-
-if(period==="quarter"){
-revenue.innerText="₹48.7L";
-}
-
-if(period==="year"){
-revenue.innerText="₹1.82Cr";
-}
+}).join("");
 
 }
 
+function renderPipeline(deals){
+
+const total=
+deals.reduce(
+(s,d)=>s+d.value,
+0
+)||1;
+
+document.getElementById("pipelineList")
+.innerHTML=
+stages.map(stage=>{
+
+const value=
+deals
+.filter(d=>d.stage===stage)
+.reduce(
+(s,d)=>s+d.value,
+0
+);
+
+const percent=
+Math.round(
+(value/total)*100
+);
+
+return`
+
+<div class="pipelineRow">
+
+<div class="pipelineTop">
+
+<span>${stage}</span>
+
+<span>
+${money(value)}
+</span>
+
+</div>
+
+<div class="progress">
+
+<i style="width:${percent}%"></i>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+function stageClass(stage){
+
+if(stage==="Won")
+return "green";
+
+if(stage==="Negotiation")
+return "orange";
+
+if(stage==="Proposal")
+return "blue";
+
+if(stage==="Lost")
+return "red";
+
+return "blue";
+
+}
+
+function renderTable(deals){
+
+const sorted=
+[...deals]
+.sort(
+(a,b)=>b.value-a.value
+);
+
+const rows=
+sorted.slice(0,10);
+
+document.getElementById("dealCount")
+.textContent=
+deals.length+" deals";
+
+if(!rows.length){
+
+document.getElementById("dealTable")
+.innerHTML=`
+
+<tr>
+
+<td colspan="6"
+style="text-align:center;color:var(--muted);padding:30px">
+
+No deals available
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+document.getElementById("dealTable")
+.innerHTML=
+rows.map(d=>{
+
+const won=
+d.status==="Won"||
+d.stage==="Won";
+
+return`
+
+<tr>
+
+<td>
+<strong>${escapeHTML(d.name)}</strong>
+</td>
+
+<td>
+${escapeHTML(d.company)}
+</td>
+
+<td>
+<strong>${money(d.value)}</strong>
+</td>
+
+<td>
+<span class="badge ${stageClass(d.stage)}">
+${escapeHTML(d.stage)}
+</span>
+</td>
+
+<td>
+${d.probability||0}%
+</td>
+
+<td>
+
+<span class="badge ${
+won?"green":
+d.status==="Lost"?"red":"blue"
+}">
+${won?"Won":d.status||"Open"}
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+function escapeHTML(value){
+
+return String(value??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+function render(){
+
+const data=calculate();
+
+renderStats(data);
+
+renderChart(data.deals);
+
+renderPipeline(data.deals);
+
+renderTable(data.deals);
+
+}
+
+function exportReport(){
+
+const data=calculate();
+
+const rows=[
+["ClientFlow Report",""],
+["Pipeline Value",data.pipeline],
+["Won Revenue",data.revenue],
+["Total Deals",data.deals.length],
+["Task Completion",data.completion+"%"],
+[],
+["Deal","Company","Value","Stage","Probability","Status"]
+];
+
+data.deals.forEach(d=>{
+
+rows.push([
+d.name,
+d.company,
+d.value,
+d.stage,
+d.probability+"%",
+d.status
+]);
+
+});
+
+const csv=
+rows.map(row=>
+row.map(value=>
+`"${String(value??"")
+.replaceAll('"','""')}"`
+).join(",")
+).join("\n");
+
+const blob=
+new Blob(
+[csv],
+{type:"text/csv;charset=utf-8"}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const link=
+document.createElement("a");
+
+link.href=url;
+
+link.download=
+"clientflow-report.csv";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+URL.revokeObjectURL(url);
+
+showToast("Report exported");
+
+}
+
+function showToast(message){
+
+let toast=
+document.getElementById("reportToast");
+
+if(!toast){
+
+toast=
+document.createElement("div");
+
+toast.id="reportToast";
+
+toast.style.cssText=
+`
+position:fixed;
+right:20px;
+bottom:20px;
+background:#111827;
+color:white;
+padding:11px 15px;
+border-radius:9px;
+font-size:12px;
+z-index:200;
+`;
+
+document.body.appendChild(toast);
+
+}
+
+toast.textContent=message;
+
+clearTimeout(window.reportToastTimer);
+
+window.reportToastTimer=
+setTimeout(()=>{
+toast.remove();
+},2200);
+
+}
+
+function setup(){
+
+document.getElementById("menu")
+.onclick=()=>{
+
+document.getElementById("sidebar")
+.classList.toggle("open");
+
+};
+
+if(
+localStorage.getItem(
+"clientflow_theme"
+)==="dark"
+){
+
+document.body.classList.add("dark");
+
+}
+
+document.getElementById("theme")
+.onclick=()=>{
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"clientflow_theme",
+
+document.body.classList
+.contains("dark")
+?"dark"
+:"light"
+);
+
+};
+
+document.getElementById("refresh")
+.onclick=()=>{
+
+render();
+
+showToast("Reports refreshed");
+
+};
+
+document.getElementById("refreshTop")
+.onclick=()=>{
+
+render();
+
+showToast("Reports refreshed");
+
+};
+
+document.getElementById("export")
+.onclick=exportReport;
+
+document.getElementById("period")
+.onchange=render;
+
+document.getElementById("globalSearch")
+.oninput=e=>{
+
+const query=
+e.target.value
+.toLowerCase()
+.trim();
+
+const rows=
+document.querySelectorAll(
+"#dealTable tr"
+);
+
+rows.forEach(row=>{
+
+row.style.display=
+row.textContent
+.toLowerCase()
+.includes(query)
+?""
+:"none";
+
+});
+
+};
+
+}
+
+setup();
+
+render();
+
+})();
 </script>
 
 </body>
