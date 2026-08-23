@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>ClientFlow - Tasks</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f5f7fb;--card:#fff;--soft:#f8fafc;
+--text:#111827;--muted:#6b7280;--border:#e5e7eb;
+--primary:#2563eb;--green:#16a34a;--red:#dc2626;
+--orange:#d97706;--sidebar:#111827;--side:#cbd5e1
+}
+body.dark{
+--bg:#0b1120;--card:#111827;--soft:#172033;
+--text:#f8fafc;--muted:#94a3b8;--border:#243044;
+--sidebar:#070d18
+}
+body{
+background:var(--bg);color:var(--text);
+font-family:Arial,Helvetica,sans-serif
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+.sidebar{
+position:fixed;inset:0 auto 0 0;width:245px;
+background:var(--sidebar);color:#fff;z-index:50;
+display:flex;flex-direction:column;transition:.2s
+}
+.logo{
+height:72px;padding:0 22px;display:flex;
+align-items:center;gap:11px;
+border-bottom:1px solid rgba(255,255,255,.08)
+}
+.logoMark{
+width:36px;height:36px;border-radius:10px;
+background:#2563eb;display:grid;place-items:center;
+font-weight:bold
+}
+.logo strong{font-size:19px}
+.logo small{
+display:block;color:#94a3b8;font-size:9px;margin-top:2px
+}
+.nav{padding:17px 12px;overflow:auto;flex:1}
+.navTitle{
+font-size:10px;color:#64748b;font-weight:bold;
+padding:10px 12px 7px;text-transform:uppercase;
+letter-spacing:.08em
+}
+.nav a{
+display:flex;align-items:center;gap:12px;
+padding:11px 12px;border-radius:9px;
+color:var(--side);font-size:14px;margin:2px 0
+}
+.nav a:hover{
+background:rgba(255,255,255,.07);color:#fff
+}
+.nav a.active{
+background:#2563eb;color:#fff
+}
+.icon{width:20px;text-align:center}
+.user{
+padding:14px;border-top:1px solid rgba(255,255,255,.08);
+display:flex;align-items:center;gap:10px
+}
+.avatar{
+width:34px;height:34px;border-radius:50%;
+background:#2563eb;display:grid;place-items:center;
+font-size:11px;font-weight:bold
+}
+.user small{
+display:block;color:#94a3b8;font-size:10px
+}
+
+.main{
+margin-left:245px;min-height:100vh
+}
+
+.topbar{
+height:72px;background:var(--card);
+border-bottom:1px solid var(--border);
+display:flex;align-items:center;gap:14px;
+padding:0 24px;position:sticky;top:0;z-index:30
+}
+.menu{
+display:none;width:38px;height:38px;
+border:1px solid var(--border);
+background:var(--soft);color:var(--text);
+border-radius:9px
+}
+.search{
+position:relative;max-width:430px;flex:1
+}
+.search input{
+width:100%;height:40px;background:var(--soft);
+color:var(--text);border:1px solid var(--border);
+border-radius:9px;padding:0 12px 0 36px;outline:none
+}
+.searchIcon{
+position:absolute;left:13px;top:11px;color:var(--muted)
+}
+.topRight{
+margin-left:auto;display:flex;gap:8px
+}
+.iconBtn{
+width:38px;height:38px;border:1px solid var(--border);
+background:var(--soft);color:var(--text);border-radius:9px
+}
+.primary{
+height:40px;padding:0 15px;background:var(--primary);
+color:#fff;border:0;border-radius:9px;font-weight:bold
+}
+.primary:hover{
+background:#1d4ed8
+}
+.content{
+padding:24px;max-width:1600px;margin:auto
+}
+
+.header{
+display:flex;justify-content:space-between;
+align-items:center;gap:15px;margin-bottom:20px
+}
+.header h1{font-size:25px}
+.header p{
+font-size:13px;color:var(--muted);margin-top:5px
+}
+.actions{
+display:flex;gap:8px
+}
+.secondary{
+height:40px;padding:0 14px;
+border:1px solid var(--border);
+background:var(--card);
+color:var(--text);border-radius:9px
+}
+
+.stats{
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:15px;margin-bottom:18px
+}
+.stat{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;padding:17px
+}
+.statLabel{
+font-size:10px;font-weight:bold;color:var(--muted)
+}
+.statValue{
+font-size:23px;font-weight:bold;margin-top:9px
+}
+.statSmall{
+font-size:10px;color:var(--green);margin-top:5px
+}
+
+.toolbar{
+display:flex;gap:9px;align-items:center;
+margin-bottom:16px
+}
+.filter{
+height:38px;border:1px solid var(--border);
+background:var(--card);color:var(--text);
+border-radius:8px;padding:0 10px
+}
+
+.taskGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px
+}
+.taskColumn{
+background:var(--soft);
+border:1px solid var(--border);
+border-radius:14px;
+min-height:480px;
+display:flex;
+flex-direction:column
+}
+.columnHead{
+padding:14px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+.columnTitle{
+display:flex;align-items:center;gap:8px;
+font-size:13px;font-weight:bold
+}
+.dot{
+width:8px;height:8px;border-radius:50%;
+background:#64748b
+}
+.dot.blue{background:#2563eb}
+.dot.green{background:#16a34a}
+.columnCount{
+font-size:10px;color:var(--muted);
+background:var(--card);
+border:1px solid var(--border);
+padding:4px 8px;border-radius:20px
+}
+.taskList{
+padding:10px;display:flex;
+flex-direction:column;gap:9px;flex:1
+}
+
+.task{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:11px;padding:13px;
+transition:.15s
+}
+.task:hover{
+border-color:#93c5fd;
+box-shadow:0 5px 18px rgba(15,23,42,.06)
+}
+.task.completed{opacity:.72}
+.taskTop{
+display:flex;justify-content:space-between;gap:10px
+}
+.taskName{
+font-size:13px;font-weight:bold;line-height:1.4
+}
+.task.completed .taskName{
+text-decoration:line-through
+}
+.priority{
+font-size:9px;font-weight:bold;
+padding:4px 7px;border-radius:20px;
+white-space:nowrap
+}
+.priority.High{
+color:#b91c1c;background:#fee2e2
+}
+.priority.Medium{
+color:#b45309;background:#fef3c7
+}
+.priority.Low{
+color:#166534;background:#dcfce7
+}
+.taskDesc{
+font-size:10px;color:var(--muted);
+line-height:1.5;margin-top:7px
+}
+.taskMeta{
+display:flex;justify-content:space-between;
+gap:8px;margin-top:12px;padding-top:9px;
+border-top:1px solid var(--border);
+font-size:9px;color:var(--muted)
+}
+.overdue{
+color:var(--red)!important;font-weight:bold
+}
+.taskActions{
+display:flex;gap:5px;margin-top:9px
+}
+.small{
+height:28px;padding:0 8px;
+border:1px solid var(--border);
+background:var(--soft);color:var(--text);
+border-radius:6px;font-size:9px
+}
+.small:hover{border-color:var(--primary)}
+.danger:hover{
+border-color:var(--red);color:var(--red)
+}
+.empty{
+padding:35px 15px;text-align:center;
+font-size:11px;color:var(--muted)
+}
+
+.overlay{
+display:none;position:fixed;inset:0;
+background:rgba(15,23,42,.5);z-index:100;
+align-items:center;justify-content:center;padding:15px
+}
+.overlay.show{display:flex}
+.modal{
+width:min(620px,100%);
+background:var(--card);
+border:1px solid var(--border);
+border-radius:15px
+}
+.modalHead{
+padding:17px 18px;
+border-bottom:1px solid var(--border);
+display:flex;justify-content:space-between
+}
+.modalHead h2{font-size:15px}
+.close{
+border:0;background:none;
+color:var(--muted);font-size:20px
+}
+.modalBody{padding:18px}
+.formGrid{
+display:grid;grid-template-columns:1fr 1fr;
+gap:12px
+}
+.full{grid-column:1/-1}
+.field label{
+display:block;font-size:10px;
+font-weight:bold;margin-bottom:6px
+}
+.field input,.field select,.field textarea{
+width:100%;background:var(--soft);
+color:var(--text);
+border:1px solid var(--border);
+border-radius:8px;padding:9px 10px;
+outline:none
+}
+.field input,.field select{height:40px}
+.field textarea{
+min-height:80px;resize:vertical
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+border-color:var(--primary)
+}
+.modalFoot{
+padding:14px 18px;
+border-top:1px solid var(--border);
+display:flex;justify-content:flex-end;gap:8px
+}
+
+.toast{
+position:fixed;right:20px;bottom:20px;
+background:#111827;color:#fff;
+padding:11px 15px;border-radius:9px;
+font-size:12px;z-index:200;
+opacity:0;transform:translateY(15px);
+transition:.2s
+}
+.toast.show{
+opacity:1;transform:none
+}
+
+@media(max-width:1050px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.taskGrid{grid-template-columns:1fr}
+.taskColumn{min-height:300px}
+}
+
+@media(max-width:760px){
+.sidebar{
+transform:translateX(-100%);width:250px
+}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0}
+.menu{display:block}
+.topbar{
+height:62px;padding:0 13px
+}
+.topRight .primary{display:none}
+.content{padding:17px 13px}
+.header{align-items:flex-start}
+.header h1{font-size:21px}
+.actions .secondary{display:none}
+.stats{gap:10px}
+.stat{padding:13px}
+.statValue{font-size:19px}
+}
+
+@media(max-width:430px){
+.formGrid{grid-template-columns:1fr}
+.full{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+<div class="logo">
+<div class="logoMark">CF</div>
+<div>
+<strong>ClientFlow</strong>
+<small>CRM PLATFORM</small>
+</div>
+</div>
+
+<nav class="nav">
+
+<div class="navTitle">Workspace</div>
+
+<a href="index.html">
+<span class="icon">⌂</span>Dashboard
+</a>
+
+<a href="leads.html">
+<span class="icon">♢</span>Leads
+</a>
+
+<a href="contacts.html">
+<span class="icon">◉</span>Contacts
+</a>
+
+<a href="companies.html">
+<span class="icon">▣</span>Companies
+</a>
+
+<a href="deals.html">
+<span class="icon">◇</span>Deals
+</a>
+
+<a href="tasks.html" class="active">
+<span class="icon">✓</span>Tasks
+</a>
+
+<div class="navTitle">Insights</div>
+
+<a href="reports.html">
+<span class="icon">▥</span>Reports
+</a>
+
+<a href="settings.html">
+<span class="icon">⚙</span>Settings
+</a>
+
+</nav>
+
+<div class="user">
+<div class="avatar">NA</div>
+<div>
+<strong style="font-size:12px">Admin User</strong>
+<small>Workspace Admin</small>
+</div>
+</div>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+<button class="menu" id="menu">☰</button>
+
+<div class="search">
+<span class="searchIcon">⌕</span>
+<input id="globalSearch" placeholder="Search tasks...">
+</div>
+
+<div class="topRight">
+<button class="iconBtn" id="theme">☾</button>
+<button class="iconBtn">♧</button>
+<button class="primary" id="topAdd">+ Add Task</button>
+</div>
+
+</header>
+
+<section class="content">
+
+<div class="header">
+
+<div>
+<h1>Tasks</h1>
+<p>Organize work, priorities and follow-ups in one place.</p>
+</div>
+
+<div class="actions">
+<button class="secondary" id="export">↓ Export</button>
+<button class="primary" id="add">+ Add Task</button>
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<div class="statLabel">TOTAL TASKS</div>
+<div class="statValue" id="total">0</div>
+<div class="statSmall">All tasks</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">TO DO</div>
+<div class="statValue" id="todo">0</div>
+<div class="statSmall">Waiting to start</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">IN PROGRESS</div>
+<div class="statValue" id="progress">0</div>
+<div class="statSmall">Currently active</div>
+</div>
+
+<div class="stat">
+<div class="statLabel">COMPLETED</div>
+<div class="statValue" id="completed">0</div>
+<div class="statSmall">Finished tasks</div>
+</div>
+
+</div>
+
+<div class="toolbar">
+
+<input
+class="filter"
+id="search"
+style="flex:1;min-width:180px"
+placeholder="Search task or description..."
+>
+
+<select class="filter" id="priorityFilter">
+<option value="all">All Priorities</option>
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+</select>
+
+<select class="filter" id="ownerFilter">
+<option value="all">All Owners</option>
+</select>
+
+</div>
+
+<div class="taskGrid" id="taskGrid"></div>
+
+</section>
+</main>
+
+<div class="overlay" id="overlay">
+
+<div class="modal">
+
+<div class="modalHead">
+<h2 id="modalTitle">Add Task</h2>
+<button class="close" id="close">×</button>
+</div>
+
+<div class="modalBody">
+
+<div class="formGrid">
+
+<div class="field">
+<label>TASK TITLE</label>
+<input id="name" placeholder="e.g. Follow up with client">
+</div>
+
+<div class="field">
+<label>OWNER</label>
+<input id="owner" placeholder="Admin">
+</div>
+
+<div class="field full">
+<label>DESCRIPTION</label>
+<textarea id="description" placeholder="Add task details..."></textarea>
+</div>
+
+<div class="field">
+<label>STATUS</label>
+<select id="status">
+<option>To Do</option>
+<option>In Progress</option>
+<option>Completed</option>
+</select>
+</div>
+
+<div class="field">
+<label>PRIORITY</label>
+<select id="priority">
+<option>High</option>
+<option selected>Medium</option>
+<option>Low</option>
+</select>
+</div>
+
+<div class="field">
+<label>DUE DATE</label>
+<input id="date" type="date">
+</div>
+
+<div class="field">
+<label>RELATED COMPANY</label>
+<input id="company" placeholder="Optional">
+</div>
+
+</div>
+
+</div>
+
+<div class="modalFoot">
+<button class="secondary" id="cancel">Cancel</button>
+<button class="primary" id="save">Save Task</button>
+</div>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+
+const Tasks=(()=>{
+
+const KEY="clientflow_tasks_v1";
+
+const statuses=[
+"To Do",
+"In Progress",
+"Completed"
+];
+
+const demo=[
+{
+id:1,
+name:"Follow up with TechNova",
+description:"Send proposal follow-up email.",
+status:"To Do",
+priority:"High",
+owner:"Admin",
+date:"2026-08-25",
+company:"TechNova Solutions"
+},
+{
+id:2,
+name:"Prepare sales proposal",
+description:"Prepare pricing and implementation proposal.",
+status:"In Progress",
+priority:"High",
+owner:"Admin",
+date:"2026-08-26",
+company:"CloudBridge"
+},
+{
+id:3,
+name:"Update CRM contacts",
+description:"Review and update contact information.",
+status:"To Do",
+priority:"Medium",
+owner:"Admin",
+date:"2026-08-28",
+company:"GrowthLabs"
+},
+{
+id:4,
+name:"Client onboarding",
+description:"Complete onboarding checklist.",
+status:"Completed",
+priority:"Medium",
+owner:"Admin",
+date:"2026-08-20",
+company:"DataSphere"
+}
+];
+
+let tasks=load();
+let editId=null;
+
+function load(){
+
+try{
+
+const saved=
+localStorage.getItem(KEY);
+
+return saved?
+JSON.parse(saved):
+demo;
+
+}catch(e){
+
+return demo;
+
+}
+
+}
+
+function save(){
+
+localStorage.setItem(
+KEY,
+JSON.stringify(tasks)
+);
+
+}
+
+function esc(v){
+
+return String(v??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+function toast(msg){
+
+const t=
+document.getElementById("toast");
+
+t.textContent=msg;
+
+t.classList.add("show");
+
+clearTimeout(window.__toast);
+
+window.__toast=setTimeout(()=>{
+t.classList.remove("show");
+},2200);
+
+}
+
+function isOverdue(date,status){
+
+if(!date||status==="Completed")
+return false;
+
+const today=new Date();
+
+today.setHours(0,0,0,0);
+
+const d=
+new Date(date+"T00:00:00");
+
+return d<today;
+
+}
+
+function formatDate(date){
+
+if(!date)
+return "No due date";
+
+const d=
+new Date(date+"T00:00:00");
+
+return d.toLocaleDateString(
+"en-IN",
+{
+day:"2-digit",
+month:"short",
+year:"numeric"
+}
+);
+
+}
+
+function updateOwners(){
+
+const select=
+document.getElementById("ownerFilter");
+
+const current=select.value;
+
+const owners=[
+...new Set(
+tasks
+.map(t=>t.owner)
+.filter(Boolean)
+)
+].sort();
+
+select.innerHTML=
+'<option value="all">All Owners</option>'+
+owners
+.map(o=>`<option>${esc(o)}</option>`)
+.join("");
+
+if(owners.includes(current))
+select.value=current;
+
+}
+
+function render(){
+
+const q=
+document.getElementById("search")
+.value
+.toLowerCase();
+
+const priority=
+document.getElementById("priorityFilter")
+.value;
+
+const owner=
+document.getElementById("ownerFilter")
+.value;
+
+const filtered=
+tasks.filter(t=>{
+
+const matchSearch=
+!q||
+t.name.toLowerCase().includes(q)||
+t.description.toLowerCase().includes(q)||
+t.company.toLowerCase().includes(q);
+
+const matchPriority=
+priority==="all"||
+t.priority===priority;
+
+const matchOwner=
+owner==="all"||
+t.owner===owner;
+
+return(
+matchSearch&&
+matchPriority&&
+matchOwner
+);
+
+});
+
+document.getElementById("total")
+.textContent=tasks.length;
+
+document.getElementById("todo")
+.textContent=
+tasks.filter(
+t=>t.status==="To Do"
+).length;
+
+document.getElementById("progress")
+.textContent=
+tasks.filter(
+t=>t.status==="In Progress"
+).length;
+
+document.getElementById("completed")
+.textContent=
+tasks.filter(
+t=>t.status==="Completed"
+).length;
+
+document.getElementById("taskGrid")
+.innerHTML=
+statuses.map(status=>{
+
+const list=
+filtered.filter(
+t=>t.status===status
+);
+
+let dot="";
+
+if(status==="In Progress")
+dot="blue";
+
+if(status==="Completed")
+dot="green";
+
+return`
+
+<div class="taskColumn">
+
+<div class="columnHead">
+
+<div class="columnTitle">
+
+<span class="dot ${dot}"></span>
+
+${status}
+
+</div>
+
+<div class="columnCount">
+${list.length}
+</div>
+
+</div>
+
+<div class="taskList">
+
+${
+list.length
+?
+list.map(taskCard).join("")
+:
+`<div class="empty">
+No tasks here
+</div>`
+}
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+function taskCard(t){
+
+const overdue=
+isOverdue(
+t.date,
+t.status
+);
+
+return`
+
+<div class="task ${
+t.status==="Completed"
+?"completed":""
+}">
+
+<div class="taskTop">
+
+<div class="taskName">
+${esc(t.name)}
+</div>
+
+<span class="priority ${esc(t.priority)}">
+${esc(t.priority)}
+</span>
+
+</div>
+
+<div class="taskDesc">
+${esc(
+t.description||
+"No description"
+)}
+</div>
+
+<div class="taskMeta">
+
+<span>
+${esc(t.owner)}
+</span>
+
+<span class="${
+overdue?"overdue":""
+}">
+${
+overdue
+?"Overdue • "
+:""
+}${formatDate(t.date)}
+</span>
+
+</div>
+
+<div class="taskMeta">
+
+<span>
+${
+t.company
+?esc(t.company)
+:"No company"
+}
+</span>
+
+<span>
+${esc(t.status)}
+</span>
+
+</div>
+
+<div class="taskActions">
+
+${
+t.status!=="Completed"
+?
+`<button
+class="small"
+data-complete="${t.id}">
+✓ Complete
+</button>`
+:""
+}
+
+<button
+class="small"
+data-edit="${t.id}">
+Edit
+</button>
+
+<button
+class="small danger"
+data-delete="${t.id}">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function openModal(id=null){
+
+editId=id;
+
+document
+.getElementById("overlay")
+.classList.add("show");
+
+if(id===null){
+
+document.getElementById("modalTitle")
+.textContent="Add Task";
+
+document.getElementById("save")
+.textContent="Save Task";
+
+[
+"name",
+"owner",
+"description",
+"date",
+"company"
+].forEach(x=>{
+document.getElementById(x)
+.value="";
+});
+
+document.getElementById("status")
+.value="To Do";
+
+document.getElementById("priority")
+.value="Medium";
+
+}else{
+
+const t=
+tasks.find(x=>x.id===id);
+
+if(!t)return;
+
+document.getElementById("modalTitle")
+.textContent="Edit Task";
+
+document.getElementById("save")
+.textContent="Update Task";
+
+document.getElementById("name")
+.value=t.name;
+
+document.getElementById("owner")
+.value=t.owner;
+
+document.getElementById("description")
+.value=t.description;
+
+document.getElementById("status")
+.value=t.status;
+
+document.getElementById("priority")
+.value=t.priority;
+
+document.getElementById("date")
+.value=t.date;
+
+document.getElementById("company")
+.value=t.company;
+
+}
+
+setTimeout(()=>{
+document
+.getElementById("name")
+.focus();
+},50);
+
+}
+
+function closeModal(){
+
+document
+.getElementById("overlay")
+.classList.remove("show");
+
+editId=null;
+
+}
+
+function saveTask(){
+
+const data={
+
+name:
+document
+.getElementById("name")
+.value.trim(),
+
+owner:
+document
+.getElementById("owner")
+.value.trim()||
+"Admin",
+
+description:
+document
+.getElementById("description")
+.value.trim(),
+
+status:
+document
+.getElementById("status")
+.value,
+
+priority:
+document
+.getElementById("priority")
+.value,
+
+date:
+document
+.getElementById("date")
+.value,
+
+company:
+document
+.getElementById("company")
+.value.trim()
+
+};
+
+if(!data.name){
+
+toast("Task title is required");
+
+return;
+
+}
+
+if(editId!==null){
+
+const index=
+tasks.findIndex(
+t=>t.id===editId
+);
+
+if(index!==-1){
+
+tasks[index]={
+...tasks[index],
+...data
+};
+
+toast("Task updated");
+
+}
+
+}else{
+
+tasks.unshift({
+
+id:Date.now(),
+
+...data
+
+});
+
+toast("Task added");
+
+}
+
+save();
+
+updateOwners();
+
+render();
+
+closeModal();
+
+}
+
+function exportCSV(){
+
+if(!tasks.length){
+
+toast("No tasks to export");
+
+return;
+
+}
+
+const headers=[
+"Task",
+"Description",
+"Status",
+"Priority",
+"Owner",
+"Due Date",
+"Company"
+];
+
+const rows=
+tasks.map(t=>[
+t.name,
+t.description,
+t.status,
+t.priority,
+t.owner,
+t.date,
+t.company
+]);
+
+const csv=[
+headers,
+...rows
+]
+.map(row=>
+row.map(v=>
+`"${String(v)
+.replaceAll('"','""')}"`
+).join(",")
+)
+.join("\n");
+
+const blob=
+new Blob(
+[csv],
+{type:"text/csv"}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const a=
+document.createElement("a");
+
+a.href=url;
+
+a.download=
+"clientflow-tasks.csv";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+toast("Tasks exported");
+
+}
+
+function setup(){
+
+document
+.getElementById("menu")
+.onclick=()=>{
+
+document
+.getElementById("sidebar")
+.classList.toggle("open");
+
+};
+
+if(
+localStorage.getItem(
+"clientflow_theme"
+)==="dark"
+){
+
+document.body
+.classList.add("dark");
+
+}
+
+document
+.getElementById("theme")
+.onclick=()=>{
+
+document.body
+.classList.toggle("dark");
+
+localStorage.setItem(
+"clientflow_theme",
+
+document.body.classList
+.contains("dark")
+?"dark"
+:"light"
+);
+
+};
+
+document
+.getElementById("add")
+.onclick=()=>openModal();
+
+document
+.getElementById("topAdd")
+.onclick=()=>openModal();
+
+document
+.getElementById("close")
+.onclick=closeModal;
+
+document
+.getElementById("cancel")
+.onclick=closeModal;
+
+document
+.getElementById("save")
+.onclick=saveTask;
+
+document
+.getElementById("overlay")
+.onclick=e=>{
+
+if(
+e.target===
+document.getElementById("overlay")
+){
+
+closeModal();
+
+}
+
+};
+
+document
+.getElementById("search")
+.oninput=render;
+
+document
+.getElementById("priorityFilter")
+.onchange=render;
+
+document
+.getElementById("ownerFilter")
+.onchange=render;
+
+document
+.getElementById("globalSearch")
+.oninput=e=>{
+
+document
+.getElementById("search")
+.value=e.target.value;
+
+render();
+
+};
+
+document
+.getElementById("taskGrid")
+.onclick=e=>{
+
+const complete=
+e.target.closest(
+"[data-complete]"
+);
+
+const edit=
+e.target.closest(
+"[data-edit]"
+);
+
+const del=
+e.target.closest(
+"[data-delete]"
+);
+
+if(complete){
+
+const id=
+Number(
+complete.dataset.complete
+);
+
+const task=
+tasks.find(t=>t.id===id);
+
+if(task){
+
+task.status="Completed";
+
+save();
+
+render();
+
+toast("Task completed");
+
+}
+
+return;
+
+}
+
+if(edit){
+
+openModal(
+Number(edit.dataset.edit)
+);
+
+return;
+
+}
+
+if(del){
+
+const id=
+Number(del.dataset.delete);
+
+const task=
+tasks.find(t=>t.id===id);
+
+if(
+task&&
+confirm(
+`Delete ${task.name}?`
+)
+){
+
+tasks=
+tasks.filter(
+t=>t.id!==id
+);
+
+save();
+
+updateOwners();
+
+render();
+
+toast("Task deleted");
+
+}
+
+}
+
+};
+
+document
+.getElementById("export")
+.onclick=exportCSV;
+
+document.addEventListener(
+"keydown",
+e=>{
+
+if(
+(e.ctrlKey||e.metaKey)&&
+e.key.toLowerCase()==="k"
+){
+
+e.preventDefault();
+
+document
+.getElementById("globalSearch")
+.focus();
+
+}
+
+if(e.key==="Escape"){
+closeModal();
+}
+
+});
+
+}
+
+setup();
+
+updateOwners();
+
+render();
+
+})();
+</script>
+
+</body>
+</html>
