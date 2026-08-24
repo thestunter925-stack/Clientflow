@@ -4,144 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2563eb">
-<title>ClientFlow — CRM</title>
+<title>ClientFlow CRM</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
---bg:#f5f7fb;
---card:#fff;
---text:#172033;
---muted:#6b7280;
---line:#e5e7eb;
---blue:#2563eb;
---green:#16a34a;
---red:#dc2626;
---orange:#d97706;
---dark:#101827;
-}
 body{
-font-family:Arial,Helvetica,sans-serif;
-background:var(--bg);
-color:var(--text);
-font-size:14px;
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+color:#172033;
 }
 button,input,select{font:inherit}
 button{cursor:pointer}
-button,input,select{outline:0}
 
-.app{
-min-height:100vh;
-}
+.app{display:flex;min-height:100vh}
 
-.side{
+.sidebar{
+width:220px;
+background:#111827;
+color:white;
+padding:18px 12px;
 position:fixed;
-left:0;
 top:0;
 bottom:0;
-width:225px;
-background:var(--dark);
-color:#fff;
-padding:16px 12px;
-z-index:50;
+left:0;
+z-index:20;
 }
 
 .logo{
 font-size:22px;
 font-weight:800;
-padding:8px 12px 22px;
+padding:5px 10px 22px;
 }
 .logo span{color:#60a5fa}
 
-.workspace{
-background:#1c2738;
-padding:10px;
-border-radius:8px;
-font-size:12px;
-margin-bottom:15px;
-}
-
-.navtitle{
-font-size:9px;
-color:#718096;
-padding:10px 12px 5px;
-}
-
 .nav button{
+display:block;
 width:100%;
 border:0;
 background:transparent;
 color:#aeb8c9;
-padding:10px 12px;
-text-align:left;
+padding:11px 12px;
+margin:3px 0;
 border-radius:7px;
-margin:2px 0;
-font-size:12px;
+text-align:left;
+font-size:13px;
 }
 
 .nav button:hover,
 .nav button.active{
-background:#243247;
+background:#263449;
 color:#fff;
 }
 
-.main{
-margin-left:225px;
+.content{
+margin-left:220px;
+width:calc(100% - 220px);
 padding:18px;
-max-width:1500px;
 }
 
-.top{
+.topbar{
 display:flex;
-align-items:center;
 gap:10px;
+align-items:center;
 margin-bottom:20px;
-}
-
-.menu{
-display:none;
-padding:9px 11px;
-border:1px solid var(--line);
-background:var(--card);
-border-radius:7px;
 }
 
 .search{
 flex:1;
-max-width:550px;
 }
 
 .search input{
 width:100%;
 padding:11px 13px;
-border:1px solid var(--line);
+border:1px solid #e1e5eb;
 border-radius:8px;
-background:var(--card);
-color:var(--text);
-}
-
-.actions{
-display:flex;
-gap:7px;
+background:white;
 }
 
 .btn{
 border:0;
 border-radius:7px;
-padding:10px 13px;
+padding:10px 14px;
 font-size:12px;
 font-weight:700;
 }
 
 .primary{
-background:var(--blue);
-color:#fff;
+background:#2563eb;
+color:white;
 }
 
-.secondary{
-background:var(--card);
-color:var(--text);
-border:1px solid var(--line);
+.light{
+background:white;
+border:1px solid #e1e5eb;
+color:#172033;
+}
+
+.mobileMenu{
+display:none;
 }
 
 .page{
@@ -152,20 +112,20 @@ display:none;
 display:block;
 }
 
-.pageHead{
+.heading{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:18px;
 }
 
-.pageHead h1{
-font-size:24px;
+.heading h1{
+font-size:25px;
 }
 
-.pageHead p{
+.heading p{
+color:#6b7280;
 font-size:12px;
-color:var(--muted);
 margin-top:5px;
 }
 
@@ -177,141 +137,122 @@ margin-bottom:16px;
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--line);
+background:white;
+border:1px solid #e5e7eb;
 border-radius:10px;
 padding:15px;
 }
 
 .stat small{
-color:var(--muted);
+color:#6b7280;
 font-size:10px;
 }
 
 .stat strong{
 display:block;
 font-size:23px;
-margin:8px 0;
+margin-top:8px;
 }
 
-.stat span{
-font-size:10px;
-color:var(--muted);
-}
+.blue{color:#2563eb}
+.green{color:#16a34a}
+.orange{color:#d97706}
+.red{color:#dc2626}
 
-.blue{color:var(--blue)}
-.green{color:var(--green)}
-.red{color:var(--red)}
-.orange{color:var(--orange)}
-
-.grid2{
+.grid{
 display:grid;
 grid-template-columns:1.5fr 1fr;
 gap:14px;
 }
 
-.sectionTitle{
+.title{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:13px;
+margin-bottom:12px;
 }
 
-.sectionTitle h2{
+.title h2{
 font-size:14px;
 }
 
-.sectionTitle span{
-font-size:10px;
-color:var(--muted);
-}
-
-.tableWrap{
-overflow:auto;
-}
-
-table{
+.table{
 width:100%;
 border-collapse:collapse;
-min-width:600px;
 }
 
-th,td{
-padding:11px 9px;
-border-bottom:1px solid var(--line);
+.table th,
+.table td{
+padding:11px 8px;
+border-bottom:1px solid #edf0f3;
 text-align:left;
 font-size:11px;
 }
 
-th{
+.table th{
+color:#6b7280;
 font-size:10px;
-color:var(--muted);
-font-weight:700;
 }
 
 .badge{
 display:inline-block;
 padding:4px 7px;
-border-radius:10px;
+border-radius:20px;
+background:#eff6ff;
+color:#2563eb;
 font-size:9px;
 font-weight:700;
-background:#eff6ff;
-color:var(--blue);
 }
 
 .badge.green{
 background:#f0fdf4;
-color:var(--green);
+color:#16a34a;
 }
 
 .badge.red{
 background:#fef2f2;
-color:var(--red);
+color:#dc2626;
 }
 
 .badge.orange{
 background:#fff7ed;
-color:var(--orange);
+color:#d97706;
 }
 
 .toolbar{
 display:flex;
 gap:8px;
-flex-wrap:wrap;
 margin-bottom:13px;
 }
 
 .toolbar input,
 .toolbar select{
-padding:9px;
-border:1px solid var(--line);
+padding:10px;
+border:1px solid #e1e5eb;
 border-radius:7px;
-background:var(--card);
-color:var(--text);
-font-size:11px;
+background:white;
 }
 
 .toolbar input{
 flex:1;
-min-width:180px;
 }
 
 .list{
 display:grid;
-gap:8px;
+gap:9px;
 }
 
 .item{
-padding:12px;
-border:1px solid var(--line);
-border-radius:8px;
-background:var(--card);
+background:white;
+border:1px solid #e5e7eb;
+border-radius:9px;
+padding:13px;
 }
 
 .itemTop{
 display:flex;
 justify-content:space-between;
-gap:8px;
+gap:10px;
 }
 
 .item h3{
@@ -320,22 +261,22 @@ font-size:12px;
 
 .item p{
 font-size:10px;
-color:var(--muted);
+color:#6b7280;
 margin-top:5px;
 }
 
 .itemActions{
-margin-top:9px;
 display:flex;
 gap:5px;
+margin-top:9px;
 }
 
-.itemActions button{
+.smallBtn{
+border:1px solid #e1e5eb;
+background:white;
 padding:5px 8px;
-font-size:9px;
-border:1px solid var(--line);
-background:var(--card);
 border-radius:5px;
+font-size:9px;
 }
 
 .pipeline{
@@ -346,66 +287,66 @@ overflow:auto;
 }
 
 .column{
-min-width:180px;
-background:var(--bg);
-border:1px solid var(--line);
+background:#f5f7fb;
+border:1px solid #e5e7eb;
 border-radius:8px;
 padding:9px;
+min-width:170px;
 }
 
 .columnHead{
 display:flex;
 justify-content:space-between;
 font-size:10px;
-font-weight:700;
+font-weight:bold;
 margin-bottom:8px;
 }
 
 .deal{
-background:var(--card);
-border:1px solid var(--line);
+background:white;
+border:1px solid #e5e7eb;
 border-radius:7px;
 padding:9px;
 margin-bottom:7px;
 }
 
-.deal h4{
+.deal h3{
 font-size:10px;
 }
 
 .deal p{
 font-size:9px;
-color:var(--muted);
+color:#6b7280;
 margin-top:4px;
 }
 
 .deal strong{
 display:block;
-font-size:10px;
 margin-top:7px;
+font-size:10px;
+}
+
+.empty{
+text-align:center;
+padding:28px;
+color:#6b7280;
+font-size:11px;
 }
 
 .progress{
 height:8px;
 background:#e5e7eb;
-border-radius:10px;
+border-radius:20px;
 overflow:hidden;
-margin-top:8px;
+margin-top:6px;
 }
 
 .progress div{
 height:100%;
-background:var(--blue);
+background:#2563eb;
 }
 
-.empty{
-padding:30px;
-text-align:center;
-color:var(--muted);
-font-size:11px;
-}
-
-.overlay{
+.modal{
 display:none;
 position:fixed;
 inset:0;
@@ -416,41 +357,39 @@ justify-content:center;
 padding:15px;
 }
 
-.modal{
+.modalBox{
 width:100%;
 max-width:430px;
-background:var(--card);
-border-radius:11px;
-border:1px solid var(--line);
+background:white;
+border-radius:10px;
 overflow:hidden;
 }
 
 .modalHead{
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:14px 16px;
-border-bottom:1px solid var(--line);
+padding:15px;
+border-bottom:1px solid #e5e7eb;
 }
 
 .modalHead h2{
 font-size:15px;
 }
 
-.modalHead button{
+.close{
 border:0;
-background:transparent;
-font-size:21px;
+background:none;
+font-size:20px;
 }
 
 .form{
-padding:16px;
+padding:15px;
 }
 
 .form label{
 display:block;
 font-size:10px;
-font-weight:700;
+font-weight:bold;
 margin-bottom:5px;
 }
 
@@ -458,19 +397,17 @@ margin-bottom:5px;
 .form select{
 width:100%;
 padding:10px;
-border:1px solid var(--line);
-border-radius:7px;
-background:var(--card);
-color:var(--text);
 margin-bottom:12px;
+border:1px solid #e1e5eb;
+border-radius:7px;
 }
 
 .modalFoot{
+padding:12px 15px;
+border-top:1px solid #e5e7eb;
 display:flex;
 justify-content:flex-end;
 gap:7px;
-padding:12px 16px;
-border-top:1px solid var(--line);
 }
 
 .toast{
@@ -479,59 +416,95 @@ position:fixed;
 right:15px;
 bottom:15px;
 background:#111827;
-color:#fff;
+color:white;
 padding:11px 14px;
 border-radius:7px;
 font-size:11px;
 z-index:200;
 }
 
-.dark{
---bg:#0b1120;
---card:#111827;
---text:#f3f4f6;
---muted:#9ca3af;
---line:#263244;
-}
-
-@media(max-width:1000px){
+@media(max-width:950px){
 .stats{grid-template-columns:repeat(2,1fr)}
-.grid2{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr}
 }
 
-@media(max-width:800px){
-.side{
+@media(max-width:750px){
+
+.sidebar{
 transform:translateX(-100%);
-transition:.18s;
+transition:.15s;
 }
-.side.open{
+
+.sidebar.open{
 transform:translateX(0);
 }
-.main{
+
+.content{
 margin-left:0;
+width:100%;
 padding:12px;
 }
-.menu{
+
+.mobileMenu{
 display:block;
 }
+
+.pipeline{
+grid-template-columns:repeat(5,170px);
 }
 
-@media(max-width:600px){
+.heading{
+display:block;
+}
+
+.heading .btn{
+margin-top:10px;
+}
+
+}
+
+@media(max-width:500px){
+
 .stats{
 gap:7px;
 }
-.stat{
+
+.card{
 padding:12px;
 }
+
 .stat strong{
 font-size:19px;
 }
-.pageHead{
-display:block;
+
+.toolbar{
+flex-direction:column;
 }
-.pageHead .actions{
-margin-top:10px;
+
 }
+
+.dark{
+background:#0b1120;
+color:#f3f4f6;
+}
+
+.dark .card,
+.dark .item,
+.dark .search input,
+.dark .toolbar input,
+.dark .toolbar select,
+.dark .light,
+.dark .smallBtn,
+.dark .deal,
+.dark .modalBox{
+background:#111827;
+color:#f3f4f6;
+border-color:#263244;
+}
+
+.dark .heading p,
+.dark .item p{
+color:#9ca3af;
 }
 </style>
 </head>
@@ -540,53 +513,43 @@ margin-top:10px;
 
 <div class="app">
 
-<aside class="side" id="side">
+<aside class="sidebar" id="sidebar">
 
 <div class="logo">
 Client<span>Flow</span>
 </div>
 
-<div class="workspace">
-● My Workspace
-</div>
-
-<div class="navtitle">WORKSPACE</div>
-
 <nav class="nav">
 
-<button data-page="dashboard">
+<button class="active" onclick="page('dashboard',this)">
 ⌂ &nbsp; Dashboard
 </button>
 
-<button data-page="leads">
+<button onclick="page('leads',this)">
 ◆ &nbsp; Leads
 </button>
 
-<button data-page="contacts">
+<button onclick="page('contacts',this)">
 ◉ &nbsp; Contacts
 </button>
 
-<button data-page="companies">
+<button onclick="page('companies',this)">
 ▣ &nbsp; Companies
 </button>
 
-<button data-page="deals">
+<button onclick="page('deals',this)">
 ◇ &nbsp; Deals
 </button>
 
-<button data-page="tasks">
+<button onclick="page('tasks',this)">
 ✓ &nbsp; Tasks
 </button>
 
-<div class="navtitle">INSIGHTS</div>
-
-<button data-page="reports">
+<button onclick="page('reports',this)">
 ▥ &nbsp; Reports
 </button>
 
-<div class="navtitle">SYSTEM</div>
-
-<button data-page="settings">
+<button onclick="page('settings',this)">
 ⚙ &nbsp; Settings
 </button>
 
@@ -594,13 +557,13 @@ Client<span>Flow</span>
 
 </aside>
 
-<main class="main">
+<main class="content">
 
-<div class="top">
+<div class="topbar">
 
 <button
-class="menu"
-onclick="toggleSide()"
+class="btn light mobileMenu"
+onclick="menu()"
 >
 ☰
 </button>
@@ -608,49 +571,43 @@ onclick="toggleSide()"
 <div class="search">
 
 <input
-id="globalSearch"
-placeholder="Search ClientFlow..."
-autocomplete="off"
+id="search"
+placeholder="Search CRM and press Enter"
 >
 
 </div>
 
-<div class="actions">
-
 <button
-class="btn secondary"
-onclick="toggleDark()"
+class="btn light"
+onclick="darkMode()"
 >
 ☾
 </button>
 
 <button
 class="btn primary"
-onclick="quickAdd()"
+onclick="addMenu()"
 >
 + Add
 </button>
 
 </div>
 
-</div>
 
 <!-- DASHBOARD -->
 
 <section
-class="page active"
 id="dashboard"
+class="page active"
 >
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
 
 <h1>Dashboard</h1>
 
-<p>
-Your most important CRM information at a glance.
-</p>
+<p>Your most important CRM information.</p>
 
 </div>
 
@@ -661,87 +618,64 @@ Your most important CRM information at a glance.
 <div class="card stat">
 <small>Total Leads</small>
 <strong
-id="sLeads"
+id="dashLeads"
 class="blue"
->
-0
-</strong>
-<span>All leads</span>
+>0</strong>
 </div>
 
 <div class="card stat">
 <small>Open Deals</small>
 <strong
-id="sDeals"
+id="dashDeals"
 class="orange"
->
-0
-</strong>
-<span>Active opportunities</span>
+>0</strong>
 </div>
 
 <div class="card stat">
 <small>Pipeline</small>
 <strong
-id="sPipeline"
+id="dashPipeline"
 class="blue"
->
-₹0
-</strong>
-<span>Open deal value</span>
+>₹0</strong>
 </div>
 
 <div class="card stat">
-<small>Tasks</small>
+<small>Open Tasks</small>
 <strong
-id="sTasks"
+id="dashTasks"
 class="green"
->
-0
-</strong>
-<span>Open tasks</span>
+>0</strong>
 </div>
 
 </div>
 
-<div class="grid2">
+<div class="grid">
 
 <div class="card">
 
-<div class="sectionTitle">
-
+<div class="title">
 <h2>Recent Leads</h2>
 
 <button
-class="btn secondary"
-onclick="showPage('leads')"
+class="btn light"
+onclick="pageById('leads')"
 >
-View all
+View All
 </button>
 
 </div>
 
-<div
-class="tableWrap"
-id="recentLeads"
-></div>
+<div id="recent"></div>
 
 </div>
 
 <div class="card">
 
-<div class="sectionTitle">
-
-<h2>Today's Work</h2>
-
-<span id="todayDate"></span>
-
+<div class="title">
+<h2>Today's Tasks</h2>
 </div>
 
-<div
-id="todayTasks"
-class="list"
-></div>
+<div id="today"></div>
 
 </div>
 
@@ -749,26 +683,27 @@ class="list"
 
 </section>
 
+
 <!-- LEADS -->
 
 <section
-class="page"
 id="leads"
+class="page"
 >
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
 
 <h1>Leads</h1>
 
-<p>Manage and qualify potential customers.</p>
+<p>Manage your potential customers.</p>
 
 </div>
 
 <button
 class="btn primary"
-onclick="openModal('lead')"
+onclick="openForm('lead')"
 >
 + Add Lead
 </button>
@@ -779,12 +714,12 @@ onclick="openModal('lead')"
 
 <input
 id="leadSearch"
-placeholder="Search leads..."
+placeholder="Search leads"
 oninput="renderLeads()"
 >
 
 <select
-id="leadFilter"
+id="leadStatus"
 onchange="renderLeads()"
 >
 
@@ -799,37 +734,31 @@ onchange="renderLeads()"
 
 </div>
 
-<div class="card">
-
-<div
-class="tableWrap"
-id="leadsTable"
-></div>
-
-</div>
+<div class="card" id="leadList"></div>
 
 </section>
+
 
 <!-- CONTACTS -->
 
 <section
-class="page"
 id="contacts"
+class="page"
 >
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
 
 <h1>Contacts</h1>
 
-<p>Keep customer communication organized.</p>
+<p>Manage customer contacts.</p>
 
 </div>
 
 <button
 class="btn primary"
-onclick="openModal('contact')"
+onclick="openForm('contact')"
 >
 + Add Contact
 </button>
@@ -840,27 +769,28 @@ onclick="openModal('contact')"
 
 <input
 id="contactSearch"
-placeholder="Search contacts..."
+placeholder="Search contacts"
 oninput="renderContacts()"
 >
 
 </div>
 
 <div
-id="contactsList"
+id="contactList"
 class="list"
 ></div>
 
 </section>
 
+
 <!-- COMPANIES -->
 
 <section
-class="page"
 id="companies"
+class="page"
 >
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
 
@@ -872,7 +802,7 @@ id="companies"
 
 <button
 class="btn primary"
-onclick="openModal('company')"
+onclick="openForm('company')"
 >
 + Add Company
 </button>
@@ -883,134 +813,114 @@ onclick="openModal('company')"
 
 <input
 id="companySearch"
-placeholder="Search companies..."
+placeholder="Search companies"
 oninput="renderCompanies()"
 >
 
 </div>
 
 <div
-id="companiesList"
+id="companyList"
 class="list"
 ></div>
 
 </section>
 <!-- DEALS -->
 
-<section
-class="page"
-id="deals"
->
+<section id="deals" class="page">
 
-<div class="pageHead">
-
+<div class="heading">
 <div>
-
 <h1>Deals</h1>
-
-<p>Track opportunities from new to won.</p>
-
+<p>Manage your sales pipeline.</p>
 </div>
 
-<button
-class="btn primary"
-onclick="openModal('deal')"
->
+<button class="btn primary"
+onclick="openForm('deal')">
 + Add Deal
 </button>
-
 </div>
 
 <div class="stats">
 
 <div class="card stat">
 <small>Open Deals</small>
-<strong id="dOpen" class="blue">0</strong>
+<strong id="openDeals"
+class="blue">0</strong>
 </div>
 
 <div class="card stat">
 <small>Pipeline</small>
-<strong id="dPipeline" class="orange">₹0</strong>
+<strong id="pipelineValue"
+class="orange">₹0</strong>
 </div>
 
 <div class="card stat">
 <small>Won</small>
-<strong id="dWon" class="green">0</strong>
+<strong id="wonDeals"
+class="green">0</strong>
 </div>
 
 <div class="card stat">
 <small>Revenue</small>
-<strong id="dRevenue" class="green">₹0</strong>
+<strong id="wonRevenue"
+class="green">₹0</strong>
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="sectionTitle">
-
+<div class="title">
 <h2>Sales Pipeline</h2>
-
-<span>Drag-free lightweight pipeline</span>
-
 </div>
 
-<div
-class="pipeline"
-id="pipeline"
-></div>
+<div id="pipeline"
+class="pipeline"></div>
 
 </div>
 
 </section>
-
-
 <!-- TASKS -->
 
-<section
-class="page"
-id="tasks"
->
+<section id="tasks" class="page">
 
-<div class="pageHead">
-
+<div class="heading">
 <div>
-
 <h1>Tasks</h1>
-
-<p>Focus on follow-ups and important work.</p>
-
+<p>Manage important work.</p>
 </div>
 
-<button
-class="btn primary"
-onclick="openModal('task')"
->
+<button class="btn primary"
+onclick="openForm('task')">
 + Add Task
 </button>
-
 </div>
 
 <div class="stats">
 
 <div class="card stat">
 <small>Open</small>
-<strong id="tOpen" class="blue">0</strong>
+<strong id="openTasks"
+class="blue">0</strong>
 </div>
 
 <div class="card stat">
 <small>Today</small>
-<strong id="tToday" class="orange">0</strong>
+<strong id="todayTasks"
+class="orange">0</strong>
 </div>
 
 <div class="card stat">
 <small>Overdue</small>
-<strong id="tOverdue" class="red">0</strong>
+<strong id="overdueTasks"
+class="red">0</strong>
 </div>
 
 <div class="card stat">
 <small>Completed</small>
-<strong id="tDone" class="green">0</strong>
+<strong id="doneTasks"
+class="green">0</strong>
 </div>
 
 </div>
@@ -1019,14 +929,12 @@ onclick="openModal('task')"
 
 <input
 id="taskSearch"
-placeholder="Search tasks..."
-oninput="renderTasks()"
->
+placeholder="Search tasks"
+oninput="renderTasks()">
 
 <select
 id="taskFilter"
-onchange="renderTasks()"
->
+onchange="renderTasks()">
 
 <option value="">All</option>
 <option value="open">Open</option>
@@ -1038,35 +946,25 @@ onchange="renderTasks()"
 
 </div>
 
-<div
-id="tasksList"
-class="list"
-></div>
+<div id="taskList"
+class="list"></div>
 
 </section>
 
 
 <!-- REPORTS -->
 
-<section
-class="page"
-id="reports"
->
+<section id="reports" class="page">
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
-
 <h1>Reports</h1>
-
-<p>Simple performance overview from your CRM data.</p>
-
+<p>CRM performance overview.</p>
 </div>
 
-<button
-class="btn secondary"
-onclick="window.print()"
->
+<button class="btn light"
+onclick="window.print()">
 Print
 </button>
 
@@ -1075,78 +973,73 @@ Print
 <div class="stats">
 
 <div class="card stat">
-<small>Total Leads</small>
-<strong id="rLeads" class="blue">0</strong>
+<small>Leads</small>
+<strong id="reportLeads"
+class="blue">0</strong>
 </div>
 
 <div class="card stat">
 <small>Pipeline</small>
-<strong id="rPipeline" class="orange">₹0</strong>
+<strong id="reportPipeline"
+class="orange">₹0</strong>
 </div>
 
 <div class="card stat">
-<small>Won Revenue</small>
-<strong id="rRevenue" class="green">₹0</strong>
+<small>Revenue</small>
+<strong id="reportRevenue"
+class="green">₹0</strong>
 </div>
 
 <div class="card stat">
 <small>Win Rate</small>
-<strong id="rRate">0%</strong>
+<strong id="reportRate">0%</strong>
 </div>
 
 </div>
 
-<div class="grid2">
+<div class="grid">
 
 <div class="card">
 
-<div class="sectionTitle">
+<div class="title">
 <h2>Deal Stages</h2>
 </div>
 
-<div id="reportStages"></div>
+<div id="stageReport"></div>
 
 </div>
 
 <div class="card">
 
-<div class="sectionTitle">
-<h2>Task Performance</h2>
+<div class="title">
+<h2>Tasks</h2>
 </div>
 
-<div id="reportTasks"></div>
+<div id="taskReport"></div>
 
 </div>
 
 </div>
 
 </section>
-
-
 <!-- SETTINGS -->
 
-<section
-class="page"
-id="settings"
->
+<section id="settings" class="page">
 
-<div class="pageHead">
+<div class="heading">
 
 <div>
-
 <h1>Settings</h1>
-
 <p>Manage your ClientFlow workspace.</p>
-
 </div>
 
 </div>
 
-<div class="grid2">
+<div class="grid">
 
 <div class="card">
 
-<div class="sectionTitle">
+<div class="title">
 <h2>Appearance</h2>
 </div>
 
@@ -1155,17 +1048,12 @@ id="settings"
 <div class="itemTop">
 
 <div>
-
 <h3>Dark Mode</h3>
-
-<p>Change the appearance of ClientFlow.</p>
-
+<p>Change ClientFlow appearance.</p>
 </div>
 
-<button
-class="btn secondary"
-onclick="toggleDark()"
->
+<button class="btn light"
+onclick="darkMode()">
 Toggle
 </button>
 
@@ -1178,70 +1066,41 @@ Toggle
 
 <div class="card">
 
-<div class="sectionTitle">
+<div class="title">
 <h2>Data</h2>
 </div>
 
 <div class="list">
 
-<button
-class="btn secondary"
-onclick="exportData()"
->
-Export CRM Data
+<button class="btn light"
+onclick="exportData()">
+Export Backup
 </button>
 
-<button
-class="btn secondary"
-onclick="importData()"
->
-Import CRM Data
+<button class="btn light"
+onclick="importData()">
+Import Backup
 </button>
 
-<button
-class="btn secondary"
-onclick="clearDemo()"
->
-Reset Demo Data
+<button class="btn light"
+onclick="resetData()">
+Reset Data
 </button>
 
 </div>
 
 </div>
-
-</div>
-
-<div class="card" style="margin-top:14px">
-
-<div class="sectionTitle">
-
-<h2>Workspace</h2>
-
-<span>Local mode</span>
-
-</div>
-
-<p style="font-size:11px;color:var(--muted);line-height:1.7">
-
-ClientFlow currently stores CRM information locally in this browser.
-This keeps the application fast and free while you build the product.
-Cloud accounts and secure multi-user authentication can be added later.
-
-</p>
 
 </div>
 
 </section>
 
 
-<!-- MODAL -->
+<!-- FORM MODAL -->
 
-<div
-class="overlay"
-id="overlay"
->
+<div id="modal" class="modal">
 
-<div class="modal">
+<div class="modalBox">
 
 <div class="modalHead">
 
@@ -1249,28 +1108,25 @@ id="overlay"
 Add
 </h2>
 
-<button onclick="closeModal()">×</button>
+<button class="close"
+onclick="closeForm()">
+×
+</button>
 
 </div>
 
-<div
-class="form"
-id="modalForm"
-></div>
+<div id="form"
+class="form"></div>
 
 <div class="modalFoot">
 
-<button
-class="btn secondary"
-onclick="closeModal()"
->
+<button class="btn light"
+onclick="closeForm()">
 Cancel
 </button>
 
-<button
-class="btn primary"
-onclick="saveModal()"
->
+<button class="btn primary"
+onclick="saveForm()">
 Save
 </button>
 
@@ -1281,55 +1137,38 @@ Save
 </div>
 
 
-<div
-class="toast"
-id="toast"
-></div>
+<!-- NOTIFICATION -->
+
+<div id="toast"
+class="toast"></div>
 
 
 <script>
 
-/* =========================
-   CLIENTFLOW CORE
-========================= */
-
 const DB={
-leads:"clientflow_leads",
-contacts:"clientflow_contacts",
-companies:"clientflow_companies",
-deals:"clientflow_deals",
-tasks:"clientflow_tasks"
+leads:"cf_leads",
+contacts:"cf_contacts",
+companies:"cf_companies",
+deals:"cf_deals",
+tasks:"cf_tasks"
 };
 
-let modalType="";
-let editId=null;
-
-
-/* =========================
-   STORAGE
-========================= */
+let currentType="";
+let currentId=null;
 
 function get(key){
 
 try{
-
-const data=
-JSON.parse(
+return JSON.parse(
 localStorage.getItem(key)||"[]"
 );
-
-return Array.isArray(data)
-?data:[];
-
 }catch(e){
-
 return[];
-
 }
 
 }
 
-function save(key,data){
+function put(key,data){
 
 localStorage.setItem(
 key,
@@ -1338,33 +1177,28 @@ JSON.stringify(data)
 
 }
 
-function id(){
+function newId(){
 
 return Date.now()+
-Math.floor(Math.random()*999);
+Math.floor(Math.random()*9999);
 
 }
 
+function esc(v){
 
-/* =========================
-   HELPERS
-========================= */
-
-function esc(value){
-
-return String(value||"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+return String(v||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
-function money(value){
+function money(v){
 
 return "₹"+
-Number(value||0)
+Number(v||0)
 .toLocaleString("en-IN");
 
 }
@@ -1377,109 +1211,69 @@ return new Date()
 
 }
 
-function toast(text){
+function notify(msg){
 
 const box=
 document.getElementById("toast");
 
-box.textContent=text;
-
+box.textContent=msg;
 box.style.display="block";
 
-clearTimeout(window.cfToast);
-
-window.cfToast=
-setTimeout(
-()=>{
+setTimeout(function(){
 box.style.display="none";
-},
-1800
-);
+},1800);
 
 }
+/* NAVIGATION */
 
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function showPage(page){
+function page(name,button){
 
 document
 .querySelectorAll(".page")
-.forEach(
-x=>x.classList.remove("active")
-);
+.forEach(function(p){
+p.classList.remove("active");
+});
 
 const target=
-document.getElementById(page);
+document.getElementById(name);
 
 if(target)
 target.classList.add("active");
 
 document
-.querySelectorAll(".nav button[data-page]")
-.forEach(
-x=>
-x.classList.toggle(
-"active",
-x.dataset.page===page
-)
-);
-
-if(window.innerWidth<=800){
-
-document
-.getElementById("side")
-.classList.remove("open");
-
-}
-
-if(page==="dashboard")
-renderDashboard();
-
-if(page==="leads")
-renderLeads();
-
-if(page==="contacts")
-renderContacts();
-
-if(page==="companies")
-renderCompanies();
-
-if(page==="deals")
-renderDeals();
-
-if(page==="tasks")
-renderTasks();
-
-if(page==="reports")
-renderReports();
-
-}
-
-document
-.querySelectorAll(".nav button[data-page]")
-.forEach(btn=>{
-
-btn.onclick=
-()=>showPage(btn.dataset.page);
-
+.querySelectorAll(".nav button")
+.forEach(function(b){
+b.classList.remove("active");
 });
 
+if(button)
+button.classList.add("active");
 
-function toggleSide(){
+const side=
+document.getElementById("sidebar");
 
-document
-.getElementById("side")
-.classList.toggle("open");
+if(side)
+side.classList.remove("open");
+
+refreshPage(name);
 
 }
 
 
-/* =========================
-   DASHBOARD
-========================= */
+/* MOBILE MENU */
+
+function menu(){
+
+const side=
+document.getElementById("sidebar");
+
+if(side)
+side.classList.toggle("open");
+
+}
+
+
+/* DASHBOARD */
 
 function renderDashboard(){
 
@@ -1488,475 +1282,105 @@ const deals=get(DB.deals);
 const tasks=get(DB.tasks);
 
 const openDeals=
-deals.filter(
-d=>d.stage!=="Won"&&
-d.stage!=="Lost"
-);
+deals.filter(function(d){
 
-const pipeline=
-openDeals.reduce(
-(a,d)=>a+Number(d.value||0),
-0
-);
-
-const openTasks=
-tasks.filter(t=>!t.done);
-
-document.getElementById(
-"sLeads"
-).textContent=leads.length;
-
-document.getElementById(
-"sDeals"
-).textContent=openDeals.length;
-
-document.getElementById(
-"sPipeline"
-).textContent=money(pipeline);
-
-document.getElementById(
-"sTasks"
-).textContent=openTasks.length;
-
-document.getElementById(
-"todayDate"
-).textContent=
-new Date()
-.toLocaleDateString(
-"en-IN",
-{
-day:"2-digit",
-month:"short"
-}
-);
-
-
-/* RECENT LEADS */
-
-const recent=
-leads
-.slice()
-.reverse()
-.slice(0,5);
-
-const box=
-document.getElementById(
-"recentLeads"
-);
-
-if(!recent.length){
-
-box.innerHTML=
-`<div class="empty">No leads yet</div>`;
-
-}else{
-
-box.innerHTML=`
-
-<table>
-
-<thead>
-
-<tr>
-<th>Name</th>
-<th>Company</th>
-<th>Status</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-${recent.map(l=>`
-
-<tr>
-
-<td>${esc(l.name)}</td>
-
-<td>${esc(l.company)}</td>
-
-<td>
-<span class="badge">
-${esc(l.status||"New")}
-</span>
-</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-`;
-
-}
-
-
-/* TODAY TASKS */
-
-const todayTasks=
-tasks.filter(
-t=>!t.done&&
-t.dueDate===today()
-).slice(0,5);
-
-const taskBox=
-document.getElementById(
-"todayTasks"
-);
-
-if(!todayTasks.length){
-
-taskBox.innerHTML=
-`<div class="empty">No tasks due today</div>`;
-
-}else{
-
-taskBox.innerHTML=
-todayTasks.map(t=>`
-
-<div class="item">
-
-<div class="itemTop">
-
-<div>
-
-<h3>${esc(t.title)}</h3>
-
-<p>${esc(t.related||"No contact")}</p>
-
-</div>
-
-<span class="badge ${t.priority==="High"?"red":""}">
-${esc(t.priority||"Medium")}
-</span>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
-
-}
-
-
-/* =========================
-   LEADS
-========================= */
-
-function renderLeads(){
-
-const leads=get(DB.leads);
-
-const q=
-(document.getElementById(
-"leadSearch"
-)?.value||"")
-.toLowerCase();
-
-const filter=
-document.getElementById(
-"leadFilter"
-)?.value||"";
-
-const list=
-leads.filter(l=>{
-
-const text=
-(
-l.name+" "+
-l.company+" "+
-l.email
-).toLowerCase();
-
-return(
-(!q||text.includes(q))&&
-(!filter||l.status===filter)
-);
+return d.stage!=="Won" &&
+d.stage!=="Lost";
 
 });
 
-const box=
-document.getElementById(
-"leadsTable"
-);
+const pipeline=
+openDeals.reduce(function(a,d){
 
-if(!list.length){
+return a+Number(d.value||0);
 
-box.innerHTML=
-`<div class="empty">No leads found</div>`;
+},0);
 
-return;
+const openTasks=
+tasks.filter(function(t){
+return !t.done;
+});
 
-}
+const a=document.getElementById("dashLeads");
+const b=document.getElementById("dashDeals");
+const c=document.getElementById("dashPipeline");
+const d=document.getElementById("dashTasks");
 
-box.innerHTML=`
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Name</th>
-<th>Company</th>
-<th>Email</th>
-<th>Status</th>
-<th></th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${list.map(l=>`
-
-<tr>
-
-<td>${esc(l.name)}</td>
-
-<td>${esc(l.company)}</td>
-
-<td>${esc(l.email)}</td>
-
-<td>
-<span class="badge">
-${esc(l.status||"New")}
-</span>
-</td>
-
-<td>
-
-<button
-class="btn secondary"
-onclick="editItem('lead',${l.id})"
->
-Edit
-</button>
-
-</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-`;
-
-}
+if(a)a.textContent=leads.length;
+if(b)b.textContent=openDeals.length;
+if(c)c.textContent=money(pipeline);
+if(d)d.textContent=openTasks.length;
 
 
-/* =========================
-   CONTACTS
-========================= */
+/* RECENT */
 
-function renderContacts(){
+const recent=
+document.getElementById("recent");
 
-const contacts=get(DB.contacts);
-
-const q=
-(
-document.getElementById(
-"contactSearch"
-)?.value||""
-).toLowerCase();
+if(recent){
 
 const list=
-contacts.filter(c=>
-(
-c.name+" "+
-c.email+" "+
-c.company
-)
-.toLowerCase()
-.includes(q)
-);
+leads.slice(-5).reverse();
 
-const box=
-document.getElementById(
-"contactsList"
-);
+recent.innerHTML=list.length?
 
-if(!list.length){
+'<table class="table">'+
+'<tr><th>Name</th><th>Company</th><th>Status</th></tr>'+
+list.map(function(x){
 
-box.innerHTML=
-`<div class="card empty">No contacts yet</div>`;
+return '<tr>'+
+'<td>'+esc(x.name)+'</td>'+
+'<td>'+esc(x.company)+'</td>'+
+'<td><span class="badge">'+
+esc(x.status||"New")+
+'</span></td>'+
+'</tr>';
 
-return;
+}).join("")+
+'</table>':
 
-}
-
-box.innerHTML=
-list.map(c=>`
-
-<div class="item">
-
-<div class="itemTop">
-
-<div>
-
-<h3>${esc(c.name)}</h3>
-
-<p>
-${esc(c.company||"")}
-${c.email?" • "+esc(c.email):""}
-</p>
-
-</div>
-
-<div class="itemActions">
-
-<button onclick="editItem('contact',${c.id})">
-Edit
-</button>
-
-<button onclick="deleteItem('contact',${c.id})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`).join("");
+'<div class="empty">No leads yet</div>';
 
 }
 
 
-/* =========================
-   COMPANIES
-========================= */
+/* TODAY */
 
-function renderCompanies(){
+const todayBox=
+document.getElementById("today");
 
-const companies=get(DB.companies);
-
-const q=
-(
-document.getElementById(
-"companySearch"
-)?.value||""
-).toLowerCase();
+if(todayBox){
 
 const list=
-companies.filter(c=>
-(
-c.name+" "+
-c.industry
-)
-.toLowerCase()
-.includes(q)
-);
+tasks.filter(function(t){
 
-const box=
-document.getElementById(
-"companiesList"
-);
+return !t.done&&t.due===today();
 
-if(!list.length){
+}).slice(0,5);
 
-box.innerHTML=
-`<div class="card empty">No companies yet</div>`;
+todayBox.innerHTML=list.length?
 
-return;
+list.map(function(t){
+
+return '<div class="item">'+
+'<h3>'+esc(t.title)+'</h3>'+
+'<p>'+esc(t.related||"No related contact")+'</p>'+
+'</div>';
+
+}).join(""):
+
+'<div class="empty">No tasks due today</div>';
 
 }
 
-box.innerHTML=
-list.map(c=>`
-
-<div class="item">
-
-<div class="itemTop">
-
-<div>
-
-<h3>${esc(c.name)}</h3>
-
-<p>
-${esc(c.industry||"General")}
-${c.email?" • "+esc(c.email):""}
-</p>
-
-</div>
-
-<div class="itemActions">
-
-<button onclick="editItem('company',${c.id})">
-Edit
-</button>
-
-<button onclick="deleteItem('company',${c.id})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`).join("");
-
 }
-<script>
 
-/* =========================
-   DEALS
-========================= */
+
+/* DEALS */
 
 function renderDeals(){
 
 const deals=get(DB.deals);
-
-const open=
-deals.filter(
-d=>d.stage!=="Won"&&
-d.stage!=="Lost"
-);
-
-const won=
-deals.filter(
-d=>d.stage==="Won"
-);
-
-const pipeline=
-open.reduce(
-(a,d)=>a+Number(d.value||0),
-0
-);
-
-const revenue=
-won.reduce(
-(a,d)=>a+Number(d.value||0),
-0
-);
-
-document.getElementById(
-"dOpen"
-).textContent=open.length;
-
-document.getElementById(
-"dPipeline"
-).textContent=money(pipeline);
-
-document.getElementById(
-"dWon"
-).textContent=won.length;
-
-document.getElementById(
-"dRevenue"
-).textContent=money(revenue);
 
 const stages=[
 "New",
@@ -1966,123 +1390,145 @@ const stages=[
 "Lost"
 ];
 
-document.getElementById(
-"pipeline"
-).innerHTML=
-stages.map(stage=>{
+const open=
+deals.filter(function(d){
+
+return d.stage!=="Won"&&
+d.stage!=="Lost";
+
+});
+
+const won=
+deals.filter(function(d){
+
+return d.stage==="Won";
+
+});
+
+const pipeline=
+open.reduce(function(a,d){
+
+return a+Number(d.value||0);
+
+},0);
+
+const revenue=
+won.reduce(function(a,d){
+
+return a+Number(d.value||0);
+
+},0);
+
+const a=document.getElementById("openDeals");
+const b=document.getElementById("pipelineValue");
+const c=document.getElementById("wonDeals");
+const d=document.getElementById("wonRevenue");
+
+if(a)a.textContent=open.length;
+if(b)b.textContent=money(pipeline);
+if(c)c.textContent=won.length;
+if(d)d.textContent=money(revenue);
+
+const box=
+document.getElementById("pipeline");
+
+if(!box)return;
+
+box.innerHTML=
+
+stages.map(function(stage){
 
 const list=
-deals.filter(
-d=>d.stage===stage
-);
+deals.filter(function(x){
 
-return`
+return x.stage===stage;
 
-<div class="column">
+});
 
-<div class="columnHead">
+return '<div class="column">'+
 
-<span>${stage}</span>
+'<div class="columnHead">'+
+'<span>'+stage+'</span>'+
+'<span>'+list.length+'</span>'+
+'</div>'+
 
-<span>${list.length}</span>
+(
+list.length?
 
-</div>
+list.map(function(x){
 
-${
-list.length
-?
-list.map(d=>`
+return '<div class="deal">'+
+'<h3>'+esc(x.name)+'</h3>'+
+'<p>'+esc(x.company||"")+'</p>'+
+'<strong>'+money(x.value)+'</strong>'+
 
-<div class="deal">
+'<div class="itemActions">'+
+'<button class="smallBtn" onclick="editItem(\'deal\','+
+x.id+
+')">Edit</button>'+
 
-<h4>${esc(d.name)}</h4>
+'<button class="smallBtn" onclick="deleteItem(\'deal\','+
+x.id+
+')">Delete</button>'+
+'</div>'+
 
-<p>${esc(d.company||"")}</p>
+'</div>';
 
-<strong>${money(d.value)}</strong>
+}).join(""):
 
-<div class="itemActions">
+'<div class="empty">Empty</div>'
 
-<button
-onclick="editItem('deal',${d.id})"
->
-Edit
-</button>
+)+
 
-<button
-onclick="deleteItem('deal',${d.id})"
->
-Delete
-</button>
-
-</div>
-
-</div>
-
-`).join("")
-:
-`<div class="empty">Empty</div>`
-}
-
-</div>
-
-`;
+'</div>';
 
 }).join("");
 
 }
 
 
-/* =========================
-   TASKS
-========================= */
+/* TASKS */
 
 function renderTasks(){
 
 const tasks=get(DB.tasks);
 
-const q=
-(
-document.getElementById(
-"taskSearch"
-)?.value||""
-).toLowerCase();
+const input=
+document.getElementById("taskSearch");
 
 const filter=
-document.getElementById(
-"taskFilter"
-)?.value||"";
+document.getElementById("taskFilter");
 
-const todayDate=today();
+const q=
+(input?.value||"").toLowerCase();
+
+const type=
+filter?.value||"";
+
+const td=today();
 
 const list=
-tasks.filter(t=>{
+tasks.filter(function(t){
 
 const text=
-(
-t.title+" "+
-(t.related||"")
-).toLowerCase();
+(t.title+" "+(t.related||""))
+.toLowerCase();
 
 if(q&&!text.includes(q))
 return false;
 
-if(filter==="open"&&t.done)
+if(type==="open"&&t.done)
 return false;
 
-if(filter==="done"&&!t.done)
+if(type==="done"&&!t.done)
 return false;
 
-if(
-filter==="today"&&
-(t.done||t.dueDate!==todayDate)
-)
+if(type==="today"&&
+(t.done||t.due!==td))
 return false;
 
-if(
-filter==="overdue"&&
-(t.done||!t.dueDate||t.dueDate>=todayDate)
-)
+if(type==="overdue"&&
+(t.done||!t.due||t.due>=td))
 return false;
 
 return true;
@@ -2095,130 +1541,89 @@ tasks.filter(t=>!t.done);
 const done=
 tasks.filter(t=>t.done);
 
-const overdue=
-tasks.filter(
-t=>
-!t.done&&
-t.dueDate&&
-t.dueDate<todayDate
-);
-
 const todayCount=
-tasks.filter(
-t=>
-!t.done&&
-t.dueDate===todayDate
-);
+tasks.filter(function(t){
 
-document.getElementById(
-"tOpen"
-).textContent=open.length;
+return !t.done&&t.due===td;
 
-document.getElementById(
-"tToday"
-).textContent=todayCount.length;
+});
 
-document.getElementById(
-"tOverdue"
-).textContent=overdue.length;
+const overdue=
+tasks.filter(function(t){
 
-document.getElementById(
-"tDone"
-).textContent=done.length;
+return !t.done&&t.due&&t.due<td;
+
+});
+
+const a=document.getElementById("openTasks");
+const b=document.getElementById("todayTasks");
+const c=document.getElementById("overdueTasks");
+const d=document.getElementById("doneTasks");
+
+if(a)a.textContent=open.length;
+if(b)b.textContent=todayCount.length;
+if(c)c.textContent=overdue.length;
+if(d)d.textContent=done.length;
 
 const box=
-document.getElementById(
-"tasksList"
-);
+document.getElementById("taskList");
 
-if(!list.length){
+if(!box)return;
 
-box.innerHTML=
-`<div class="card empty">No tasks found</div>`;
+box.innerHTML=list.length?
 
-return;
+list.map(function(t){
 
-}
+return '<div class="item">'+
 
-box.innerHTML=
-list.map(t=>`
+'<div class="itemTop">'+
+'<div>'+
+'<h3 style="'+
+(t.done?"text-decoration:line-through":"")+
+'">'+
+esc(t.title)+
+'</h3>'+
+'<p>'+
+(t.due?"Due "+esc(t.due):
+"No due date")+
+(t.related?" • "+esc(t.related):"")+
+'</p>'+
+'</div>'+
 
-<div class="item">
+'<span class="badge">'+
+esc(t.priority||"Medium")+
+'</span>'+
 
-<div class="itemTop">
+'</div>'+
 
-<div>
+'<div class="itemActions">'+
 
-<h3
-style="${
-t.done
-?"text-decoration:line-through;color:var(--muted)"
-:""
-}"
->
-${esc(t.title)}
-</h3>
+'<button class="smallBtn" onclick="completeTask('+
+t.id+
+')">'+
+(t.done?"Reopen":"Complete")+
+'</button>'+
 
-<p>
+'<button class="smallBtn" onclick="editItem(\'task\','+
+t.id+
+')">Edit</button>'+
 
-${t.dueDate
-?"Due "+esc(t.dueDate)
-:"No due date"}
+'<button class="smallBtn" onclick="deleteItem(\'task\','+
+t.id+
+')">Delete</button>'+
 
-${t.related
-?" • "+esc(t.related)
-:""}
+'</div>'+
 
-</p>
+'</div>';
 
-</div>
+}).join(""):
 
-<span class="badge ${
-t.priority==="High"
-?"red":
-t.priority==="Low"
-?"green":
-"orange"
-}">
-
-${esc(t.priority||"Medium")}
-
-</span>
-
-</div>
-
-<div class="itemActions">
-
-<button
-onclick="toggleTask(${t.id})"
->
-${t.done?"Reopen":"Complete"}
-</button>
-
-<button
-onclick="editItem('task',${t.id})"
->
-Edit
-</button>
-
-<button
-onclick="deleteItem('task',${t.id})"
->
-Delete
-</button>
-
-</div>
-
-</div>
-
-`).join("");
+'<div class="card empty">No tasks found</div>';
 
 }
 
 
-/* =========================
-   REPORTS
-========================= */
+/* REPORTS */
 
 function renderReports(){
 
@@ -2227,197 +1632,120 @@ const deals=get(DB.deals);
 const tasks=get(DB.tasks);
 
 const won=
-deals.filter(
-d=>d.stage==="Won"
-);
+deals.filter(d=>d.stage==="Won");
 
 const lost=
-deals.filter(
-d=>d.stage==="Lost"
-);
+deals.filter(d=>d.stage==="Lost");
 
 const open=
-deals.filter(
-d=>
-d.stage!=="Won"&&
-d.stage!=="Lost"
-);
+deals.filter(function(d){
+
+return d.stage!=="Won"&&
+d.stage!=="Lost";
+
+});
 
 const pipeline=
-open.reduce(
-(a,d)=>a+Number(d.value||0),
-0
-);
+open.reduce(function(a,d){
+
+return a+Number(d.value||0);
+
+},0);
 
 const revenue=
-won.reduce(
-(a,d)=>a+Number(d.value||0),
-0
-);
+won.reduce(function(a,d){
+
+return a+Number(d.value||0);
+
+},0);
 
 const closed=
 won.length+lost.length;
 
 const rate=
-closed
-?Math.round(
-won.length/closed*100
-)
-:0;
+closed?
+Math.round(won.length/closed*100):
+0;
 
-document.getElementById(
-"rLeads"
-).textContent=leads.length;
+const a=document.getElementById("reportLeads");
+const b=document.getElementById("reportPipeline");
+const c=document.getElementById("reportRevenue");
+const d=document.getElementById("reportRate");
 
-document.getElementById(
-"rPipeline"
-).textContent=money(pipeline);
+if(a)a.textContent=leads.length;
+if(b)b.textContent=money(pipeline);
+if(c)c.textContent=money(revenue);
+if(d)d.textContent=rate+"%";
 
-document.getElementById(
-"rRevenue"
-).textContent=money(revenue);
+const stageBox=
+document.getElementById("stageReport");
 
-document.getElementById(
-"rRate"
-).textContent=rate+"%";
+if(stageBox){
 
-
-const stages=[
+stageBox.innerHTML=
+[
 "New",
 "Qualified",
 "Proposal",
 "Won",
 "Lost"
-];
-
-document.getElementById(
-"reportStages"
-).innerHTML=
-stages.map(stage=>{
+].map(function(stage){
 
 const count=
-deals.filter(
-d=>d.stage===stage
-).length;
+deals.filter(function(x){
+return x.stage===stage;
+}).length;
 
 const percent=
-deals.length
-?Math.round(
-count/deals.length*100
-)
-:0;
+deals.length?
+Math.round(count/deals.length*100):
+0;
 
-return`
-
-<div style="margin-bottom:14px">
-
-<div style="
-display:flex;
-justify-content:space-between;
-font-size:11px;
-margin-bottom:6px
-">
-
-<span>${stage}</span>
-
-<b>${count}</b>
-
-</div>
-
-<div class="progress">
-
-<div
-style="width:${percent}%"
-></div>
-
-</div>
-
-</div>
-
-`;
+return '<div style="margin-bottom:12px">'+
+'<div style="display:flex;justify-content:space-between">'+
+'<span>'+stage+'</span>'+
+'<b>'+count+'</b>'+
+'</div>'+
+'<div class="progress">'+
+'<div style="width:'+percent+'%"></div>'+
+'</div>'+
+'</div>';
 
 }).join("");
 
+}
 
-const done=
+const taskBox=
+document.getElementById("taskReport");
+
+if(taskBox){
+
+const completed=
 tasks.filter(t=>t.done).length;
 
-const taskPercent=
-tasks.length
-?Math.round(
-done/tasks.length*100
-)
-:0;
+const percent=
+tasks.length?
+Math.round(completed/tasks.length*100):
+0;
 
-document.getElementById(
-"reportTasks"
-).innerHTML=`
+taskBox.innerHTML=
+'<b>'+percent+
+'% completed</b>'+
+'<div class="progress">'+
+'<div style="width:'+percent+'%"></div>'+
+'</div>';
 
-<div style="margin-bottom:16px">
-
-<div style="
-display:flex;
-justify-content:space-between;
-font-size:11px
-">
-
-<span>Completion</span>
-
-<b>${taskPercent}%</b>
-
-</div>
-
-<div class="progress">
-
-<div
-style="width:${taskPercent}%"
-></div>
-
-</div>
-
-</div>
-
-<div class="item">
-
-<h3>${tasks.length}</h3>
-
-<p>Total tasks</p>
-
-</div>
-
-<div class="item" style="margin-top:8px">
-
-<h3>${done}</h3>
-
-<p>Completed tasks</p>
-
-</div>
-
-`;
+}
 
 }
 
 
-/* =========================
-   MODAL
-========================= */
+/* FORM */
 
-function openModal(type,id=null){
+function openForm(type,id){
 
-modalType=type;
-editId=id;
-
-const titles={
-lead:id?"Edit Lead":"Add Lead",
-contact:id?"Edit Contact":"Add Contact",
-company:id?"Edit Company":"Add Company",
-deal:id?"Edit Deal":"Add Deal",
-task:id?"Edit Task":"Add Task"
-};
-
-document.getElementById(
-"modalTitle"
-).textContent=titles[type];
+currentType=type;
+currentId=id||null;
 
 let data=null;
 
@@ -2425,288 +1753,227 @@ if(id){
 
 data=
 get(DB[type+"s"])
-.find(x=>x.id===id);
+.find(function(x){
+return x.id===id;
+});
 
 }
+
+document.getElementById("modalTitle")
+.textContent=
+(id?"Edit ":"Add ")+type;
 
 let html="";
 
 
-if(type==="lead"){
-
-html=`
-
-<label>Name</label>
-
-<input id="fName"
-value="${esc(data?.name)}"
-placeholder="Full name">
-
-<label>Company</label>
-
-<input id="fCompany"
-value="${esc(data?.company)}"
-placeholder="Company">
-
-<label>Email</label>
-
-<input id="fEmail"
-value="${esc(data?.email)}"
-placeholder="Email address">
-
-<label>Status</label>
-
-<select id="fStatus">
-
-${[
-"New",
-"Contacted",
-"Qualified",
-"Converted",
-"Lost"
-].map(x=>
-`<option ${
-data?.status===x?"selected":""
-}>${x}</option>`
-).join("")}
-
-</select>
-
-`;
-
-}
-
-
-if(type==="contact"){
-
-html=`
-
-<label>Name</label>
-
-<input id="fName"
-value="${esc(data?.name)}"
-placeholder="Contact name">
-
-<label>Company</label>
-
-<input id="fCompany"
-value="${esc(data?.company)}"
-placeholder="Company">
-
-<label>Email</label>
-
-<input id="fEmail"
-value="${esc(data?.email)}"
-placeholder="Email">
-
-<label>Phone</label>
-
-<input id="fPhone"
-value="${esc(data?.phone)}"
-placeholder="Phone">
-
-`;
-
-}
-
-
-if(type==="company"){
-
-html=`
-
-<label>Company Name</label>
-
-<input id="fName"
-value="${esc(data?.name)}"
-placeholder="Company name">
-
-<label>Industry</label>
-
-<input id="fIndustry"
-value="${esc(data?.industry)}"
-placeholder="Industry">
-
-<label>Email</label>
-
-<input id="fEmail"
-value="${esc(data?.email)}"
-placeholder="Company email">
-
-`;
-
-}
-
-
 if(type==="deal"){
 
-html=`
+html=
+'<label>Deal Name</label>'+
+'<input id="fName" value="'+
+esc(data?.name)+
+'" placeholder="Deal name">'+
 
-<label>Deal Name</label>
+'<label>Company</label>'+
+'<input id="fCompany" value="'+
+esc(data?.company)+
+'" placeholder="Company">'+
 
-<input id="fName"
-value="${esc(data?.name)}"
-placeholder="Deal name">
+'<label>Value</label>'+
+'<input id="fValue" type="number" value="'+
+(data?.value||"")+
+'" placeholder="50000">'+
 
-<label>Company</label>
+'<label>Stage</label>'+
+'<select id="fStage">'+
 
-<input id="fCompany"
-value="${esc(data?.company)}"
-placeholder="Company">
-
-<label>Value</label>
-
-<input
-id="fValue"
-type="number"
-value="${data?.value||""}"
-placeholder="50000">
-
-<label>Stage</label>
-
-<select id="fStage">
-
-${[
+[
 "New",
 "Qualified",
 "Proposal",
 "Won",
 "Lost"
-].map(x=>
-`<option ${
-data?.stage===x?"selected":""
-}>${x}</option>`
-).join("")}
+].map(function(x){
 
-</select>
+return '<option '+
+(data?.stage===x?"selected":"")+
+'>'+x+'</option>';
 
-`;
+}).join("")+
+
+'</select>';
 
 }
 
 
 if(type==="task"){
 
-html=`
+html=
+'<label>Task</label>'+
+'<input id="fName" value="'+
+esc(data?.title)+
+'" placeholder="Task name">'+
 
-<label>Task</label>
+'<label>Due Date</label>'+
+'<input id="fDue" type="date" value="'+
+(data?.due||today())+
+'">'+
 
-<input id="fName"
-value="${esc(data?.title)}"
-placeholder="Follow up with client">
+'<label>Priority</label>'+
+'<select id="fPriority">'+
 
-<label>Due Date</label>
-
-<input
-id="fDate"
-type="date"
-value="${data?.dueDate||today()}">
-
-<label>Priority</label>
-
-<select id="fPriority">
-
-${[
+[
 "High",
 "Medium",
 "Low"
-].map(x=>
-`<option ${
+].map(function(x){
+
+return '<option '+
+(
 data?.priority===x||
-(!data&&x==="Medium")
-?"selected":""
-}>${x}</option>`
-).join("")}
+(!data&&x==="Medium")?
+"selected":""
+)+
+'>'+x+'</option>';
 
-</select>
+}).join("")+
 
-<label>Related Company / Contact</label>
+'</select>'+
 
-<input
-id="fRelated"
-value="${esc(data?.related)}"
-placeholder="Company or contact">
-
-`;
-
-}
-
-document.getElementById(
-"modalForm"
-).innerHTML=html;
-
-document.getElementById(
-"overlay"
-).style.display="flex";
+'<label>Related To</label>'+
+'<input id="fRelated" value="'+
+esc(data?.related)+
+'" placeholder="Company or contact">';
 
 }
 
 
-function quickAdd(){
+if(type==="lead"){
 
-const options=[
-"lead",
-"contact",
-"company",
-"deal",
-"task"
-];
+html=
+'<label>Name</label>'+
+'<input id="fName" value="'+
+esc(data?.name)+
+'" placeholder="Full name">'+
 
-const choice=
-prompt(
-"Add:\n\n1 Lead\n2 Contact\n3 Company\n4 Deal\n5 Task"
-);
+'<label>Company</label>'+
+'<input id="fCompany" value="'+
+esc(data?.company)+
+'" placeholder="Company">'+
 
-const number=
-Number(choice);
+'<label>Email</label>'+
+'<input id="fEmail" value="'+
+esc(data?.email)+
+'" placeholder="Email">'+
 
-if(number>=1&&number<=5){
+'<label>Status</label>'+
+'<select id="fStatus">'+
 
-openModal(
-options[number-1]
-);
+[
+"New",
+"Contacted",
+"Qualified",
+"Converted",
+"Lost"
+].map(function(x){
+
+return '<option '+
+(data?.status===x?"selected":"")+
+'>'+x+'</option>';
+
+}).join("")+
+
+'</select>';
 
 }
 
+
+if(type==="contact"){
+
+html=
+'<label>Name</label>'+
+'<input id="fName" value="'+
+esc(data?.name)+
+'" placeholder="Contact name">'+
+
+'<label>Company</label>'+
+'<input id="fCompany" value="'+
+esc(data?.company)+
+'" placeholder="Company">'+
+
+'<label>Email</label>'+
+'<input id="fEmail" value="'+
+esc(data?.email)+
+'" placeholder="Email">';
+
 }
 
 
-function closeModal(){
+if(type==="company"){
 
-document.getElementById(
-"overlay"
-).style.display="none";
+html=
+'<label>Company</label>'+
+'<input id="fName" value="'+
+esc(data?.name)+
+'" placeholder="Company name">'+
 
-modalType="";
-editId=null;
+'<label>Industry</label>'+
+'<input id="fIndustry" value="'+
+esc(data?.industry)+
+'" placeholder="Industry">'+
+
+'<label>Email</label>'+
+'<input id="fEmail" value="'+
+esc(data?.email)+
+'" placeholder="Email">';
+
+}
+
+document.getElementById("form")
+.innerHTML=html;
+
+document.getElementById("modal")
+.style.display="flex";
 
 }
 
 
-/* =========================
-   SAVE MODAL
-========================= */
+/* CLOSE */
 
-function saveModal(){
+function closeForm(){
 
-const key=DB[modalType+"s"];
+document.getElementById("modal")
+.style.display="none";
 
-if(!key)
-return;
+currentType="";
+currentId=null;
+
+}
+
+
+/* SAVE */
+
+function saveForm(){
+
+const key=
+DB[currentType+"s"];
 
 const data=get(key);
 
 let item;
 
-if(editId){
+if(currentId){
 
 item=
-data.find(x=>x.id===editId);
+data.find(function(x){
+return x.id===currentId;
+});
 
 }else{
 
 item={
-id:id(),
-createdAt:new Date().toISOString()
+id:newId(),
+created:Date.now()
 };
 
 data.push(item);
@@ -2714,302 +1981,201 @@ data.push(item);
 }
 
 
-if(modalType==="lead"){
+if(
+currentType==="lead"||
+currentType==="contact"
+){
 
 item.name=
-document.getElementById("fName").value.trim();
+document.getElementById("fName")
+.value.trim();
 
 item.company=
-document.getElementById("fCompany").value.trim();
+document.getElementById("fCompany")
+.value.trim();
 
 item.email=
-document.getElementById("fEmail").value.trim();
+document.getElementById("fEmail")
+.value.trim();
+
+if(currentType==="lead"){
 
 item.status=
-document.getElementById("fStatus").value;
+document.getElementById("fStatus")
+.value;
+
+}
 
 }
 
 
-if(modalType==="contact"){
+if(currentType==="company"){
 
 item.name=
-document.getElementById("fName").value.trim();
-
-item.company=
-document.getElementById("fCompany").value.trim();
-
-item.email=
-document.getElementById("fEmail").value.trim();
-
-item.phone=
-document.getElementById("fPhone").value.trim();
-
-}
-
-
-if(modalType==="company"){
-
-item.name=
-document.getElementById("fName").value.trim();
+document.getElementById("fName")
+.value.trim();
 
 item.industry=
-document.getElementById("fIndustry").value.trim();
+document.getElementById("fIndustry")
+.value.trim();
 
 item.email=
-document.getElementById("fEmail").value.trim();
+document.getElementById("fEmail")
+.value.trim();
 
 }
 
 
-if(modalType==="deal"){
+if(currentType==="deal"){
 
 item.name=
-document.getElementById("fName").value.trim();
+document.getElementById("fName")
+.value.trim();
 
 item.company=
-document.getElementById("fCompany").value.trim();
+document.getElementById("fCompany")
+.value.trim();
 
 item.value=
 Number(
-document.getElementById("fValue").value
+document.getElementById("fValue")
+.value
 )||0;
 
 item.stage=
-document.getElementById("fStage").value;
+document.getElementById("fStage")
+.value;
 
 }
 
 
-if(modalType==="task"){
+if(currentType==="task"){
 
 item.title=
-document.getElementById("fName").value.trim();
+document.getElementById("fName")
+.value.trim();
 
-item.dueDate=
-document.getElementById("fDate").value;
+item.due=
+document.getElementById("fDue")
+.value;
 
 item.priority=
-document.getElementById("fPriority").value;
+document.getElementById("fPriority")
+.value;
 
 item.related=
-document.getElementById("fRelated").value.trim();
+document.getElementById("fRelated")
+.value.trim();
 
-item.done=
-item.done||false;
+if(typeof item.done!=="boolean")
+item.done=false;
 
 }
 
 
-if(!item.name&&
-modalType!=="task"){
+if(
+currentType==="task"?
+!item.title:
+!item.name
+){
 
-toast("Please enter a name");
+notify("Enter a name");
 
 return;
 
 }
 
-if(!item.title&&
-modalType==="task"){
+put(key,data);
 
-toast("Please enter a task");
+closeForm();
 
-return;
+refreshAll();
 
-}
-
-save(key,data);
-
-closeModal();
-
-refresh();
-
-toast(
-editId
-?"Updated successfully"
-:"Added successfully"
+notify(
+currentId?
+"Updated":
+"Added"
 );
 
 }
 
 
-/* =========================
-   EDIT / DELETE
-========================= */
+/* EDIT */
 
 function editItem(type,id){
 
-openModal(type,id);
+openForm(type,id);
 
 }
+
+
+/* DELETE */
 
 function deleteItem(type,id){
 
-const key=DB[type+"s"];
-
-const data=get(key);
-
-const item=
-data.find(x=>x.id===id);
-
-if(!item)
+if(!confirm("Delete this item?"))
 return;
 
-if(
-!confirm(
-"Delete this item?"
-)
-)
-return;
+const key=
+DB[type+"s"];
 
-save(
+put(
 key,
-data.filter(
-x=>x.id!==id
-)
+get(key).filter(function(x){
+return x.id!==id;
+})
 );
 
-refresh();
+refreshAll();
 
-toast("Deleted");
+notify("Deleted");
 
 }
 
 
-function toggleTask(id){
+/* COMPLETE */
+
+function completeTask(id){
 
 const tasks=get(DB.tasks);
 
 const task=
-tasks.find(x=>x.id===id);
+tasks.find(function(x){
+return x.id===id;
+});
 
-if(!task)
-return;
+if(!task)return;
 
 task.done=!task.done;
 
-save(
-DB.tasks,
-tasks
-);
+put(DB.tasks,tasks);
 
-renderTasks();
+refreshAll();
 
-renderDashboard();
-
-renderReports();
-
-toast(
-task.done
-?"Task completed"
-:"Task reopened"
+notify(
+task.done?
+"Task completed":
+"Task reopened"
 );
 
 }
 
 
-/* =========================
-   GLOBAL SEARCH
-========================= */
+/* DARK MODE */
 
-document
-.getElementById("globalSearch")
-.addEventListener(
-"keydown",
-function(e){
+function darkMode(){
 
-if(e.key!=="Enter")
-return;
-
-const q=
-this.value
-.toLowerCase()
-.trim();
-
-if(!q)
-return;
-
-const data=[
-...get(DB.leads).map(x=>({
-type:"Lead",
-name:x.name,
-page:"leads"
-})),
-
-...get(DB.contacts).map(x=>({
-type:"Contact",
-name:x.name,
-page:"contacts"
-})),
-
-...get(DB.companies).map(x=>({
-type:"Company",
-name:x.name,
-page:"companies"
-})),
-
-...get(DB.deals).map(x=>({
-type:"Deal",
-name:x.name,
-page:"deals"
-})),
-
-...get(DB.tasks).map(x=>({
-type:"Task",
-name:x.title,
-page:"tasks"
-}))
-];
-
-const result=
-data.filter(x=>
-String(x.name||"")
-.toLowerCase()
-.includes(q)
-);
-
-if(result.length){
-
-showPage(result[0].page);
-
-toast(
-result.length+
-" result"+
-(result.length===1?"":"s")+
-" found"
-);
-
-}else{
-
-toast("No matching record");
-
-}
-
-});
-
-
-/* =========================
-   DARK MODE
-========================= */
-
-function toggleDark(){
-
-document.body.classList.toggle(
-"dark"
-);
+document.body.classList.toggle("dark");
 
 localStorage.setItem(
-"clientflow_dark",
+"cf_dark",
 document.body.classList.contains("dark")
 );
 
 }
 
 
-/* =========================
-   EXPORT
-========================= */
+/* EXPORT */
 
 function exportData(){
 
@@ -3018,22 +2184,12 @@ leads:get(DB.leads),
 contacts:get(DB.contacts),
 companies:get(DB.companies),
 deals:get(DB.deals),
-tasks:get(DB.tasks),
-exportedAt:new Date().toISOString()
+tasks:get(DB.tasks)
 };
 
-const blob=
-new Blob(
-[
-JSON.stringify(
-data,
-null,
-2
-)
-],
-{
-type:"application/json"
-}
+const blob=new Blob(
+[JSON.stringify(data,null,2)],
+{type:"application/json"}
 );
 
 const url=
@@ -3043,7 +2199,6 @@ const a=
 document.createElement("a");
 
 a.href=url;
-
 a.download=
 "clientflow-backup.json";
 
@@ -3051,14 +2206,12 @@ a.click();
 
 URL.revokeObjectURL(url);
 
-toast("Backup exported");
+notify("Backup exported");
 
 }
 
 
-/* =========================
-   IMPORT
-========================= */
+/* IMPORT */
 
 function importData(){
 
@@ -3066,52 +2219,39 @@ const input=
 document.createElement("input");
 
 input.type="file";
-
 input.accept=".json";
 
-input.onchange=
-function(){
+input.onchange=function(){
 
-const file=
-this.files[0];
+const file=this.files[0];
 
-if(!file)
-return;
+if(!file)return;
 
 const reader=
 new FileReader();
 
-reader.onload=
-function(){
+reader.onload=function(){
 
 try{
 
 const data=
-JSON.parse(
-reader.result
-);
+JSON.parse(reader.result);
 
 Object.keys(DB)
-.forEach(key=>{
+.forEach(function(k){
 
-if(Array.isArray(data[key])){
-
-save(
-DB[key],
-data[key]
-);
-
-}
+if(Array.isArray(data[k]))
+put(DB[k],data[k]);
 
 });
 
-refresh();
+refreshAll();
 
-toast("Backup imported");
+notify("Backup imported");
 
 }catch(e){
 
-toast("Invalid backup file");
+notify("Invalid backup");
 
 }
 
@@ -3126,98 +2266,57 @@ input.click();
 }
 
 
-/* =========================
-   RESET
-========================= */
+/* RESET */
 
-function clearDemo(){
+function resetData(){
 
-if(
-!confirm(
-"Reset all ClientFlow local data?"
-)
-)
+if(!confirm(
+"Delete all ClientFlow data?"
+))
 return;
 
 Object.values(DB)
-.forEach(
-key=>localStorage.removeItem(key)
-);
+.forEach(function(k){
 
-location.reload();
-
-}
-
-
-/* =========================
-   DARK MODE LOAD
-========================= */
-
-if(
-localStorage.getItem(
-"clientflow_dark"
-)==="true"
-){
-
-document.body.classList.add(
-"dark"
-);
-
-}
-
-
-/* =========================
-   MODAL EVENTS
-========================= */
-
-document
-.getElementById("overlay")
-.addEventListener(
-"click",
-function(e){
-
-if(e.target===this){
-
-closeModal();
-
-}
+localStorage.removeItem(k);
 
 });
 
+refreshAll();
 
-document.addEventListener(
-"keydown",
-function(e){
-
-if(e.key==="Escape"){
-
-closeModal();
+notify("Data reset");
 
 }
 
-if(
-(e.ctrlKey||e.metaKey)&&
-e.key.toLowerCase()==="k"
-){
 
-e.preventDefault();
+/* REFRESH */
 
-document
-.getElementById(
-"globalSearch"
-)
-.focus();
+function refreshPage(name){
+
+if(name==="dashboard")
+renderDashboard();
+
+if(name==="deals")
+renderDeals();
+
+if(name==="tasks")
+renderTasks();
+
+if(name==="reports")
+renderReports();
+
+if(name==="leads")
+renderLeads();
+
+if(name==="contacts")
+renderContacts();
+
+if(name==="companies")
+renderCompanies();
 
 }
 
-});
-
-
-/* =========================
-   REFRESH
-========================= */
-
-function refresh(){
+function refreshAll(){
 
 renderDashboard();
 renderLeads();
@@ -3230,27 +2329,95 @@ renderReports();
 }
 
 
-/* =========================
-   STORAGE SYNC
-========================= */
+/* GLOBAL SEARCH */
 
-window.addEventListener(
-"storage",
-function(){
+const search=
+document.getElementById("search");
 
-refresh();
+if(search){
+
+search.addEventListener(
+"keydown",
+function(e){
+
+if(e.key!=="Enter")
+return;
+
+const q=
+this.value.toLowerCase().trim();
+
+if(!q)return;
+
+const groups=[
+["leads","name"],
+["contacts","name"],
+["companies","name"],
+["deals","name"],
+["tasks","title"]
+];
+
+for(let i=0;i<groups.length;i++){
+
+const found=
+get(DB[groups[i][0]])
+.find(function(x){
+
+return String(
+x[groups[i][1]]||""
+)
+.toLowerCase()
+.includes(q);
+
+});
+
+if(found){
+
+notify("Record found");
+
+return;
+
+}
+
+}
+
+notify("No matching record");
+
+});
+
+}
+
+
+/* ESCAPE */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(e.key==="Escape")
+closeForm();
 
 });
 
 
-/* =========================
-   START
-========================= */
+/* LOAD DARK MODE */
 
-refresh();
+if(
+localStorage.getItem("cf_dark")
+==="true"
+){
+
+document.body.classList.add("dark");
+
+}
+
+
+/* START */
+
+refreshAll();
 
 </script>
 
+</main>
 </div>
 
 </body>
