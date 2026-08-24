@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
-<title>ClientFlow - Reports</title>
+<title>ClientFlow — Reports</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,239 +11,112 @@
 :root{
 --bg:#f5f7fb;
 --card:#fff;
---soft:#f8fafc;
---text:#111827;
+--text:#172033;
 --muted:#6b7280;
---border:#e5e7eb;
---primary:#2563eb;
+--line:#e5e7eb;
+--blue:#2563eb;
 --green:#16a34a;
 --red:#dc2626;
 --orange:#d97706;
---sidebar:#111827;
---side:#cbd5e1
+--dark:#101827
 }
 
-body.dark{
---bg:#0b1120;
---card:#111827;
---soft:#172033;
---text:#f8fafc;
---muted:#94a3b8;
---border:#243044;
---sidebar:#070d18
-}
+*{font-family:Inter,Arial,sans-serif}
 
 body{
 background:var(--bg);
-color:var(--text);
-font-family:Arial,Helvetica,sans-serif
+color:var(--text)
 }
 
 button,input,select{font:inherit}
 button{cursor:pointer}
-a{text-decoration:none;color:inherit}
 
-/* SIDEBAR */
-
-.sidebar{
+.side{
 position:fixed;
-inset:0 auto 0 0;
-width:245px;
-background:var(--sidebar);
+left:0;
+top:0;
+bottom:0;
+width:225px;
+background:var(--dark);
 color:#fff;
-z-index:50;
-display:flex;
-flex-direction:column;
-transition:.2s
+padding:18px 12px;
+z-index:20
 }
 
 .logo{
-height:72px;
-padding:0 22px;
-display:flex;
-align-items:center;
-gap:11px;
-border-bottom:1px solid rgba(255,255,255,.08)
+font-size:22px;
+font-weight:800;
+padding:8px 12px 25px
 }
 
-.logoMark{
-width:36px;
-height:36px;
-border-radius:10px;
-background:#2563eb;
-display:grid;
-place-items:center;
-font-weight:bold
+.logo span{color:#60a5fa}
+
+.workspace{
+background:#1c2738;
+padding:10px;
+border-radius:8px;
+font-size:12px;
+margin-bottom:18px
 }
 
-.logo strong{font-size:19px}
-
-.logo small{
-display:block;
-color:#94a3b8;
-font-size:9px;
-margin-top:2px
-}
-
-.nav{
-padding:17px 12px;
-overflow:auto;
-flex:1
-}
-
-.navTitle{
+.navtitle{
 font-size:10px;
-color:#64748b;
-font-weight:bold;
-padding:10px 12px 7px;
-text-transform:uppercase;
-letter-spacing:.08em
+color:#718096;
+padding:8px 12px
 }
 
-.nav a{
+.nav button{
+width:100%;
+border:0;
+background:transparent;
+color:#aeb8c9;
+padding:10px 12px;
+text-align:left;
+border-radius:7px;
+margin:2px 0;
+font-size:13px
+}
+
+.nav button:hover,
+.nav button.active{
+background:#243247;
+color:#fff
+}
+
+.main{
+margin-left:225px;
+padding:20px;
+max-width:1500px
+}
+
+.top{
 display:flex;
 align-items:center;
 gap:12px;
-padding:11px 12px;
-border-radius:9px;
-color:var(--side);
-font-size:14px;
-margin:2px 0
-}
-
-.nav a:hover{
-background:rgba(255,255,255,.07);
-color:#fff
-}
-
-.nav a.active{
-background:#2563eb;
-color:#fff
-}
-
-.icon{
-width:20px;
-text-align:center
-}
-
-.user{
-padding:14px;
-border-top:1px solid rgba(255,255,255,.08);
-display:flex;
-align-items:center;
-gap:10px
-}
-
-.avatar{
-width:34px;
-height:34px;
-border-radius:50%;
-background:#2563eb;
-display:grid;
-place-items:center;
-font-size:11px;
-font-weight:bold
-}
-
-.user small{
-display:block;
-color:#94a3b8;
-font-size:10px
-}
-
-/* MAIN */
-
-.main{
-margin-left:245px;
-min-height:100vh
-}
-
-.topbar{
-height:72px;
-background:var(--card);
-border-bottom:1px solid var(--border);
-display:flex;
-align-items:center;
-gap:14px;
-padding:0 24px;
-position:sticky;
-top:0;
-z-index:30
+margin-bottom:22px
 }
 
 .menu{
 display:none;
-width:38px;
-height:38px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:9px
+padding:9px;
+border:1px solid var(--line);
+background:var(--card);
+border-radius:7px
 }
 
 .search{
-position:relative;
-max-width:430px;
-flex:1
+flex:1;
+max-width:520px
 }
 
 .search input{
 width:100%;
-height:40px;
-background:var(--soft);
+padding:11px 14px;
+border:1px solid var(--line);
+border-radius:8px;
+background:var(--card);
 color:var(--text);
-border:1px solid var(--border);
-border-radius:9px;
-padding:0 12px 0 36px;
-outline:none
-}
-
-.searchIcon{
-position:absolute;
-left:13px;
-top:11px;
-color:var(--muted)
-}
-
-.topRight{
-margin-left:auto;
-display:flex;
-gap:8px
-}
-
-.iconBtn{
-width:38px;
-height:38px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:9px
-}
-
-.content{
-padding:24px;
-max-width:1600px;
-margin:auto
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-margin-bottom:20px
-}
-
-.header h1{
-font-size:25px
-}
-
-.header p{
-font-size:13px;
-color:var(--muted);
-margin-top:5px
+outline:0
 }
 
 .actions{
@@ -252,261 +124,201 @@ display:flex;
 gap:8px
 }
 
-.primary{
-height:40px;
-padding:0 15px;
-background:var(--primary);
-color:#fff;
+.btn{
 border:0;
-border-radius:9px;
-font-weight:bold
+border-radius:8px;
+padding:10px 14px;
+font-size:12px;
+font-weight:700
+}
+
+.primary{
+background:var(--blue);
+color:#fff
 }
 
 .secondary{
-height:40px;
-padding:0 14px;
-border:1px solid var(--border);
 background:var(--card);
 color:var(--text);
-border-radius:9px
+border:1px solid var(--line)
 }
 
-/* FILTER */
-
-.filterBar{
+.head{
 display:flex;
-gap:9px;
-margin-bottom:18px
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
 }
 
-.filter{
-height:38px;
-border:1px solid var(--border);
-background:var(--card);
-color:var(--text);
-border-radius:8px;
-padding:0 10px
+.head h1{
+font-size:25px
 }
 
-/* STATS */
+.head p{
+color:var(--muted);
+font-size:13px;
+margin-top:5px
+}
 
 .stats{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:15px;
+gap:13px;
 margin-bottom:18px
-}
-
-.stat{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:14px;
-padding:17px
-}
-
-.statLabel{
-font-size:10px;
-font-weight:bold;
-color:var(--muted)
-}
-
-.statValue{
-font-size:23px;
-font-weight:bold;
-margin-top:9px
-}
-
-.statSmall{
-font-size:10px;
-margin-top:5px;
-color:var(--green)
-}
-
-/* REPORT GRID */
-
-.reportGrid{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:15px;
-margin-bottom:15px
 }
 
 .card{
 background:var(--card);
-border:1px solid var(--border);
-border-radius:14px;
-padding:18px
+border:1px solid var(--line);
+border-radius:11px;
+padding:16px
 }
 
-.cardHead{
+.stat small{
+color:var(--muted);
+font-size:11px
+}
+
+.stat strong{
+display:block;
+font-size:23px;
+margin:9px 0
+}
+
+.stat span{
+font-size:11px;
+color:var(--muted)
+}
+
+.green{color:var(--green)}
+.blue{color:var(--blue)}
+.red{color:var(--red)}
+.orange{color:var(--orange)}
+
+.grid{
+display:grid;
+grid-template-columns:1.5fr 1fr;
+gap:16px;
+margin-bottom:16px
+}
+
+.sectionTitle{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:18px
+margin-bottom:14px
 }
 
-.cardHead h2{
-font-size:14px
+.sectionTitle h2{
+font-size:15px
 }
 
-.cardHead span{
+.sectionTitle span{
 font-size:10px;
 color:var(--muted)
 }
 
-/* CHART */
-
 .chart{
-height:240px;
+height:230px;
 display:flex;
-align-items:flex-end;
-gap:12px;
-padding:10px 5px 0;
-border-bottom:1px solid var(--border)
-}
-
-.barWrap{
-height:100%;
-flex:1;
-display:flex;
-flex-direction:column;
-justify-content:flex-end;
-align-items:center;
-gap:7px
+align-items:end;
+gap:10px;
+padding-top:20px
 }
 
 .bar{
-width:min(42px,80%);
-min-height:4px;
-background:var(--primary);
-border-radius:6px 6px 0 0;
-transition:.2s
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:end;
+height:100%
 }
 
-.bar:hover{
-opacity:.8
+.barValue{
+font-size:9px;
+color:var(--muted);
+margin-bottom:5px
+}
+
+.barFill{
+width:100%;
+max-width:38px;
+background:var(--blue);
+border-radius:6px 6px 0 0;
+min-height:4px
 }
 
 .barLabel{
 font-size:9px;
-color:var(--muted)
+color:var(--muted);
+margin-top:7px
 }
 
-.barValue{
-font-size:8px;
-color:var(--text)
+.metric{
+margin-bottom:17px
 }
 
-/* PIPELINE */
-
-.pipelineRow{
-margin-bottom:14px
-}
-
-.pipelineTop{
+.metricTop{
 display:flex;
 justify-content:space-between;
-font-size:10px;
-margin-bottom:6px
+font-size:11px;
+margin-bottom:7px
 }
 
-.pipelineTop span:last-child{
+.track{
+height:8px;
+background:#e5e7eb;
+border-radius:10px;
+overflow:hidden
+}
+
+.track div{
+height:100%;
+background:var(--blue);
+width:0
+}
+
+.activity{
+display:flex;
+align-items:center;
+gap:10px;
+padding:11px 0;
+border-bottom:1px solid var(--line)
+}
+
+.activity:last-child{
+border-bottom:0
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--blue)
+}
+
+.activity span{
+font-size:11px;
+flex:1
+}
+
+.activity b{
+font-size:10px;
 color:var(--muted)
 }
 
-.progress{
-height:8px;
-background:var(--soft);
-border-radius:10px;
-overflow:hidden;
-border:1px solid var(--border)
+@media(max-width:1000px){
+.grid{grid-template-columns:1fr}
 }
 
-.progress i{
-display:block;
-height:100%;
-background:var(--primary);
-border-radius:10px
-}
-
-/* TABLE */
-
-.tableWrap{
-overflow:auto
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-font-size:11px
-}
-
-th{
-text-align:left;
-font-size:9px;
-color:var(--muted);
-padding:11px;
-border-bottom:1px solid var(--border)
-}
-
-td{
-padding:12px 11px;
-border-bottom:1px solid var(--border)
-}
-
-td:last-child,
-th:last-child{
-text-align:right
-}
-
-.badge{
-font-size:9px;
-padding:4px 7px;
-border-radius:20px
-}
-
-.badge.green{
-background:#dcfce7;
-color:#166534
-}
-
-.badge.blue{
-background:#dbeafe;
-color:#1d4ed8
-}
-
-.badge.orange{
-background:#fef3c7;
-color:#b45309
-}
-
-.badge.red{
-background:#fee2e2;
-color:#b91c1c
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1100px){
-
-.stats{
-grid-template-columns:repeat(2,1fr)
-}
-
-.reportGrid{
-grid-template-columns:1fr
-}
-
-}
-
-@media(max-width:760px){
-
-.sidebar{
+@media(max-width:900px){
+.side{
 transform:translateX(-100%);
-width:250px
+transition:.2s
 }
 
-.sidebar.open{
+.side.open{
 transform:translateX(0)
 }
 
@@ -518,342 +330,280 @@ margin-left:0
 display:block
 }
 
-.topbar{
-height:62px;
-padding:0 13px
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
 }
 
-.content{
-padding:17px 13px
+@media(max-width:600px){
+.main{padding:12px}
+
+.head{
+display:block
 }
 
-.header{
-align-items:flex-start
-}
-
-.header h1{
-font-size:21px
-}
-
-.actions .secondary{
-display:none
+.head .actions{
+margin-top:12px
 }
 
 .stats{
-gap:10px
+gap:8px
 }
 
 .stat{
 padding:13px
 }
 
-.statValue{
+.stat strong{
 font-size:19px
 }
-
-.chart{
-height:200px;
-gap:6px
-}
-
-}
-
-@media(max-width:430px){
-
-.stats{
-grid-template-columns:1fr 1fr
-}
-
-.filterBar{
-flex-wrap:wrap
-}
-
-.filter{
-flex:1
-}
-
 }
 </style>
 </head>
 
 <body>
 
-<aside class="sidebar" id="sidebar">
+<aside class="side" id="side">
 
 <div class="logo">
-<div class="logoMark">CF</div>
-<div>
-<strong>ClientFlow</strong>
-<small>CRM PLATFORM</small>
+Client<span>Flow</span>
 </div>
+
+<div class="workspace">
+● My Workspace
 </div>
+
+<div class="navtitle">MAIN</div>
 
 <nav class="nav">
 
-<div class="navTitle">Workspace</div>
+<button onclick="go('index.html')">
+⌂ &nbsp; Dashboard
+</button>
 
-<a href="index.html">
-<span class="icon">⌂</span>Dashboard
-</a>
+<button onclick="go('leads.html')">
+◆ &nbsp; Leads
+</button>
 
-<a href="leads.html">
-<span class="icon">♢</span>Leads
-</a>
+<button onclick="go('contacts.html')">
+◉ &nbsp; Contacts
+</button>
 
-<a href="contacts.html">
-<span class="icon">◉</span>Contacts
-</a>
+<button onclick="go('companies.html')">
+▣ &nbsp; Companies
+</button>
 
-<a href="companies.html">
-<span class="icon">▣</span>Companies
-</a>
+<button onclick="go('deals.html')">
+◇ &nbsp; Deals
+</button>
 
-<a href="deals.html">
-<span class="icon">◇</span>Deals
-</a>
+<button onclick="go('tasks.html')">
+✓ &nbsp; Tasks
+</button>
 
-<a href="tasks.html">
-<span class="icon">✓</span>Tasks
-</a>
+<div class="navtitle">INSIGHTS</div>
 
-<div class="navTitle">Insights</div>
+<button class="active">
+▥ &nbsp; Reports
+</button>
 
-<a href="reports.html" class="active">
-<span class="icon">▥</span>Reports
-</a>
+<div class="navtitle">SYSTEM</div>
 
-<a href="settings.html">
-<span class="icon">⚙</span>Settings
-</a>
+<button onclick="go('settings.html')">
+⚙ &nbsp; Settings
+</button>
 
 </nav>
-
-<div class="user">
-<div class="avatar">NA</div>
-<div>
-<strong style="font-size:12px">Admin User</strong>
-<small>Workspace Admin</small>
-</div>
-</div>
 
 </aside>
 
 <main class="main">
 
-<header class="topbar">
+<div class="top">
 
-<button class="menu" id="menu">☰</button>
+<button class="menu" onclick="toggleSide()">☰</button>
 
 <div class="search">
 
-<span class="searchIcon">⌕</span>
-
 <input
-id="globalSearch"
+id="search"
 placeholder="Search reports..."
 >
 
 </div>
 
-<div class="topRight">
+<div class="actions">
 
-<button class="iconBtn" id="theme">☾</button>
+<button
+class="btn secondary"
+onclick="toggleDark()"
+>
+☾
+</button>
 
-<button class="iconBtn" id="refresh">
-↻
+<button
+class="btn primary"
+onclick="window.print()"
+>
+Print
 </button>
 
 </div>
 
-</header>
+</div>
 
-<section class="content">
-
-<div class="header">
+<header class="head">
 
 <div>
-<h1>Reports & Analytics</h1>
+
+<h1>Reports</h1>
 
 <p>
-Understand pipeline performance, revenue and team activity.
+Understand your sales performance and CRM activity.
 </p>
 
 </div>
 
 <div class="actions">
 
-<button class="secondary" id="export">
-↓ Export
-</button>
+<select
+id="period"
+class="btn secondary"
+onchange="render()"
+>
 
-<button class="primary" id="refreshTop">
-↻ Refresh
-</button>
-
-</div>
-
-</div>
-
-<div class="filterBar">
-
-<select class="filter" id="period">
-
-<option value="all">
-All Time
-</option>
-
-<option value="30">
-Last 30 Days
-</option>
-
-<option value="90">
-Last 90 Days
-</option>
-
-<option value="365">
-Last 12 Months
-</option>
+<option value="all">All time</option>
+<option value="30">Last 30 days</option>
+<option value="7">Last 7 days</option>
 
 </select>
 
 </div>
 
-<div class="stats">
+</header>
 
-<div class="stat">
+<section class="stats">
 
-<div class="statLabel">
-PIPELINE VALUE
-</div>
+<div class="card stat">
 
-<div class="statValue" id="pipeline">
-₹0
-</div>
+<small>Total Leads</small>
 
-<div class="statSmall">
-Open opportunities
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="statLabel">
-WON REVENUE
-</div>
-
-<div class="statValue" id="revenue">
-₹0
-</div>
-
-<div class="statSmall">
-Closed deals
-</div>
-
-</div>
-
-<div class="stat">
-
-<div class="statLabel">
-TOTAL DEALS
-</div>
-
-<div class="statValue" id="deals">
+<strong
+id="totalLeads"
+class="blue"
+>
 0
-</div>
+</strong>
 
-<div class="statSmall">
-All opportunities
-</div>
+<span>All lead records</span>
 
 </div>
 
-<div class="stat">
+<div class="card stat">
 
-<div class="statLabel">
-TASK COMPLETION
+<small>Pipeline Value</small>
+
+<strong
+id="pipeline"
+class="orange"
+>
+₹0
+</strong>
+
+<span>Open deals</span>
+
 </div>
 
-<div class="statValue" id="completion">
+<div class="card stat">
+
+<small>Won Revenue</small>
+
+<strong
+id="revenue"
+class="green"
+>
+₹0
+</strong>
+
+<span>Closed won deals</span>
+
+</div>
+
+<div class="card stat">
+
+<small>Conversion Rate</small>
+
+<strong
+id="conversion"
+>
 0%
-</div>
+</strong>
 
-<div class="statSmall">
-Completed tasks
-</div>
+<span>Lead performance</span>
 
 </div>
 
-</div>
+</section>
 
-<div class="reportGrid">
+<section class="grid">
 
 <div class="card">
 
-<div class="cardHead">
+<div class="sectionTitle">
 
-<h2>Pipeline Overview</h2>
+<h2>Deal Pipeline</h2>
 
-<span>Deal value by stage</span>
-
-</div>
-
-<div class="chart" id="chart"></div>
+<span>Current value</span>
 
 </div>
 
-<div class="card">
-
-<div class="cardHead">
-
-<h2>Pipeline Breakdown</h2>
-
-<span>Current stages</span>
-
-</div>
-
-<div id="pipelineList"></div>
-
-</div>
+<div class="chart" id="dealChart"></div>
 
 </div>
 
 <div class="card">
 
-<div class="cardHead">
+<div class="sectionTitle">
 
-<h2>Recent Deals</h2>
+<h2>Task Performance</h2>
 
-<span id="dealCount">
-0 deals
-</span>
+<span>Completion</span>
 
 </div>
 
-<div class="tableWrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>DEAL</th>
-<th>COMPANY</th>
-<th>VALUE</th>
-<th>STAGE</th>
-<th>PROBABILITY</th>
-<th>STATUS</th>
-
-</tr>
-
-</thead>
-
-<tbody id="dealTable"></tbody>
-
-</table>
+<div id="taskMetrics"></div>
 
 </div>
+
+</section>
+
+<section class="grid">
+
+<div class="card">
+
+<div class="sectionTitle">
+
+<h2>Sales Overview</h2>
+
+<span>CRM data</span>
+
+</div>
+
+<div id="salesMetrics"></div>
+
+</div>
+
+<div class="card">
+
+<div class="sectionTitle">
+
+<h2>Recent Activity</h2>
+
+<span>Latest changes</span>
+
+</div>
+
+<div id="activity"></div>
 
 </div>
 
@@ -861,264 +611,246 @@ Completed tasks
 
 </main>
 <script>
-"use strict";
 
-const Reports=(()=>{
+const KEYS={
+leads:"clientflow_leads",
+deals:"clientflow_deals",
+tasks:"clientflow_tasks",
+companies:"clientflow_companies",
+contacts:"clientflow_contacts"
+};
 
-const DEAL_KEY="clientflow_deals_v1";
-const TASK_KEY="clientflow_tasks_v1";
-
-const demoDeals=[
-{
-id:1,
-name:"Enterprise CRM",
-company:"TechNova",
-value:125000,
-stage:"Proposal",
-probability:70,
-status:"Open"
-},
-{
-id:2,
-name:"Marketing Automation",
-company:"GrowthLabs",
-value:85000,
-stage:"Negotiation",
-probability:80,
-status:"Open"
-},
-{
-id:3,
-name:"CRM Implementation",
-company:"CloudBridge",
-value:65000,
-stage:"Won",
-probability:100,
-status:"Won"
-},
-{
-id:4,
-name:"Sales Platform",
-company:"DataSphere",
-value:95000,
-stage:"Qualified",
-probability:40,
-status:"Open"
-}
-];
-
-const stages=[
-"Lead",
-"Qualified",
-"Proposal",
-"Negotiation",
-"Won"
-];
-
-function money(n){
-
-n=Number(n)||0;
-
-if(n>=10000000)
-return "₹"+(n/10000000).toFixed(1)+"Cr";
-
-if(n>=100000)
-return "₹"+(n/100000).toFixed(1)+"L";
-
-if(n>=1000)
-return "₹"+(n/1000).toFixed(1)+"K";
-
-return "₹"+n.toLocaleString("en-IN");
-
-}
-
-function load(key,fallback){
+function read(key){
 
 try{
 
-const data=localStorage.getItem(key);
+const data=
+JSON.parse(
+localStorage.getItem(key)||"[]"
+);
 
-return data?
-JSON.parse(data):
-fallback;
+return Array.isArray(data)?data:[];
 
 }catch(e){
 
-return fallback;
+return[];
 
 }
 
 }
 
-function normalizeDeals(){
+function money(value){
 
-const raw=load(
-DEAL_KEY,
-demoDeals
+return "₹"+Number(value||0)
+.toLocaleString("en-IN");
+
+}
+
+function dateValue(item){
+
+const value=
+item.createdAt||
+item.created||
+item.date||
+item.dueDate;
+
+if(!value)
+return 0;
+
+const time=
+new Date(value).getTime();
+
+return Number.isNaN(time)
+?0
+:time;
+
+}
+
+function withinPeriod(item){
+
+const period=
+document.getElementById("period").value;
+
+if(period==="all")
+return true;
+
+const days=
+Number(period);
+
+const limit=
+Date.now()-
+days*86400000;
+
+return dateValue(item)>=limit;
+
+}
+
+function getFiltered(key){
+
+return read(key)
+.filter(withinPeriod);
+
+}
+
+function render(){
+
+const leads=
+getFiltered(KEYS.leads);
+
+const deals=
+getFiltered(KEYS.deals);
+
+const tasks=
+getFiltered(KEYS.tasks);
+
+const companies=
+getFiltered(KEYS.companies);
+
+const contacts=
+getFiltered(KEYS.contacts);
+
+const won=
+deals.filter(
+d=>d.stage==="Won"
 );
 
-if(!Array.isArray(raw))
-return demoDeals;
-
-return raw.map((d,i)=>({
-
-id:d.id||Date.now()+i,
-
-name:
-d.name||
-d.title||
-"Untitled Deal",
-
-company:
-d.company||
-d.companyName||
-"Unknown Company",
-
-value:
-Number(
-d.value||
-d.amount||
-d.dealValue||
-0
-),
-
-stage:
-d.stage||
-d.status||
-"Lead",
-
-probability:
-Number(
-d.probability||
-0
-),
-
-status:
-d.status||
-"Open"
-
-}));
-
-}
-
-function normalizeTasks(){
-
-const raw=load(
-TASK_KEY,
-[]
+const lost=
+deals.filter(
+d=>d.stage==="Lost"
 );
 
-return Array.isArray(raw)?
-raw:[];
-}
+const open=
+deals.filter(
+d=>d.stage!=="Won" &&
+d.stage!=="Lost"
+);
 
-function calculate(){
+const pipeline=
+open.reduce(
+(sum,d)=>
+sum+Number(d.value||0),
+0
+);
 
-const deals=normalizeDeals();
-const tasks=normalizeTasks();
+const revenue=
+won.reduce(
+(sum,d)=>
+sum+Number(d.value||0),
+0
+);
 
-let pipeline=0;
-let revenue=0;
+const closed=
+won.length+lost.length;
 
-deals.forEach(d=>{
+const conversion=
+closed
+?Math.round(
+won.length/closed*100
+)
+:0;
 
-if(
-d.status!=="Won"&&
-d.stage!=="Won"
-){
+document.getElementById(
+"totalLeads"
+).textContent=
+leads.length;
 
-pipeline+=d.value;
+document.getElementById(
+"pipeline"
+).textContent=
+money(pipeline);
 
-}
+document.getElementById(
+"revenue"
+).textContent=
+money(revenue);
 
-if(
-d.status==="Won"||
-d.stage==="Won"
-){
+document.getElementById(
+"conversion"
+).textContent=
+conversion+"%";
 
-revenue+=d.value;
+renderChart(deals);
 
-}
+renderTaskMetrics(tasks);
 
-});
+renderSalesMetrics(
+leads,
+deals,
+companies,
+contacts,
+won,
+lost,
+open
+);
 
-const completed=
-tasks.filter(
-t=>t.status==="Completed"
-).length;
-
-const completion=
-tasks.length?
-Math.round(
-completed/tasks.length*100
-):0;
-
-return{
+renderActivity(
+leads,
 deals,
 tasks,
-pipeline,
-revenue,
-completion
-};
-
-}
-
-function renderStats(data){
-
-document.getElementById("pipeline")
-.textContent=money(data.pipeline);
-
-document.getElementById("revenue")
-.textContent=money(data.revenue);
-
-document.getElementById("deals")
-.textContent=data.deals.length;
-
-document.getElementById("completion")
-.textContent=
-data.completion+"%";
+companies,
+contacts
+);
 
 }
 
 function renderChart(deals){
 
-const values=stages.map(stage=>{
+const stages=[
+"New",
+"Qualified",
+"Proposal",
+"Won",
+"Lost"
+];
 
-return deals
+const values=
+stages.map(stage=>
+
+deals
 .filter(d=>d.stage===stage)
 .reduce(
-(sum,d)=>sum+d.value,
+(sum,d)=>
+sum+Number(d.value||0),
 0
-);
+)
 
-});
+);
 
 const max=
 Math.max(...values,1);
 
-document.getElementById("chart")
-.innerHTML=
-stages.map((stage,i)=>{
+const chart=
+document.getElementById(
+"dealChart"
+);
+
+chart.innerHTML=
+stages.map(
+(stage,i)=>{
+
+const value=
+values[i];
 
 const height=
 Math.max(
 4,
-(values[i]/max)*100
+Math.round(
+value/max*170
+)
 );
 
 return`
 
-<div class="barWrap">
+<div class="bar">
 
 <div class="barValue">
-${money(values[i])}
+${money(value)}
 </div>
 
 <div
-class="bar"
-style="height:${height}%"
-title="${stage}: ${money(values[i])}">
-</div>
+class="barFill"
+style="height:${height}px"
+></div>
 
 <div class="barLabel">
 ${stage}
@@ -1132,48 +864,137 @@ ${stage}
 
 }
 
-function renderPipeline(deals){
+function renderTaskMetrics(tasks){
+
+const box=
+document.getElementById(
+"taskMetrics"
+);
 
 const total=
-deals.reduce(
-(s,d)=>s+d.value,
-0
-)||1;
+tasks.length;
 
-document.getElementById("pipelineList")
-.innerHTML=
-stages.map(stage=>{
+const completed=
+tasks.filter(
+t=>t.done
+).length;
 
-const value=
-deals
-.filter(d=>d.stage===stage)
-.reduce(
-(s,d)=>s+d.value,
-0
-);
+const open=
+total-completed;
 
-const percent=
-Math.round(
-(value/total)*100
-);
+const high=
+tasks.filter(
+t=>!t.done &&
+t.priority==="High"
+).length;
 
-return`
+const overdue=
+tasks.filter(
+t=>{
 
-<div class="pipelineRow">
+if(t.done||!t.dueDate)
+return false;
 
-<div class="pipelineTop">
+return t.dueDate<
+new Date()
+.toISOString()
+.split("T")[0];
 
-<span>${stage}</span>
+}
+).length;
 
-<span>
-${money(value)}
-</span>
+const percentage=
+total
+?Math.round(
+completed/total*100
+)
+:0;
+
+box.innerHTML=`
+
+<div class="metric">
+
+<div class="metricTop">
+
+<span>Completion</span>
+
+<b>${percentage}%</b>
 
 </div>
 
-<div class="progress">
+<div class="track">
 
-<i style="width:${percent}%"></i>
+<div
+style="width:${percentage}%"
+></div>
+
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+
+<span>Completed</span>
+
+<b>${completed}</b>
+
+</div>
+
+<div class="track">
+
+<div
+style="width:${
+total?completed/total*100:0
+}%"
+></div>
+
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+
+<span>Open Tasks</span>
+
+<b>${open}</b>
+
+</div>
+
+<div class="track">
+
+<div
+style="width:${
+total?open/total*100:0
+}%"
+></div>
+
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+
+<span>High Priority</span>
+
+<b>${high}</b>
+
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+
+<span>Overdue</span>
+
+<b class="red">${overdue}</b>
 
 </div>
 
@@ -1181,58 +1002,232 @@ ${money(value)}
 
 `;
 
-}).join("");
-
 }
 
-function stageClass(stage){
+function renderSalesMetrics(
+leads,
+deals,
+companies,
+contacts,
+won,
+lost,
+open
+){
 
-if(stage==="Won")
-return "green";
-
-if(stage==="Negotiation")
-return "orange";
-
-if(stage==="Proposal")
-return "blue";
-
-if(stage==="Lost")
-return "red";
-
-return "blue";
-
-}
-
-function renderTable(deals){
-
-const sorted=
-[...deals]
-.sort(
-(a,b)=>b.value-a.value
+const box=
+document.getElementById(
+"salesMetrics"
 );
 
-const rows=
-sorted.slice(0,10);
+const qualified=
+leads.filter(
+l=>
+String(l.status||"")
+.toLowerCase()==="qualified"
+).length;
 
-document.getElementById("dealCount")
-.textContent=
-deals.length+" deals";
+const converted=
+leads.filter(
+l=>
+String(l.status||"")
+.toLowerCase()==="converted"
+).length;
 
-if(!rows.length){
+const newLeads=
+leads.filter(
+l=>
+String(l.status||"")
+.toLowerCase()==="new"
+).length;
 
-document.getElementById("dealTable")
-.innerHTML=`
+box.innerHTML=`
 
-<tr>
+<div class="metric">
 
-<td colspan="6"
-style="text-align:center;color:var(--muted);padding:30px">
+<div class="metricTop">
+<span>Total Leads</span>
+<b>${leads.length}</b>
+</div>
 
-No deals available
+<div class="track">
+<div style="width:100%"></div>
+</div>
 
-</td>
+</div>
 
-</tr>
+<div class="metric">
+
+<div class="metricTop">
+<span>New Leads</span>
+<b>${newLeads}</b>
+</div>
+
+<div class="track">
+<div style="width:${
+leads.length
+?newLeads/leads.length*100
+:0
+}%"></div>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Qualified Leads</span>
+<b>${qualified}</b>
+</div>
+
+<div class="track">
+<div style="width:${
+leads.length
+?qualified/leads.length*100
+:0
+}%"></div>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Converted Leads</span>
+<b>${converted}</b>
+</div>
+
+<div class="track">
+<div style="width:${
+leads.length
+?converted/leads.length*100
+:0
+}%"></div>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Open Deals</span>
+<b>${open.length}</b>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Won Deals</span>
+<b class="green">${won.length}</b>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Lost Deals</span>
+<b class="red">${lost.length}</b>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Companies</span>
+<b>${companies.length}</b>
+</div>
+
+</div>
+
+<div class="metric">
+
+<div class="metricTop">
+<span>Contacts</span>
+<b>${contacts.length}</b>
+</div>
+
+</div>
+
+`;
+
+}
+
+function renderActivity(
+leads,
+deals,
+tasks,
+companies,
+contacts
+){
+
+const box=
+document.getElementById(
+"activity"
+);
+
+const items=[];
+
+leads.forEach(
+x=>items.push({
+text:"Lead: "+(x.name||"New lead"),
+time:dateValue(x),
+type:"Lead"
+})
+);
+
+deals.forEach(
+x=>items.push({
+text:"Deal: "+(x.name||"New deal"),
+time:dateValue(x),
+type:"Deal"
+})
+);
+
+tasks.forEach(
+x=>items.push({
+text:"Task: "+(x.title||"Task"),
+time:dateValue(x),
+type:"Task"
+})
+);
+
+companies.forEach(
+x=>items.push({
+text:"Company: "+(x.name||"Company"),
+time:dateValue(x),
+type:"Company"
+})
+);
+
+contacts.forEach(
+x=>items.push({
+text:"Contact: "+(x.name||"Contact"),
+time:dateValue(x),
+type:"Contact"
+})
+);
+
+items.sort(
+(a,b)=>b.time-a.time
+);
+
+const latest=
+items.slice(0,7);
+
+if(!latest.length){
+
+box.innerHTML=`
+
+<div class="activity">
+
+<div class="dot"></div>
+
+<span>No recent activity</span>
+
+</div>
 
 `;
 
@@ -1240,62 +1235,32 @@ return;
 
 }
 
-document.getElementById("dealTable")
-.innerHTML=
-rows.map(d=>{
+box.innerHTML=
+latest.map(
+item=>`
 
-const won=
-d.status==="Won"||
-d.stage==="Won";
+<div class="activity">
 
-return`
+<div class="dot"></div>
 
-<tr>
-
-<td>
-<strong>${escapeHTML(d.name)}</strong>
-</td>
-
-<td>
-${escapeHTML(d.company)}
-</td>
-
-<td>
-<strong>${money(d.value)}</strong>
-</td>
-
-<td>
-<span class="badge ${stageClass(d.stage)}">
-${escapeHTML(d.stage)}
-</span>
-</td>
-
-<td>
-${d.probability||0}%
-</td>
-
-<td>
-
-<span class="badge ${
-won?"green":
-d.status==="Lost"?"red":"blue"
-}">
-${won?"Won":d.status||"Open"}
+<span>
+${escapeHTML(item.text)}
 </span>
 
-</td>
+<b>
+${item.type}
+</b>
 
-</tr>
+</div>
 
-`;
-
-}).join("");
+`
+).join("");
 
 }
 
-function escapeHTML(value){
+function escapeHTML(text){
 
-return String(value??"")
+return String(text||"")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -1304,217 +1269,194 @@ return String(value??"")
 
 }
 
-function render(){
+function go(url){
 
-const data=calculate();
-
-renderStats(data);
-
-renderChart(data.deals);
-
-renderPipeline(data.deals);
-
-renderTable(data.deals);
+window.location.href=url;
 
 }
 
-function exportReport(){
+function toggleSide(){
 
-const data=calculate();
-
-const rows=[
-["ClientFlow Report",""],
-["Pipeline Value",data.pipeline],
-["Won Revenue",data.revenue],
-["Total Deals",data.deals.length],
-["Task Completion",data.completion+"%"],
-[],
-["Deal","Company","Value","Stage","Probability","Status"]
-];
-
-data.deals.forEach(d=>{
-
-rows.push([
-d.name,
-d.company,
-d.value,
-d.stage,
-d.probability+"%",
-d.status
-]);
-
-});
-
-const csv=
-rows.map(row=>
-row.map(value=>
-`"${String(value??"")
-.replaceAll('"','""')}"`
-).join(",")
-).join("\n");
-
-const blob=
-new Blob(
-[csv],
-{type:"text/csv;charset=utf-8"}
-);
-
-const url=
-URL.createObjectURL(blob);
-
-const link=
-document.createElement("a");
-
-link.href=url;
-
-link.download=
-"clientflow-report.csv";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-URL.revokeObjectURL(url);
-
-showToast("Report exported");
-
-}
-
-function showToast(message){
-
-let toast=
-document.getElementById("reportToast");
-
-if(!toast){
-
-toast=
-document.createElement("div");
-
-toast.id="reportToast";
-
-toast.style.cssText=
-`
-position:fixed;
-right:20px;
-bottom:20px;
-background:#111827;
-color:white;
-padding:11px 15px;
-border-radius:9px;
-font-size:12px;
-z-index:200;
-`;
-
-document.body.appendChild(toast);
-
-}
-
-toast.textContent=message;
-
-clearTimeout(window.reportToastTimer);
-
-window.reportToastTimer=
-setTimeout(()=>{
-toast.remove();
-},2200);
-
-}
-
-function setup(){
-
-document.getElementById("menu")
-.onclick=()=>{
-
-document.getElementById("sidebar")
+document
+.getElementById("side")
 .classList.toggle("open");
 
-};
+}
+
+function toggleDark(){
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"clientflow_dark",
+document.body.classList.contains("dark")
+);
+
+}
 
 if(
 localStorage.getItem(
-"clientflow_theme"
-)==="dark"
+"clientflow_dark"
+)==="true"
 ){
 
 document.body.classList.add("dark");
 
 }
 
-document.getElementById("theme")
-.onclick=()=>{
+render();
 
-document.body.classList.toggle("dark");
+</script>
+<script>
 
-localStorage.setItem(
-"clientflow_theme",
+/* LIVE REFRESH */
 
-document.body.classList
-.contains("dark")
-?"dark"
-:"light"
-);
-
-};
-
-document.getElementById("refresh")
-.onclick=()=>{
+window.addEventListener(
+"storage",
+function(){
 
 render();
 
-showToast("Reports refreshed");
+});
 
-};
+/* REFRESH WHEN RETURNING TO PAGE */
 
-document.getElementById("refreshTop")
-.onclick=()=>{
+document.addEventListener(
+"visibilitychange",
+function(){
+
+if(!document.hidden){
 
 render();
 
-showToast("Reports refreshed");
+}
 
-};
+});
 
-document.getElementById("export")
-.onclick=exportReport;
+/* MOBILE SIDEBAR */
 
-document.getElementById("period")
-.onchange=render;
+document.addEventListener(
+"click",
+function(e){
 
-document.getElementById("globalSearch")
-.oninput=e=>{
+const side=
+document.getElementById("side");
 
-const query=
-e.target.value
-.toLowerCase()
-.trim();
+const menu=
+document.querySelector(".menu");
 
-const rows=
+if(
+window.innerWidth<=900 &&
+side.classList.contains("open") &&
+!side.contains(e.target) &&
+!menu.contains(e.target)
+){
+
+side.classList.remove("open");
+
+}
+
+});
+
+/* SEARCH */
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function(){
+
+const q=
+this.value.toLowerCase().trim();
+
+if(!q){
+
+render();
+
+return;
+
+}
+
+const cards=
 document.querySelectorAll(
-"#dealTable tr"
+".card"
 );
 
-rows.forEach(row=>{
+cards.forEach(card=>{
 
-row.style.display=
-row.textContent
-.toLowerCase()
-.includes(query)
-?""
+const text=
+card.textContent.toLowerCase();
+
+card.style.display=
+text.includes(q)
+?"block"
 :"none";
 
 });
 
-};
+});
+
+/* KEYBOARD SHORTCUT */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(
+(e.ctrlKey||e.metaKey)&&
+e.key.toLowerCase()==="k"
+){
+
+e.preventDefault();
+
+document
+.getElementById("search")
+.focus();
 
 }
 
-setup();
+});
+
+/* PRINT */
+
+const printStyle=
+document.createElement("style");
+
+printStyle.textContent=`
+
+@media print{
+
+.side,
+.top,
+.actions,
+.search{
+display:none!important
+}
+
+.main{
+margin:0!important;
+padding:10px!important;
+max-width:none!important
+}
+
+body{
+background:#fff!important
+}
+
+.card{
+break-inside:avoid
+}
+
+}
+
+`;
+
+document.head.appendChild(printStyle);
+
+/* INITIAL LOAD */
 
 render();
 
-})();
 </script>
 
 </body>
