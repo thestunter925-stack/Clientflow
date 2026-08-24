@@ -3,954 +3,898 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
-<title>ClientFlow - Companies</title>
+<title>ClientFlow — Companies</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#f5f7fb;--card:#fff;--soft:#f8fafc;--text:#111827;
---muted:#6b7280;--border:#e5e7eb;--primary:#2563eb;
---primary2:#1d4ed8;--success:#16a34a;--danger:#dc2626;
---warning:#d97706;--sidebar:#111827;--side:#cbd5e1;
+--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#6b7280;
+--line:#e5e7eb;--blue:#2563eb;--dark:#101827
 }
-body.dark{
---bg:#0b1120;--card:#111827;--soft:#172033;--text:#f8fafc;
---muted:#94a3b8;--border:#243044;--sidebar:#070d18
-}
-body{
-background:var(--bg);color:var(--text);
-font-family:Arial,Helvetica,sans-serif;
-}
-button,input,select{font:inherit}
+*{font-family:Arial,Helvetica,sans-serif}
+body{background:var(--bg);color:var(--text)}
+button,input{font:inherit}
 button{cursor:pointer}
-a{text-decoration:none;color:inherit}
 
-/* SIDEBAR */
-.sidebar{
-position:fixed;inset:0 auto 0 0;width:245px;
-background:var(--sidebar);color:#fff;z-index:50;
-display:flex;flex-direction:column;transition:.2s
+.side{
+position:fixed;left:0;top:0;bottom:0;width:225px;
+background:var(--dark);color:#fff;padding:18px 12px;z-index:20
 }
-.logo{
-height:72px;padding:0 22px;display:flex;
-align-items:center;gap:11px;
-border-bottom:1px solid rgba(255,255,255,.08)
+.logo{font-size:22px;font-weight:bold;padding:8px 12px 25px}
+.logo span{color:#60a5fa}
+.workspace{
+background:#1c2738;padding:10px;border-radius:8px;
+font-size:12px;margin-bottom:18px
 }
-.logoMark{
-width:36px;height:36px;border-radius:10px;
-background:#2563eb;display:grid;place-items:center;
-font-weight:bold
+.navtitle{font-size:10px;color:#718096;padding:8px 12px}
+.nav button{
+width:100%;border:0;background:transparent;color:#aeb8c9;
+padding:10px 12px;text-align:left;border-radius:7px;
+margin:2px 0;font-size:13px
 }
-.logo strong{font-size:19px}
-.logo small{
-display:block;color:#94a3b8;font-size:9px;margin-top:2px
-}
-.nav{padding:17px 12px;overflow:auto;flex:1}
-.navTitle{
-font-size:10px;color:#64748b;font-weight:bold;
-padding:10px 12px 7px;text-transform:uppercase;
-letter-spacing:.08em
-}
-.nav a{
-display:flex;align-items:center;gap:12px;
-padding:11px 12px;border-radius:9px;
-color:var(--side);font-size:14px;margin:2px 0
-}
-.nav a:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav a.active{background:#2563eb;color:#fff}
-.icon{width:20px;text-align:center}
-.user{
-padding:14px;border-top:1px solid rgba(255,255,255,.08);
-display:flex;align-items:center;gap:10px
-}
-.avatar{
-width:34px;height:34px;border-radius:50%;
-background:#2563eb;display:grid;place-items:center;
-font-size:11px;font-weight:bold
-}
-.user small{
-display:block;color:#94a3b8;font-size:10px
+.nav button:hover,.nav button.active{
+background:#243247;color:#fff
 }
 
-/* MAIN */
-.main{margin-left:245px;min-height:100vh}
-.topbar{
-height:72px;background:var(--card);
-border-bottom:1px solid var(--border);
-display:flex;align-items:center;gap:14px;
-padding:0 24px;position:sticky;top:0;z-index:30
+.main{margin-left:225px;padding:20px;max-width:1500px}
+
+.top{
+display:flex;align-items:center;gap:12px;margin-bottom:22px
 }
 .menu{
-display:none;width:38px;height:38px;
-border:1px solid var(--border);
-background:var(--soft);color:var(--text);
-border-radius:9px
+display:none;padding:9px;border:1px solid var(--line);
+background:var(--card);border-radius:7px
 }
-.search{
-position:relative;max-width:430px;flex:1
-}
+.search{flex:1;max-width:500px}
 .search input{
-width:100%;height:40px;
-background:var(--soft);color:var(--text);
-border:1px solid var(--border);
-border-radius:9px;padding:0 12px 0 36px;
-outline:none
-}
-.search input:focus{border-color:var(--primary)}
-.searchIcon{
-position:absolute;left:13px;top:11px;color:var(--muted)
-}
-.topRight{margin-left:auto;display:flex;gap:8px}
-.iconBtn{
-width:38px;height:38px;
-border:1px solid var(--border);
-background:var(--soft);color:var(--text);
-border-radius:9px
-}
-.primary{
-height:40px;padding:0 15px;border:0;
-background:var(--primary);color:#fff;
-border-radius:9px;font-weight:bold
-}
-.primary:hover{background:var(--primary2)}
-.content{padding:24px;max-width:1600px;margin:auto}
-
-/* HEADER */
-.header{
-display:flex;justify-content:space-between;
-align-items:center;gap:15px;margin-bottom:22px
-}
-.header h1{font-size:25px}
-.header p{
-font-size:13px;color:var(--muted);margin-top:5px
+width:100%;padding:11px 14px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);outline:0
 }
 .actions{display:flex;gap:8px}
+.btn{
+border:0;border-radius:8px;padding:10px 14px;
+font-size:12px;font-weight:bold
+}
+.primary{background:var(--blue);color:white}
 .secondary{
-height:40px;padding:0 14px;
-border:1px solid var(--border);
 background:var(--card);color:var(--text);
-border-radius:9px
+border:1px solid var(--line)
 }
 
-/* STATS */
+.head{
+display:flex;justify-content:space-between;align-items:center;
+margin-bottom:20px
+}
+.head h1{font-size:25px}
+.head p{color:var(--muted);font-size:13px;margin-top:5px}
+
 .stats{
 display:grid;grid-template-columns:repeat(4,1fr);
-gap:15px;margin-bottom:18px
+gap:13px;margin-bottom:18px
 }
-.stat{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:14px;padding:17px
+.card{
+background:var(--card);border:1px solid var(--line);
+border-radius:11px;padding:16px
 }
-.statTop{
-display:flex;justify-content:space-between;align-items:center
-}
-.statLabel{
-font-size:11px;color:var(--muted);font-weight:bold
-}
-.statIcon{
-width:34px;height:34px;border-radius:9px;
-background:#eff6ff;color:var(--primary);
-display:grid;place-items:center
-}
-.statValue{
-font-size:24px;font-weight:bold;margin-top:10px
-}
-.statChange{
-font-size:10px;color:var(--success);margin-top:5px
+.stat small{color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:24px;margin:9px 0}
+.stat span{font-size:11px;color:#16a34a}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px
 }
 
-/* CARD */
-.card{
+.company{
 background:var(--card);
-border:1px solid var(--border);
-border-radius:14px;overflow:hidden
+border:1px solid var(--line);
+border-radius:11px;
+padding:16px;
+transition:.15s
 }
-.toolbar{
-padding:14px;border-bottom:1px solid var(--border);
-display:flex;gap:9px;align-items:center
+
+.company:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 20px #0000000c
 }
-.filter{
-height:38px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:8px;
-padding:0 10px
+
+.companyTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:13px
 }
-.tableWrap{overflow:auto}
-table{
-width:100%;border-collapse:collapse;
-min-width:950px
-}
-th{
-padding:12px 14px;
-text-align:left;
-background:var(--soft);
-color:var(--muted);
-font-size:10px;
-border-bottom:1px solid var(--border)
-}
-td{
-padding:13px 14px;
-font-size:12px;
-border-bottom:1px solid var(--border)
-}
-tr:hover td{
-background:rgba(37,99,235,.025)
-}
-.companyCell{
-display:flex;align-items:center;gap:10px
-}
-.companyLogo{
-width:36px;height:36px;
+
+.avatar{
+width:42px;
+height:42px;
 border-radius:9px;
-background:#dbeafe;
-color:#2563eb;
-display:grid;place-items:center;
-font-size:11px;font-weight:bold
-}
-.companyName{font-weight:bold}
-.sub{
-font-size:10px;color:var(--muted);
-margin-top:3px
-}
-.status{
-display:inline-block;
-padding:4px 8px;
-border-radius:20px;
-font-size:9px;
+background:#eff6ff;
+color:var(--blue);
+display:grid;
+place-items:center;
 font-weight:bold
 }
-.status.active{
-background:#dcfce7;color:#166534
+
+.company h3{
+font-size:14px;
+margin-bottom:4px
 }
-.status.prospect{
-background:#eff6ff;color:#2563eb
+
+.company p{
+font-size:11px;
+color:var(--muted)
 }
-.status.inactive{
-background:#f3f4f6;color:#6b7280
+
+.companyInfo{
+border-top:1px solid var(--line);
+padding-top:12px;
+margin-top:12px
 }
-.industry{
-display:inline-block;
-padding:4px 7px;
-background:var(--soft);
-border:1px solid var(--border);
-border-radius:6px;
-font-size:9px
+
+.info{
+display:flex;
+justify-content:space-between;
+font-size:11px;
+margin:7px 0
 }
-.rowActions{
-display:flex;gap:5px
+
+.info span{
+color:var(--muted)
 }
-.small{
-height:30px;
-padding:0 9px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
+
+.companyActions{
+display:flex;
+gap:6px;
+margin-top:14px
+}
+
+.companyActions button{
+flex:1;
+border:1px solid var(--line);
+background:var(--card);
 border-radius:7px;
+padding:7px;
 font-size:10px
 }
-.small:hover{border-color:var(--primary)}
-.danger:hover{
-border-color:var(--danger);
-color:var(--danger)
-}
+
 .empty{
-display:none;
+grid-column:1/-1;
+padding:40px;
 text-align:center;
-padding:55px 20px;
 color:var(--muted);
 font-size:12px
 }
 
-/* MODAL */
-.overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.5);
-z-index:100;
-align-items:center;
-justify-content:center;
-padding:15px
-}
-.overlay.show{display:flex}
-.modal{
-width:min(600px,100%);
-background:var(--card);
-border:1px solid var(--border);
-border-radius:15px
-}
-.modalHead{
-padding:17px 18px;
-border-bottom:1px solid var(--border);
-display:flex;
-justify-content:space-between
-}
-.modalHead h2{font-size:15px}
-.close{
-border:0;background:none;
-color:var(--muted);
-font-size:20px
-}
-.modalBody{padding:18px}
-.formGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
-}
-.field label{
-display:block;
-font-size:10px;
-font-weight:bold;
-margin-bottom:6px
-}
-.field input,
-.field select{
-width:100%;
-height:40px;
-background:var(--soft);
-color:var(--text);
-border:1px solid var(--border);
-border-radius:8px;
-padding:0 10px;
-outline:none
-}
-.field input:focus,
-.field select:focus{
-border-color:var(--primary)
-}
-.modalFoot{
-padding:14px 18px;
-border-top:1px solid var(--border);
-display:flex;
-justify-content:flex-end;
-gap:8px
+@media(max-width:1000px){
+.grid{grid-template-columns:repeat(2,1fr)}
 }
 
-/* TOAST */
-.toast{
-position:fixed;
-right:20px;
-bottom:20px;
-background:#111827;
-color:#fff;
-padding:11px 15px;
-border-radius:9px;
-font-size:12px;
-z-index:200;
-opacity:0;
-transform:translateY(15px);
+@media(max-width:900px){
+.side{
+transform:translateX(-100%);
 transition:.2s
 }
-.toast.show{
-opacity:1;
-transform:none
-}
-
-/* MOBILE */
-@media(max-width:1050px){
-.stats{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:760px){
-.sidebar{
-transform:translateX(-100%);
-width:250px
-}
-.sidebar.open{
-transform:translateX(0)
-}
+.side.open{transform:translateX(0)}
 .main{margin-left:0}
 .menu{display:block}
-.topbar{
-height:62px;
-padding:0 13px
+.stats{grid-template-columns:repeat(2,1fr)}
 }
-.topRight .primary{display:none}
-.content{padding:17px 13px}
-.header{align-items:flex-start}
-.header h1{font-size:21px}
-.actions .secondary{display:none}
-.stats{gap:10px}
+
+@media(max-width:600px){
+.main{padding:12px}
+.head{display:block}
+.head .actions{margin-top:12px}
+.stats{gap:8px}
 .stat{padding:13px}
-.statValue{font-size:19px}
-}
-@media(max-width:430px){
-.formGrid{grid-template-columns:1fr}
+.stat strong{font-size:20px}
+.grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<aside class="side" id="side">
 
 <div class="logo">
-<div class="logoMark">CF</div>
-<div>
-<strong>ClientFlow</strong>
-<small>CRM PLATFORM</small>
+Client<span>Flow</span>
 </div>
+
+<div class="workspace">
+● My Workspace
 </div>
+
+<div class="navtitle">MAIN</div>
 
 <nav class="nav">
 
-<div class="navTitle">Workspace</div>
+<button onclick="go('index.html')">
+⌂ &nbsp; Dashboard
+</button>
 
-<a href="index.html">
-<span class="icon">⌂</span>Dashboard
-</a>
+<button onclick="go('leads.html')">
+◆ &nbsp; Leads
+</button>
 
-<a href="leads.html">
-<span class="icon">♢</span>Leads
-</a>
+<button onclick="go('contacts.html')">
+◉ &nbsp; Contacts
+</button>
 
-<a href="contacts.html">
-<span class="icon">◉</span>Contacts
-</a>
+<button class="active">
+▣ &nbsp; Companies
+</button>
 
-<a href="companies.html" class="active">
-<span class="icon">▣</span>Companies
-</a>
+<button onclick="go('deals.html')">
+◇ &nbsp; Deals
+</button>
 
-<a href="deals.html">
-<span class="icon">◇</span>Deals
-</a>
+<button onclick="go('tasks.html')">
+✓ &nbsp; Tasks
+</button>
 
-<a href="tasks.html">
-<span class="icon">✓</span>Tasks
-</a>
+<div class="navtitle">INSIGHTS</div>
 
-<div class="navTitle">Insights</div>
+<button onclick="go('reports.html')">
+▥ &nbsp; Reports
+</button>
 
-<a href="reports.html">
-<span class="icon">▥</span>Reports
-</a>
+<div class="navtitle">SYSTEM</div>
 
-<a href="settings.html">
-<span class="icon">⚙</span>Settings
-</a>
+<button onclick="go('settings.html')">
+⚙ &nbsp; Settings
+</button>
 
 </nav>
 
-<div class="user">
-<div class="avatar">NA</div>
-<div>
-<strong style="font-size:12px">Admin User</strong>
-<small>Workspace Admin</small>
-</div>
-</div>
-
 </aside>
 
-<!-- MAIN -->
 <main class="main">
 
-<header class="topbar">
+<div class="top">
 
-<button class="menu" id="menu">☰</button>
+<button class="menu" onclick="toggleSide()">
+☰
+</button>
 
 <div class="search">
-<span class="searchIcon">⌕</span>
-<input id="globalSearch" placeholder="Search companies...">
+
+<input
+id="topSearch"
+placeholder="Search companies..."
+oninput="filterCompanies()"
+>
+
 </div>
 
-<div class="topRight">
-<button class="iconBtn" id="theme">☾</button>
-<button class="iconBtn">♧</button>
-<button class="primary" id="topAdd">+ Add Company</button>
+<div class="actions">
+
+<button
+class="btn secondary"
+onclick="toggleDark()"
+>
+☾
+</button>
+
+<button
+class="btn primary"
+onclick="openCompany()"
+>
++ Add Company
+</button>
+
+</div>
+
+</div>
+
+<header class="head">
+
+<div>
+
+<h1>Companies</h1>
+
+<p>
+Manage accounts and organizations connected to your CRM.
+</p>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn secondary"
+onclick="exportCompanies()"
+>
+Export
+</button>
+
+<button
+class="btn primary"
+onclick="openCompany()"
+>
++ Add Company
+</button>
+
 </div>
 
 </header>
 
-<section class="content">
+<section class="stats">
 
-<div class="header">
-
-<div>
-<h1>Companies</h1>
-<p>Manage organizations, accounts and business relationships.</p>
+<div class="card stat">
+<small>Total Companies</small>
+<strong id="total">0</strong>
+<span>All accounts</span>
 </div>
 
-<div class="actions">
-<button class="secondary" id="export">↓ Export</button>
-<button class="primary" id="add">+ Add Company</button>
+<div class="card stat">
+<small>Contacts</small>
+<strong id="contacts">0</strong>
+<span>People connected</span>
 </div>
 
+<div class="card stat">
+<small>Leads</small>
+<strong id="leads">0</strong>
+<span>Company prospects</span>
 </div>
 
-<!-- STATS -->
-<div class="stats">
-
-<div class="stat">
-<div class="statTop">
-<span class="statLabel">TOTAL COMPANIES</span>
-<div class="statIcon">▣</div>
-</div>
-<div class="statValue" id="total">0</div>
-<div class="statChange">All organizations</div>
-</div>
-
-<div class="stat">
-<div class="statTop">
-<span class="statLabel">ACTIVE ACCOUNTS</span>
-<div class="statIcon">✓</div>
-</div>
-<div class="statValue" id="active">0</div>
-<div class="statChange">Current customers</div>
-</div>
-
-<div class="stat">
-<div class="statTop">
-<span class="statLabel">PROSPECTS</span>
-<div class="statIcon">♢</div>
-</div>
-<div class="statValue" id="prospects">0</div>
-<div class="statChange">Potential accounts</div>
-</div>
-
-<div class="stat">
-<div class="statTop">
-<span class="statLabel">TOTAL EMPLOYEES</span>
-<div class="statIcon">◉</div>
-</div>
-<div class="statValue" id="employees">0</div>
-<div class="statChange">Across companies</div>
-</div>
-
-</div>
-
-<!-- TABLE -->
-<div class="card">
-
-<div class="toolbar">
-
-<input
-class="filter"
-id="search"
-style="flex:1;min-width:180px"
-placeholder="Search company or industry..."
->
-
-<select class="filter" id="statusFilter">
-<option value="all">All Status</option>
-<option value="Active">Active</option>
-<option value="Prospect">Prospect</option>
-<option value="Inactive">Inactive</option>
-</select>
-
-<select class="filter" id="industryFilter">
-<option value="all">All Industries</option>
-</select>
-
-</div>
-
-<div class="tableWrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Company</th>
-<th>Industry</th>
-<th>Location</th>
-<th>Employees</th>
-<th>Contacts</th>
-<th>Status</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody id="table"></tbody>
-
-</table>
-
-<div class="empty" id="empty">
-No companies found.
-</div>
-
-</div>
-
+<div class="card stat">
+<small>Active Accounts</small>
+<strong id="active">0</strong>
+<span>Current accounts</span>
 </div>
 
 </section>
-</main>
 
-<!-- MODAL -->
+<section class="card" style="margin-bottom:18px">
+
+<input
+id="companySearch"
+placeholder="Search company name, industry or website..."
+oninput="filterCompanies()"
+style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);outline:0"
+>
+
+</section>
+
+<section class="grid" id="companyGrid"></section>
+
+</main>
+<!-- COMPANY MODAL -->
+
 <div class="overlay" id="overlay">
 
 <div class="modal">
 
 <div class="modalHead">
-<h2 id="modalTitle">Add Company</h2>
-<button class="close" id="close">×</button>
-</div>
 
-<div class="modalBody">
+<h3 id="modalTitle">
+Add Company
+</h3>
 
-<div class="formGrid">
-
-<div class="field">
-<label>COMPANY NAME</label>
-<input id="name" placeholder="Company name">
-</div>
-
-<div class="field">
-<label>INDUSTRY</label>
-<input id="industry" placeholder="e.g. SaaS">
-</div>
-
-<div class="field">
-<label>LOCATION</label>
-<input id="location" placeholder="City, State">
-</div>
-
-<div class="field">
-<label>EMPLOYEES</label>
-<input id="employeesInput" type="number" placeholder="50">
-</div>
-
-<div class="field">
-<label>CONTACTS</label>
-<input id="contacts" type="number" placeholder="5">
-</div>
-
-<div class="field">
-<label>STATUS</label>
-<select id="status">
-<option>Active</option>
-<option>Prospect</option>
-<option>Inactive</option>
-</select>
-</div>
-
-<div class="field">
-<label>WEBSITE</label>
-<input id="website" placeholder="company.com">
-</div>
-
-<div class="field">
-<label>OWNER</label>
-<input id="owner" placeholder="Admin">
-</div>
+<button onclick="closeCompany()">×</button>
 
 </div>
+
+<div class="form">
+
+<label>Company Name</label>
+
+<input
+id="name"
+placeholder="Company name"
+>
+
+<label>Industry</label>
+
+<input
+id="industry"
+placeholder="e.g. SaaS, Marketing, Technology"
+>
+
+<label>Website</label>
+
+<input
+id="website"
+placeholder="https://example.com"
+>
+
+<label>Phone</label>
+
+<input
+id="phone"
+placeholder="+91..."
+>
 
 </div>
 
 <div class="modalFoot">
-<button class="secondary" id="cancel">Cancel</button>
-<button class="primary" id="save">Save Company</button>
+
+<button
+class="btn secondary"
+onclick="closeCompany()"
+>
+Cancel
+</button>
+
+<button
+class="btn primary"
+onclick="saveCompany()"
+>
+Save Company
+</button>
+
 </div>
 
 </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script>
-"use strict";
+<style>
 
-const Companies=(()=>{
-
-const KEY="clientflow_companies_v1";
-
-const demo=[
-{
-id:1,
-name:"TechNova Solutions",
-industry:"SaaS",
-location:"Bengaluru, Karnataka",
-employees:120,
-contacts:8,
-status:"Active",
-website:"technova.com",
-owner:"Admin"
-},
-{
-id:2,
-name:"Acme Technologies",
-industry:"Technology",
-location:"Hyderabad, Telangana",
-employees:85,
-contacts:5,
-status:"Prospect",
-website:"acme.com",
-owner:"Admin"
-},
-{
-id:3,
-name:"GrowthLabs",
-industry:"Marketing",
-location:"Mumbai, Maharashtra",
-employees:45,
-contacts:4,
-status:"Prospect",
-website:"growthlabs.com",
-owner:"Admin"
-},
-{
-id:4,
-name:"CloudBridge",
-industry:"Cloud Computing",
-location:"Pune, Maharashtra",
-employees:210,
-contacts:12,
-status:"Active",
-website:"cloudbridge.com",
-owner:"Admin"
-},
-{
-id:5,
-name:"DataSphere",
-industry:"AI & Data",
-location:"Delhi, India",
-employees:65,
-contacts:6,
-status:"Prospect",
-website:"datasphere.com",
-owner:"Admin"
+.overlay{
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:100;
+align-items:center;
+justify-content:center;
+padding:15px
 }
-];
 
-let companies=load();
+.modal{
+width:100%;
+max-width:430px;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:12px;
+overflow:hidden
+}
+
+.modalHead{
+padding:15px 17px;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.modalHead h3{
+font-size:16px
+}
+
+.modalHead button{
+border:0;
+background:transparent;
+font-size:22px;
+color:var(--muted)
+}
+
+.form{
+padding:17px
+}
+
+.form label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:5px
+}
+
+.form input{
+width:100%;
+padding:10px;
+border:1px solid var(--line);
+border-radius:7px;
+background:var(--card);
+color:var(--text);
+outline:0;
+margin-bottom:13px
+}
+
+.form input:focus{
+border-color:var(--blue)
+}
+
+.modalFoot{
+padding:13px 17px;
+border-top:1px solid var(--line);
+display:flex;
+justify-content:flex-end;
+gap:7px
+}
+
+.toast{
+position:fixed;
+right:15px;
+bottom:15px;
+background:#111827;
+color:#fff;
+padding:11px 15px;
+border-radius:8px;
+font-size:12px;
+display:none;
+z-index:200
+}
+
+body.dark{
+--bg:#0b1120;
+--card:#111827;
+--text:#f3f4f6;
+--muted:#9ca3af;
+--line:#263244;
+--dark:#070d18
+}
+
+body.dark .avatar{
+background:#172554;
+}
+
+</style>
+
+<script>
+
+const COMPANY_KEY="clientflow_companies";
+
 let editId=null;
 
-function load(){
+function getCompanies(){
+
 try{
-const saved=localStorage.getItem(KEY);
-return saved?JSON.parse(saved):demo;
-}catch(e){
-return demo;
-}
+
+const data=
+JSON.parse(
+localStorage.getItem(COMPANY_KEY)
+);
+
+if(Array.isArray(data))
+return data;
+
+}catch(e){}
+
+const defaults=[
+
+{
+id:1,
+name:"Acme Technologies",
+industry:"Technology",
+website:"https://example.com",
+phone:"+91 98765 43210"
+},
+
+{
+id:2,
+name:"Growth Labs",
+industry:"Marketing",
+website:"https://example.com",
+phone:"+91 98765 12345"
+},
+
+{
+id:3,
+name:"Nova Systems",
+industry:"SaaS",
+website:"https://example.com",
+phone:"+91 99887 77665"
 }
 
-function save(){
-localStorage.setItem(KEY,JSON.stringify(companies));
+];
+
+localStorage.setItem(
+COMPANY_KEY,
+JSON.stringify(defaults)
+);
+
+return defaults;
+
 }
 
-function esc(v){
-return String(v??"")
+function setCompanies(data){
+
+localStorage.setItem(
+COMPANY_KEY,
+JSON.stringify(data)
+);
+
+}
+
+function safe(text){
+
+return String(text||"")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
 .replaceAll('"',"&quot;")
 .replaceAll("'","&#039;");
+
 }
 
 function initials(name){
-return String(name||"")
-.split(" ")
-.filter(Boolean)
+
+return String(name||"CO")
+.trim()
+.split(/\s+/)
 .slice(0,2)
 .map(x=>x[0])
 .join("")
 .toUpperCase();
-}
-
-function toast(msg){
-const t=document.getElementById("toast");
-t.textContent=msg;
-t.classList.add("show");
-
-clearTimeout(window.__toast);
-
-window.__toast=setTimeout(()=>{
-t.classList.remove("show");
-},2200);
-}
-
-function updateIndustryFilter(){
-
-const select=document.getElementById("industryFilter");
-const current=select.value;
-
-const industries=[
-...new Set(
-companies.map(c=>c.industry).filter(Boolean)
-)
-].sort();
-
-select.innerHTML=
-'<option value="all">All Industries</option>'+
-industries.map(x=>`<option>${esc(x)}</option>`).join("");
-
-if(industries.includes(current)){
-select.value=current;
-}
 
 }
 
 function render(){
 
-const q=document.getElementById("search").value.toLowerCase();
-const status=document.getElementById("statusFilter").value;
-const industry=document.getElementById("industryFilter").value;
+const companies=
+getCompanies();
 
-const filtered=companies.filter(c=>{
+document.getElementById(
+"total"
+).textContent=
+companies.length;
 
-const matchSearch=
-!q||
-c.name.toLowerCase().includes(q)||
-c.industry.toLowerCase().includes(q)||
-c.location.toLowerCase().includes(q);
+const contacts=
+getData("clientflow_contacts");
 
-const matchStatus=
-status==="all"||c.status===status;
+const leads=
+getData("clientflow_leads");
 
-const matchIndustry=
-industry==="all"||c.industry===industry;
+document.getElementById(
+"contacts"
+).textContent=
+contacts.length;
 
-return matchSearch&&matchStatus&&matchIndustry;
+document.getElementById(
+"leads"
+).textContent=
+leads.length;
+
+document.getElementById(
+"active"
+).textContent=
+companies.length;
+
+filterCompanies();
+
+}
+
+function getData(key){
+
+try{
+
+const data=
+JSON.parse(
+localStorage.getItem(key)||"[]"
+);
+
+return Array.isArray(data)
+?data:[];
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+function filterCompanies(){
+
+const companies=
+getCompanies();
+
+const a=
+document.getElementById(
+"topSearch"
+).value.toLowerCase();
+
+const b=
+document.getElementById(
+"companySearch"
+).value.toLowerCase();
+
+const query=a||b;
+
+const result=
+companies.filter(c=>{
+
+if(!query)
+return true;
+
+return(
+
+String(c.name||"")
+.toLowerCase()
+.includes(query)||
+
+String(c.industry||"")
+.toLowerCase()
+.includes(query)||
+
+String(c.website||"")
+.toLowerCase()
+.includes(query)
+
+);
 
 });
 
-document.getElementById("total").textContent=companies.length;
+renderCompanies(result);
 
-document.getElementById("active").textContent=
-companies.filter(c=>c.status==="Active").length;
+}
 
-document.getElementById("prospects").textContent=
-companies.filter(c=>c.status==="Prospect").length;
+function renderCompanies(companies){
 
-document.getElementById("employees").textContent=
-companies.reduce((sum,c)=>sum+(Number(c.employees)||0),0);
+const grid=
+document.getElementById(
+"companyGrid"
+);
 
-const table=document.getElementById("table");
-const empty=document.getElementById("empty");
+if(!companies.length){
 
-if(!filtered.length){
+grid.innerHTML=`
 
-table.innerHTML="";
-empty.style.display="block";
+<div class="empty">
+No companies found
+</div>
+
+`;
+
 return;
 
 }
 
-empty.style.display="none";
+grid.innerHTML=
+companies.map(c=>`
 
-table.innerHTML=filtered.map(c=>`
+<article class="company">
 
-<tr>
+<div class="companyTop">
 
-<td>
-
-<div class="companyCell">
-
-<div class="companyLogo">
-${esc(initials(c.name))}
+<div class="avatar">
+${safe(initials(c.name))}
 </div>
 
-<div>
-<div class="companyName">${esc(c.name)}</div>
-<div class="sub">${esc(c.website)}</div>
-</div>
+<div class="companyActions" style="margin:0">
 
-</div>
-
-</td>
-
-<td>
-<span class="industry">${esc(c.industry)}</span>
-</td>
-
-<td>${esc(c.location)}</td>
-
-<td>${Number(c.employees).toLocaleString()}</td>
-
-<td>${Number(c.contacts).toLocaleString()}</td>
-
-<td>
-<span class="status ${
-c.status==="Active"
-?"active"
-:c.status==="Prospect"
-?"prospect"
-:"inactive"
-}">
-${esc(c.status)}
-</span>
-</td>
-
-<td>
-
-<div class="rowActions">
-
-<button class="small" data-edit="${c.id}">
+<button
+onclick="editCompany(${c.id})"
+>
 Edit
 </button>
 
-<button class="small danger" data-delete="${c.id}">
+</div>
+
+</div>
+
+<h3>
+${safe(c.name)}
+</h3>
+
+<p>
+${safe(c.industry||"Business")}
+</p>
+
+<div class="companyInfo">
+
+<div class="info">
+<span>Website</span>
+<b>${safe(c.website||"—")}</b>
+</div>
+
+<div class="info">
+<span>Phone</span>
+<b>${safe(c.phone||"—")}</b>
+</div>
+
+</div>
+
+<div class="companyActions">
+
+<button
+onclick="viewCompany(${c.id})"
+>
+View
+</button>
+
+<button
+onclick="deleteCompany(${c.id})"
+>
 Delete
 </button>
 
 </div>
 
-</td>
+</article>
 
-</tr>
-
-`).join("");
-
-}
-
-function openModal(id=null){
-
-editId=id;
-
-document.getElementById("overlay").classList.add("show");
-
-if(id===null){
-
-document.getElementById("modalTitle").textContent="Add Company";
-document.getElementById("save").textContent="Save Company";
-
-[
-"name",
-"industry",
-"location",
-"employeesInput",
-"contacts",
-"website",
-"owner"
-].forEach(x=>{
-document.getElementById(x).value="";
-});
-
-document.getElementById("status").value="Prospect";
-
-}else{
-
-const c=companies.find(x=>x.id===id);
-
-if(!c)return;
-
-document.getElementById("modalTitle").textContent="Edit Company";
-document.getElementById("save").textContent="Update Company";
-
-document.getElementById("name").value=c.name;
-document.getElementById("industry").value=c.industry;
-document.getElementById("location").value=c.location;
-document.getElementById("employeesInput").value=c.employees;
-document.getElementById("contacts").value=c.contacts;
-document.getElementById("status").value=c.status;
-document.getElementById("website").value=c.website;
-document.getElementById("owner").value=c.owner;
+`)
+.join("");
 
 }
+
+function openCompany(){
+
+editId=null;
+
+document.getElementById(
+"modalTitle"
+).textContent="Add Company";
+
+document.getElementById(
+"name"
+).value="";
+
+document.getElementById(
+"industry"
+).value="";
+
+document.getElementById(
+"website"
+).value="";
+
+document.getElementById(
+"phone"
+).value="";
+
+document.getElementById(
+"overlay"
+).style.display="flex";
 
 setTimeout(()=>{
-document.getElementById("name").focus();
+
+document
+.getElementById("name")
+.focus();
+
 },50);
 
 }
 
-function closeModal(){
+function editCompany(id){
 
-document.getElementById("overlay").classList.remove("show");
+const company=
+getCompanies()
+.find(x=>x.id===id);
+
+if(!company)
+return;
+
+editId=id;
+
+document.getElementById(
+"modalTitle"
+).textContent="Edit Company";
+
+document.getElementById(
+"name"
+).value=company.name||"";
+
+document.getElementById(
+"industry"
+).value=company.industry||"";
+
+document.getElementById(
+"website"
+).value=company.website||"";
+
+document.getElementById(
+"phone"
+).value=company.phone||"";
+
+document.getElementById(
+"overlay"
+).style.display="flex";
+
+}
+
+function closeCompany(){
+
+document.getElementById(
+"overlay"
+).style.display="none";
 
 editId=null;
 
@@ -958,129 +902,158 @@ editId=null;
 
 function saveCompany(){
 
-const data={
+const name=
+document.getElementById(
+"name"
+).value.trim();
 
-name:document.getElementById("name").value.trim(),
+const industry=
+document.getElementById(
+"industry"
+).value.trim();
 
-industry:
-document.getElementById("industry").value.trim(),
+const website=
+document.getElementById(
+"website"
+).value.trim();
 
-location:
-document.getElementById("location").value.trim(),
+const phone=
+document.getElementById(
+"phone"
+).value.trim();
 
-employees:
-Number(document.getElementById("employeesInput").value)||0,
+if(!name){
 
-contacts:
-Number(document.getElementById("contacts").value)||0,
-
-status:
-document.getElementById("status").value,
-
-website:
-document.getElementById("website").value.trim(),
-
-owner:
-document.getElementById("owner").value.trim()||"Admin"
-
-};
-
-if(!data.name){
-
-toast("Company name is required");
+toast("Enter company name");
 
 return;
 
 }
 
-if(editId!==null){
+const companies=
+getCompanies();
 
-const index=companies.findIndex(c=>c.id===editId);
+if(editId){
 
-if(index!==-1){
+const c=
+companies.find(x=>x.id===editId);
 
-companies[index]={
-...companies[index],
-...data
-};
+if(c){
 
-toast("Company updated");
+c.name=name;
+c.industry=industry;
+c.website=website;
+c.phone=phone;
 
 }
 
+toast("Company updated");
+
 }else{
 
-companies.unshift({
+companies.push({
+
 id:Date.now(),
-...data
+name:name,
+industry:industry,
+website:website,
+phone:phone,
+createdAt:new Date().toISOString()
+
 });
 
 toast("Company added");
 
 }
 
-save();
+setCompanies(companies);
 
-updateIndustryFilter();
+closeCompany();
 
 render();
 
-closeModal();
-
 }
 
-function exportCSV(){
+function deleteCompany(id){
 
-if(!companies.length){
+const company=
+getCompanies()
+.find(x=>x.id===id);
 
-toast("No companies to export");
-
+if(!company)
 return;
 
+if(!confirm(
+"Delete "+company.name+"?"
+))
+return;
+
+const companies=
+getCompanies()
+.filter(x=>x.id!==id);
+
+setCompanies(companies);
+
+render();
+
+toast("Company deleted");
+
 }
 
-const headers=[
-"Company",
-"Industry",
-"Location",
-"Employees",
-"Contacts",
-"Status",
-"Website",
-"Owner"
+function viewCompany(id){
+
+const company=
+getCompanies()
+.find(x=>x.id===id);
+
+if(!company)
+return;
+
+alert(
+"Company: "+company.name+
+"\nIndustry: "+(company.industry||"—")+
+"\nWebsite: "+(company.website||"—")+
+"\nPhone: "+(company.phone||"—")
+);
+
+}
+
+function exportCompanies(){
+
+const companies=
+getCompanies();
+
+const rows=[
+["Company","Industry","Website","Phone"],
+...companies.map(x=>[
+x.name,
+x.industry,
+x.website,
+x.phone
+])
 ];
 
-const rows=companies.map(c=>[
-c.name,
-c.industry,
-c.location,
-c.employees,
-c.contacts,
-c.status,
-c.website,
-c.owner
-]);
-
-const csv=[
-headers,
-...rows
-]
-.map(row=>
+const csv=
+rows.map(row=>
 row.map(v=>
-`"${String(v).replaceAll('"','""')}"`
+'"'+String(v||"")
+.replaceAll('"','""')+'"'
 ).join(",")
-)
-.join("\n");
+).join("\n");
 
-const blob=new Blob([csv],{type:"text/csv"});
+const blob=
+new Blob([csv],{
+type:"text/csv"
+});
 
-const url=URL.createObjectURL(blob);
+const url=
+URL.createObjectURL(blob);
 
-const a=document.createElement("a");
+const a=
+document.createElement("a");
 
 a.href=url;
 a.download="clientflow-companies.csv";
-
 a.click();
 
 URL.revokeObjectURL(url);
@@ -1089,37 +1062,144 @@ toast("Companies exported");
 
 }
 
-function setup(){
+function go(url){
 
-/* MOBILE */
+window.location.href=url;
 
-document.getElementById("menu").onclick=()=>{
-document.getElementById("sidebar").classList.toggle("open");
-};
-
-/* THEME */
-
-if(localStorage.getItem("clientflow_theme")==="dark"){
-document.body.classList.add("dark");
 }
 
-document.getElementById("theme").onclick=()=>{
+function toggleSide(){
+
+document
+.getElementById("side")
+.classList.toggle("open");
+
+}
+
+function toggleDark(){
 
 document.body.classList.toggle("dark");
 
 localStorage.setItem(
-"clientflow_theme",
+"clientflow_dark",
 document.body.classList.contains("dark")
-?"dark"
-:"light"
 );
 
-};
+}
 
-/* ADD */
+function toast(text){
 
-document.getElementById("add").onclick=()=>openModal();
+const box=
+document.getElementById("toast");
 
-document.getElementById("topAdd").onclick=()=>openModal();
+box.textContent=text;
+box.style.display="block";
 
-/* MODAL */
+clearTimeout(window.toastTimer);
+
+window.toastTimer=
+setTimeout(()=>{
+
+box.style.display="none";
+
+},2000);
+
+}
+
+if(
+localStorage.getItem(
+"clientflow_dark"
+)==="true"
+){
+
+document.body.classList.add("dark");
+
+}
+
+document
+.getElementById("overlay")
+.addEventListener(
+"click",
+e=>{
+
+if(e.target.id==="overlay")
+closeCompany();
+
+});
+
+render();
+
+</script>
+<script>
+
+document.addEventListener(
+"click",
+function(e){
+
+const side=
+document.getElementById("side");
+
+const menu=
+document.querySelector(".menu");
+
+if(
+window.innerWidth<=900 &&
+side.classList.contains("open") &&
+!side.contains(e.target) &&
+!menu.contains(e.target)
+){
+
+side.classList.remove("open");
+
+}
+
+});
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(
+(e.ctrlKey||e.metaKey)&&
+e.key.toLowerCase()==="k"
+){
+
+e.preventDefault();
+
+document
+.getElementById("topSearch")
+.focus();
+
+}
+
+if(e.key==="Escape"){
+
+closeCompany();
+
+}
+
+});
+
+window.addEventListener(
+"storage",
+function(){
+
+render();
+
+});
+
+document.addEventListener(
+"visibilitychange",
+function(){
+
+if(!document.hidden)
+render();
+
+});
+
+render();
+
+</script>
+
+</body>
+</html>
