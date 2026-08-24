@@ -3,994 +3,721 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
-<title>ClientFlow - Deals</title>
+<title>ClientFlow — Deals</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 :root{
---bg:#f5f7fb;--card:#fff;--soft:#f8fafc;
---text:#111827;--muted:#6b7280;--border:#e5e7eb;
---primary:#2563eb;--primary2:#1d4ed8;
---green:#16a34a;--red:#dc2626;
---sidebar:#111827;--side:#cbd5e1
+--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#6b7280;
+--line:#e5e7eb;--blue:#2563eb;--dark:#101827
 }
-
-body.dark{
---bg:#0b1120;--card:#111827;--soft:#172033;
---text:#f8fafc;--muted:#94a3b8;
---border:#243044;--sidebar:#070d18
-}
-
-body{
-background:var(--bg);
-color:var(--text);
-font-family:Arial,Helvetica,sans-serif
-}
-
+*{font-family:Arial,Helvetica,sans-serif}
+body{background:var(--bg);color:var(--text)}
 button,input,select{font:inherit}
 button{cursor:pointer}
-a{text-decoration:none;color:inherit}
 
-/* SIDEBAR */
-
-.sidebar{
-position:fixed;
-inset:0 auto 0 0;
-width:245px;
-background:var(--sidebar);
-color:#fff;
-z-index:50;
-display:flex;
-flex-direction:column;
-transition:.2s
+.side{
+position:fixed;left:0;top:0;bottom:0;width:225px;
+background:var(--dark);color:#fff;padding:18px 12px;z-index:20
+}
+.logo{font-size:22px;font-weight:bold;padding:8px 12px 25px}
+.logo span{color:#60a5fa}
+.workspace{
+background:#1c2738;padding:10px;border-radius:8px;
+font-size:12px;margin-bottom:18px
+}
+.navtitle{font-size:10px;color:#718096;padding:8px 12px}
+.nav button{
+width:100%;border:0;background:transparent;color:#aeb8c9;
+padding:10px 12px;text-align:left;border-radius:7px;
+margin:2px 0;font-size:13px
+}
+.nav button:hover,.nav button.active{
+background:#243247;color:#fff
 }
 
-.logo{
-height:72px;
-padding:0 22px;
-display:flex;
-align-items:center;
-gap:11px;
-border-bottom:1px solid rgba(255,255,255,.08)
+.main{margin-left:225px;padding:20px;max-width:1500px}
+
+.top{
+display:flex;align-items:center;gap:12px;margin-bottom:22px
 }
-
-.logoMark{
-width:36px;
-height:36px;
-border-radius:10px;
-background:#2563eb;
-display:grid;
-place-items:center;
-font-weight:bold
-}
-
-.logo strong{font-size:19px}
-
-.logo small{
-display:block;
-color:#94a3b8;
-font-size:9px;
-margin-top:2px
-}
-
-.nav{
-padding:17px 12px;
-overflow:auto;
-flex:1
-}
-
-.navTitle{
-font-size:10px;
-color:#64748b;
-font-weight:bold;
-padding:10px 12px 7px;
-text-transform:uppercase;
-letter-spacing:.08em
-}
-
-.nav a{
-display:flex;
-align-items:center;
-gap:12px;
-padding:11px 12px;
-border-radius:9px;
-color:var(--side);
-font-size:14px;
-margin:2px 0
-}
-
-.nav a:hover{
-background:rgba(255,255,255,.07);
-color:#fff
-}
-
-.nav a.active{
-background:#2563eb;
-color:#fff
-}
-
-.icon{
-width:20px;
-text-align:center
-}
-
-.user{
-padding:14px;
-border-top:1px solid rgba(255,255,255,.08);
-display:flex;
-align-items:center;
-gap:10px
-}
-
-.avatar{
-width:34px;
-height:34px;
-border-radius:50%;
-background:#2563eb;
-display:grid;
-place-items:center;
-font-size:11px;
-font-weight:bold
-}
-
-.user small{
-display:block;
-color:#94a3b8;
-font-size:10px
-}
-
-/* MAIN */
-
-.main{
-margin-left:245px;
-min-height:100vh
-}
-
-.topbar{
-height:72px;
-background:var(--card);
-border-bottom:1px solid var(--border);
-display:flex;
-align-items:center;
-gap:14px;
-padding:0 24px;
-position:sticky;
-top:0;
-z-index:30
-}
-
 .menu{
-display:none;
-width:38px;
-height:38px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:9px
+display:none;padding:9px;border:1px solid var(--line);
+background:var(--card);border-radius:7px
 }
-
-.search{
-position:relative;
-max-width:430px;
-flex:1
-}
-
+.search{flex:1;max-width:500px}
 .search input{
-width:100%;
-height:40px;
-background:var(--soft);
-color:var(--text);
-border:1px solid var(--border);
-border-radius:9px;
-padding:0 12px 0 36px;
-outline:none
+width:100%;padding:11px 14px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);outline:0;color:var(--text)
+}
+.actions{display:flex;gap:8px}
+.btn{
+border:0;border-radius:8px;padding:10px 14px;
+font-size:12px;font-weight:bold
+}
+.primary{background:var(--blue);color:#fff}
+.secondary{
+background:var(--card);color:var(--text);
+border:1px solid var(--line)
 }
 
-.searchIcon{
-position:absolute;
-left:13px;
-top:11px;
-color:var(--muted)
-}
-
-.topRight{
-margin-left:auto;
-display:flex;
-gap:8px
-}
-
-.iconBtn{
-width:38px;
-height:38px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:9px
-}
-
-.primary{
-height:40px;
-padding:0 15px;
-background:var(--primary);
-color:#fff;
-border:0;
-border-radius:9px;
-font-weight:bold
-}
-
-.primary:hover{
-background:var(--primary2)
-}
-
-.content{
-padding:24px;
-max-width:1700px;
-margin:auto
-}
-
-/* HEADER */
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
+.head{
+display:flex;justify-content:space-between;align-items:center;
 margin-bottom:20px
 }
-
-.header h1{
-font-size:25px
-}
-
-.header p{
-font-size:13px;
-color:var(--muted);
-margin-top:5px
-}
-
-.actions{
-display:flex;
-gap:8px
-}
-
-.secondary{
-height:40px;
-padding:0 14px;
-border:1px solid var(--border);
-background:var(--card);
-color:var(--text);
-border-radius:9px
-}
-
-/* STATS */
+.head h1{font-size:25px}
+.head p{color:var(--muted);font-size:13px;margin-top:5px}
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:18px
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:13px;margin-bottom:18px
 }
+.card{
+background:var(--card);border:1px solid var(--line);
+border-radius:11px;padding:16px
+}
+.stat small{color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:24px;margin:9px 0}
+.stat span{font-size:11px;color:#16a34a}
 
-.stat{
+.filters{
 background:var(--card);
-border:1px solid var(--border);
-border-radius:14px;
-padding:17px
-}
-
-.statLabel{
-font-size:10px;
-font-weight:bold;
-color:var(--muted)
-}
-
-.statValue{
-font-size:23px;
-font-weight:bold;
-margin-top:9px
-}
-
-.statSmall{
-font-size:10px;
-color:var(--green);
-margin-top:5px
-}
-
-/* TOOLBAR */
-
-.toolbar{
+border:1px solid var(--line);
+border-radius:11px;
+padding:13px;
 display:flex;
-gap:9px;
+gap:8px;
 margin-bottom:16px;
-align-items:center
+flex-wrap:wrap
 }
-
-.filter{
-height:38px;
-border:1px solid var(--border);
+.filters input,.filters select{
+padding:9px 10px;
+border:1px solid var(--line);
+border-radius:7px;
 background:var(--card);
 color:var(--text);
-border-radius:8px;
-padding:0 10px
+outline:0;
+font-size:11px
 }
-
-/* PIPELINE */
+.filters input{flex:1;min-width:220px}
 
 .pipeline{
 display:grid;
-grid-template-columns:repeat(5,minmax(220px,1fr));
-gap:14px;
+grid-template-columns:repeat(5,1fr);
+gap:12px;
 overflow-x:auto;
 padding-bottom:8px
 }
 
 .stage{
-background:var(--soft);
-border:1px solid var(--border);
-border-radius:13px;
-min-height:430px;
-display:flex;
-flex-direction:column
+min-width:210px;
+background:var(--bg);
+border:1px solid var(--line);
+border-radius:10px;
+padding:10px
 }
 
 .stageHead{
-padding:13px;
-border-bottom:1px solid var(--border);
 display:flex;
 justify-content:space-between;
-align-items:center
+align-items:center;
+margin-bottom:10px;
+padding:4px
 }
 
-.stageTitle{
-font-size:12px;
-font-weight:bold
+.stageHead h3{
+font-size:12px
 }
 
-.stageCount{
+.stageHead span{
 font-size:10px;
-color:var(--muted);
 background:var(--card);
-border:1px solid var(--border);
 padding:4px 7px;
-border-radius:20px
+border-radius:10px;
+color:var(--muted)
 }
-
-.stageValue{
-padding:9px 13px;
-font-size:11px;
-font-weight:bold;
-color:var(--primary);
-border-bottom:1px solid var(--border)
-}
-
-.cards{
-padding:10px;
-display:flex;
-flex-direction:column;
-gap:9px;
-flex:1
-}
-
-/* DEAL CARD */
 
 .deal{
 background:var(--card);
-border:1px solid var(--border);
-border-radius:11px;
-padding:13px;
-cursor:grab;
-transition:.15s
+border:1px solid var(--line);
+border-radius:9px;
+padding:12px;
+margin-bottom:8px
 }
 
 .deal:hover{
-border-color:#93c5fd;
-box-shadow:0 5px 18px rgba(15,23,42,.06);
-transform:translateY(-1px)
+box-shadow:0 5px 16px #0000000c
 }
 
-.deal.dragging{
-opacity:.45
-}
-
-.dealName{
-font-size:13px;
-font-weight:bold;
+.deal h4{
+font-size:12px;
 margin-bottom:5px
 }
 
-.dealCompany{
+.deal p{
 font-size:10px;
 color:var(--muted);
-margin-bottom:12px
+margin-bottom:9px
+}
+
+.value{
+font-size:13px;
+font-weight:bold
 }
 
 .dealBottom{
 display:flex;
 justify-content:space-between;
-align-items:center
+align-items:center;
+margin-top:10px
 }
 
-.amount{
-font-size:13px;
-font-weight:bold
-}
-
-.prob{
+.dealBottom button{
+border:1px solid var(--line);
+background:var(--card);
+border-radius:6px;
 font-size:9px;
-color:var(--green);
-background:#dcfce7;
-padding:4px 6px;
-border-radius:20px
+padding:5px 7px
 }
 
-.dealMeta{
-display:flex;
-justify-content:space-between;
-margin-top:12px;
-padding-top:9px;
-border-top:1px solid var(--border);
-font-size:9px;
+.empty{
+padding:20px 5px;
+text-align:center;
+font-size:10px;
 color:var(--muted)
 }
 
-.dealActions{
-display:flex;
-gap:5px;
-margin-top:9px
+@media(max-width:1100px){
+.pipeline{
+grid-template-columns:repeat(5,210px)
+}
 }
 
-.small{
-height:27px;
-padding:0 8px;
-border:1px solid var(--border);
-background:var(--soft);
-color:var(--text);
-border-radius:6px;
-font-size:9px
-}
-
-.small:hover{
-border-color:var(--primary)
-}
-
-.danger:hover{
-border-color:var(--red);
-color:var(--red)
-}
-
-.drop{
-outline:2px dashed #93c5fd;
-outline-offset:-3px
-}
-
-/* MODAL */
-
-.overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.5);
-z-index:100;
-align-items:center;
-justify-content:center;
-padding:15px
-}
-
-.overlay.show{
-display:flex
-}
-
-.modal{
-width:min(600px,100%);
-background:var(--card);
-border:1px solid var(--border);
-border-radius:15px
-}
-
-.modalHead{
-padding:17px 18px;
-border-bottom:1px solid var(--border);
-display:flex;
-justify-content:space-between
-}
-
-.modalHead h2{
-font-size:15px
-}
-
-.close{
-border:0;
-background:none;
-color:var(--muted);
-font-size:20px
-}
-
-.modalBody{
-padding:18px
-}
-
-.formGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
-}
-
-.field label{
-display:block;
-font-size:10px;
-font-weight:bold;
-margin-bottom:6px
-}
-
-.field input,
-.field select{
-width:100%;
-height:40px;
-background:var(--soft);
-color:var(--text);
-border:1px solid var(--border);
-border-radius:8px;
-padding:0 10px;
-outline:none
-}
-
-.field input:focus,
-.field select:focus{
-border-color:var(--primary)
-}
-
-.modalFoot{
-padding:14px 18px;
-border-top:1px solid var(--border);
-display:flex;
-justify-content:flex-end;
-gap:8px
-}
-
-/* TOAST */
-
-.toast{
-position:fixed;
-right:20px;
-bottom:20px;
-background:#111827;
-color:#fff;
-padding:11px 15px;
-border-radius:9px;
-font-size:12px;
-z-index:200;
-opacity:0;
-transform:translateY(15px);
+@media(max-width:900px){
+.side{
+transform:translateX(-100%);
 transition:.2s
 }
-
-.toast.show{
-opacity:1;
-transform:none
+.side.open{transform:translateX(0)}
+.main{margin-left:0}
+.menu{display:block}
+.stats{grid-template-columns:repeat(2,1fr)}
 }
 
-/* MOBILE */
-
-@media(max-width:1100px){
-.stats{
-grid-template-columns:repeat(2,1fr)
-}
-
-.pipeline{
-grid-template-columns:repeat(5,250px)
-}
-}
-
-@media(max-width:760px){
-
-.sidebar{
-transform:translateX(-100%);
-width:250px
-}
-
-.sidebar.open{
-transform:translateX(0)
-}
-
-.main{
-margin-left:0
-}
-
-.menu{
-display:block
-}
-
-.topbar{
-height:62px;
-padding:0 13px
-}
-
-.topRight .primary{
-display:none
-}
-
-.content{
-padding:17px 13px
-}
-
-.header{
-align-items:flex-start
-}
-
-.header h1{
-font-size:21px
-}
-
-.actions .secondary{
-display:none
-}
-
-.stats{
-gap:10px
-}
-
-.stat{
-padding:13px
-}
-
-.statValue{
-font-size:19px
-}
-}
-
-@media(max-width:430px){
-.formGrid{
-grid-template-columns:1fr
-}
+@media(max-width:600px){
+.main{padding:12px}
+.head{display:block}
+.head .actions{margin-top:12px}
+.stats{gap:8px}
+.stat{padding:13px}
+.stat strong{font-size:20px}
 }
 </style>
 </head>
 
 <body>
 
-<aside class="sidebar" id="sidebar">
+<aside class="side" id="side">
 
 <div class="logo">
-<div class="logoMark">CF</div>
-<div>
-<strong>ClientFlow</strong>
-<small>CRM PLATFORM</small>
+Client<span>Flow</span>
 </div>
+
+<div class="workspace">
+● My Workspace
 </div>
+
+<div class="navtitle">MAIN</div>
 
 <nav class="nav">
 
-<div class="navTitle">Workspace</div>
+<button onclick="go('index.html')">
+⌂ &nbsp; Dashboard
+</button>
 
-<a href="index.html">
-<span class="icon">⌂</span>Dashboard
-</a>
+<button onclick="go('leads.html')">
+◆ &nbsp; Leads
+</button>
 
-<a href="leads.html">
-<span class="icon">♢</span>Leads
-</a>
+<button onclick="go('contacts.html')">
+◉ &nbsp; Contacts
+</button>
 
-<a href="contacts.html">
-<span class="icon">◉</span>Contacts
-</a>
+<button onclick="go('companies.html')">
+▣ &nbsp; Companies
+</button>
 
-<a href="companies.html">
-<span class="icon">▣</span>Companies
-</a>
+<button class="active">
+◇ &nbsp; Deals
+</button>
 
-<a href="deals.html" class="active">
-<span class="icon">◇</span>Deals
-</a>
+<button onclick="go('tasks.html')">
+✓ &nbsp; Tasks
+</button>
 
-<a href="tasks.html">
-<span class="icon">✓</span>Tasks
-</a>
+<div class="navtitle">INSIGHTS</div>
 
-<div class="navTitle">Insights</div>
+<button onclick="go('reports.html')">
+▥ &nbsp; Reports
+</button>
 
-<a href="reports.html">
-<span class="icon">▥</span>Reports
-</a>
+<div class="navtitle">SYSTEM</div>
 
-<a href="settings.html">
-<span class="icon">⚙</span>Settings
-</a>
+<button onclick="go('settings.html')">
+⚙ &nbsp; Settings
+</button>
 
 </nav>
-
-<div class="user">
-<div class="avatar">NA</div>
-<div>
-<strong style="font-size:12px">Admin User</strong>
-<small>Workspace Admin</small>
-</div>
-</div>
 
 </aside>
 
 <main class="main">
 
-<header class="topbar">
+<div class="top">
 
-<button class="menu" id="menu">☰</button>
+<button class="menu" onclick="toggleSide()">☰</button>
 
 <div class="search">
-<span class="searchIcon">⌕</span>
-<input id="globalSearch" placeholder="Search deals...">
+
+<input
+id="topSearch"
+placeholder="Search deals..."
+oninput="filterDeals()"
+>
+
 </div>
 
-<div class="topRight">
-<button class="iconBtn" id="theme">☾</button>
-<button class="iconBtn">♧</button>
-<button class="primary" id="topAdd">+ Add Deal</button>
+<div class="actions">
+
+<button
+class="btn secondary"
+onclick="toggleDark()"
+>
+☾
+</button>
+
+<button
+class="btn primary"
+onclick="openDeal()"
+>
++ Add Deal
+</button>
+
+</div>
+
+</div>
+
+<header class="head">
+
+<div>
+
+<h1>Deals</h1>
+
+<p>
+Track opportunities from new prospect to closed customer.
+</p>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn secondary"
+onclick="exportDeals()"
+>
+Export
+</button>
+
+<button
+class="btn primary"
+onclick="openDeal()"
+>
++ Add Deal
+</button>
+
 </div>
 
 </header>
 
-<section class="content">
+<section class="stats">
 
-<div class="header">
-
-<div>
-<h1>Deals</h1>
-<p>Track your sales pipeline from opportunity to closed revenue.</p>
+<div class="card stat">
+<small>Total Deals</small>
+<strong id="total">0</strong>
+<span>All opportunities</span>
 </div>
 
-<div class="actions">
-<button class="secondary" id="export">↓ Export</button>
-<button class="primary" id="add">+ Add Deal</button>
+<div class="card stat">
+<small>Pipeline Value</small>
+<strong id="pipelineValue">₹0</strong>
+<span>Open opportunity value</span>
 </div>
 
+<div class="card stat">
+<small>Won Value</small>
+<strong id="wonValue">₹0</strong>
+<span>Converted revenue</span>
 </div>
 
-<div class="stats">
-
-<div class="stat">
-<div class="statLabel">TOTAL PIPELINE</div>
-<div class="statValue" id="pipelineValue">₹0</div>
-<div class="statSmall">All open opportunities</div>
+<div class="card stat">
+<small>Win Rate</small>
+<strong id="winRate">0%</strong>
+<span>Closed deals</span>
 </div>
-
-<div class="stat">
-<div class="statLabel">OPEN DEALS</div>
-<div class="statValue" id="openDeals">0</div>
-<div class="statSmall">Active opportunities</div>
-</div>
-
-<div class="stat">
-<div class="statLabel">WON REVENUE</div>
-<div class="statValue" id="wonRevenue">₹0</div>
-<div class="statSmall">Closed won</div>
-</div>
-
-<div class="stat">
-<div class="statLabel">WEIGHTED VALUE</div>
-<div class="statValue" id="weighted">₹0</div>
-<div class="statSmall">Based on probability</div>
-</div>
-
-</div>
-
-<div class="toolbar">
-
-<input
-class="filter"
-id="search"
-style="flex:1;min-width:180px"
-placeholder="Search deal or company..."
->
-
-<select class="filter" id="ownerFilter">
-<option value="all">All Owners</option>
-</select>
-
-<select class="filter" id="priorityFilter">
-<option value="all">All Priorities</option>
-<option value="High">High</option>
-<option value="Medium">Medium</option>
-<option value="Low">Low</option>
-</select>
-
-</div>
-
-<div class="pipeline" id="pipeline"></div>
 
 </section>
-</main>
 
-<!-- MODAL -->
+<section class="filters">
+
+<input
+id="dealSearch"
+placeholder="Search deal or company..."
+oninput="filterDeals()"
+>
+
+<select id="stageFilter" onchange="filterDeals()">
+
+<option value="">All Stages</option>
+<option>New</option>
+<option>Qualified</option>
+<option>Proposal</option>
+<option>Won</option>
+<option>Lost</option>
+
+</select>
+
+</section>
+
+<section class="pipeline" id="pipeline">
+
+<div class="stage">
+
+<div class="stageHead">
+<h3>New</h3>
+<span id="count-New">0</span>
+</div>
+
+<div id="stage-New"></div>
+
+</div>
+
+<div class="stage">
+
+<div class="stageHead">
+<h3>Qualified</h3>
+<span id="count-Qualified">0</span>
+</div>
+
+<div id="stage-Qualified"></div>
+
+</div>
+
+<div class="stage">
+
+<div class="stageHead">
+<h3>Proposal</h3>
+<span id="count-Proposal">0</span>
+</div>
+
+<div id="stage-Proposal"></div>
+
+</div>
+
+<div class="stage">
+
+<div class="stageHead">
+<h3>Won</h3>
+<span id="count-Won">0</span>
+</div>
+
+<div id="stage-Won"></div>
+
+
+</div>
+
+<div class="stage">
+
+<div class="stageHead">
+<h3>Lost</h3>
+<span id="count-Lost">0</span>
+</div>
+
+<div id="stage-Lost"></div>
+
+</div>
+
+</section>
+
+</main>
+<!-- DEAL MODAL -->
 
 <div class="overlay" id="overlay">
 
 <div class="modal">
 
 <div class="modalHead">
-<h2 id="modalTitle">Add Deal</h2>
-<button class="close" id="close">×</button>
+
+<h3 id="modalTitle">
+Add Deal
+</h3>
+
+<button onclick="closeDeal()">×</button>
+
 </div>
 
-<div class="modalBody">
+<div class="form">
 
-<div class="formGrid">
+<label>Deal Name</label>
 
-<div class="field">
-<label>DEAL NAME</label>
-<input id="name" placeholder="e.g. Enterprise Software Deal">
-</div>
+<input
+id="name"
+placeholder="e.g. CRM Enterprise Plan"
+>
 
-<div class="field">
-<label>COMPANY</label>
-<input id="company" placeholder="Company name">
-</div>
+<label>Company</label>
 
-<div class="field">
-<label>DEAL VALUE</label>
-<input id="value" type="number" placeholder="50000">
-</div>
+<input
+id="company"
+placeholder="Company name"
+>
 
-<div class="field">
-<label>STAGE</label>
+<label>Deal Value</label>
+
+<input
+id="value"
+type="number"
+min="0"
+placeholder="50000"
+>
+
+<label>Stage</label>
+
 <select id="stage">
-<option>Lead</option>
+
+<option>New</option>
 <option>Qualified</option>
 <option>Proposal</option>
-<option>Negotiation</option>
 <option>Won</option>
+<option>Lost</option>
+
 </select>
-</div>
-
-<div class="field">
-<label>PROBABILITY %</label>
-<input id="probability" type="number" min="0" max="100" placeholder="50">
-</div>
-
-<div class="field">
-<label>PRIORITY</label>
-<select id="priority">
-<option>High</option>
-<option selected>Medium</option>
-<option>Low</option>
-</select>
-</div>
-
-<div class="field">
-<label>OWNER</label>
-<input id="owner" placeholder="Admin">
-</div>
-
-<div class="field">
-<label>CLOSE DATE</label>
-<input id="date" type="date">
-</div>
-
-</div>
 
 </div>
 
 <div class="modalFoot">
-<button class="secondary" id="cancel">Cancel</button>
-<button class="primary" id="save">Save Deal</button>
+
+<button
+class="btn secondary"
+onclick="closeDeal()"
+>
+Cancel
+</button>
+
+<button
+class="btn primary"
+onclick="saveDeal()"
+>
+Save Deal
+</button>
+
 </div>
 
 </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
+<style>
+
+.overlay{
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:100;
+align-items:center;
+justify-content:center;
+padding:15px
+}
+
+.modal{
+width:100%;
+max-width:430px;
+background:var(--card);
+border:1px solid var(--line);
+border-radius:12px;
+overflow:hidden
+}
+
+.modalHead{
+padding:15px 17px;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.modalHead h3{
+font-size:16px
+}
+
+.modalHead button{
+border:0;
+background:transparent;
+font-size:22px;
+color:var(--muted)
+}
+
+.form{
+padding:17px
+}
+
+.form label{
+display:block;
+font-size:11px;
+font-weight:bold;
+margin-bottom:5px
+}
+
+.form input,
+.form select{
+width:100%;
+padding:10px;
+border:1px solid var(--line);
+border-radius:7px;
+background:var(--card);
+color:var(--text);
+outline:0;
+margin-bottom:13px
+}
+
+.form input:focus,
+.form select:focus{
+border-color:var(--blue)
+}
+
+.modalFoot{
+padding:13px 17px;
+border-top:1px solid var(--line);
+display:flex;
+justify-content:flex-end;
+gap:7px
+}
+
+.toast{
+position:fixed;
+right:15px;
+bottom:15px;
+background:#111827;
+color:#fff;
+padding:11px 15px;
+border-radius:8px;
+font-size:12px;
+display:none;
+z-index:200
+}
+
+body.dark{
+--bg:#0b1120;
+--card:#111827;
+--text:#f3f4f6;
+--muted:#9ca3af;
+--line:#263244;
+--dark:#070d18
+}
+
+body.dark .stage{
+background:#101827
+}
+
+</style>
+
 <script>
-"use strict";
 
-const Deals=(()=>{
+const DEAL_KEY="clientflow_deals";
 
-const KEY="clientflow_deals_v1";
+let editId=null;
 
 const stages=[
-"Lead",
+"New",
 "Qualified",
 "Proposal",
-"Negotiation",
-"Won"
+"Won",
+"Lost"
 ];
 
-const demo=[
-{
-id:1,
-name:"Enterprise CRM",
-company:"TechNova Solutions",
-value:150000,
-stage:"Lead",
-probability:20,
-priority:"High",
-owner:"Admin",
-date:"2026-09-15"
-},
-{
-id:2,
-name:"Growth Package",
-company:"GrowthLabs",
-value:85000,
-stage:"Qualified",
-probability:40,
-priority:"High",
-owner:"Admin",
-date:"2026-09-20"
-},
-{
-id:3,
-name:"Cloud Migration",
-company:"CloudBridge",
-value:220000,
-stage:"Proposal",
-probability:60,
-priority:"Medium",
-owner:"Admin",
-date:"2026-09-25"
-},
-{
-id:4,
-name:"AI Platform",
-company:"DataSphere",
-value:175000,
-stage:"Negotiation",
-probability:80,
-priority:"High",
-owner:"Admin",
-date:"2026-10-02"
-},
-{
-id:5,
-name:"Marketing Automation",
-company:"Acme Technologies",
-value:70000,
-stage:"Won",
-probability:100,
-priority:"Medium",
-owner:"Admin",
-date:"2026-08-20"
-}
-];
-
-let deals=load();
-let editId=null;
-let draggedId=null;
-
-function load(){
+function getDeals(){
 
 try{
 
-const saved=localStorage.getItem(KEY);
+const data=
+JSON.parse(
+localStorage.getItem(DEAL_KEY)
+);
 
-return saved?JSON.parse(saved):demo;
+if(Array.isArray(data))
+return data;
 
-}catch(e){
+}catch(e){}
 
-return demo;
+const defaults=[
+
+{
+id:1,
+name:"CRM Upgrade",
+company:"Acme Technologies",
+value:85000,
+stage:"Qualified"
+},
+
+{
+id:2,
+name:"Growth Platform",
+company:"Growth Labs",
+value:120000,
+stage:"Proposal"
+},
+
+{
+id:3,
+name:"SaaS Subscription",
+company:"Nova Systems",
+value:65000,
+stage:"New"
+},
+
+{
+id:4,
+name:"Enterprise Package",
+company:"PixelWorks",
+value:150000,
+stage:"Won"
+}
+
+];
+
+localStorage.setItem(
+DEAL_KEY,
+JSON.stringify(defaults)
+);
+
+return defaults;
 
 }
 
-}
+function setDeals(data){
 
-function save(){
-
-localStorage.setItem(KEY,JSON.stringify(deals));
-
-}
-
-function money(value){
-
-return new Intl.NumberFormat("en-IN",{
-style:"currency",
-currency:"INR",
-maximumFractionDigits:0
-}).format(Number(value)||0);
+localStorage.setItem(
+DEAL_KEY,
+JSON.stringify(data)
+);
 
 }
 
-function esc(v){
+function safe(text){
 
-return String(v??"")
+return String(text||"")
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -999,212 +726,184 @@ return String(v??"")
 
 }
 
-function toast(msg){
+function money(value){
 
-const t=document.getElementById("toast");
-
-t.textContent=msg;
-t.classList.add("show");
-
-clearTimeout(window.__toast);
-
-window.__toast=setTimeout(()=>{
-t.classList.remove("show");
-},2200);
-
-}
-
-function updateOwnerFilter(){
-
-const select=document.getElementById("ownerFilter");
-
-const current=select.value;
-
-const owners=[
-...new Set(
-deals.map(d=>d.owner).filter(Boolean)
-)
-].sort();
-
-select.innerHTML=
-'<option value="all">All Owners</option>'+
-owners.map(o=>`<option>${esc(o)}</option>`).join("");
-
-if(owners.includes(current)){
-select.value=current;
-}
+return "₹"+Number(value||0)
+.toLocaleString("en-IN");
 
 }
 
 function render(){
 
-const q=
-document.getElementById("search")
-.value
-.toLowerCase();
+const deals=getDeals();
 
-const owner=
-document.getElementById("ownerFilter").value;
+document.getElementById(
+"total"
+).textContent=
+deals.length;
 
-const priority=
-document.getElementById("priorityFilter").value;
-
-const filtered=deals.filter(d=>{
-
-const matchSearch=
-!q||
-d.name.toLowerCase().includes(q)||
-d.company.toLowerCase().includes(q);
-
-const matchOwner=
-owner==="all"||d.owner===owner;
-
-const matchPriority=
-priority==="all"||d.priority===priority;
-
-return matchSearch&&matchOwner&&matchPriority;
-
-});
-
-/* STATS */
-
-const open=deals.filter(d=>d.stage!=="Won");
-
-const pipeline=open.reduce(
-(sum,d)=>sum+(Number(d.value)||0),0
+const open=
+deals.filter(x=>
+x.stage!=="Won"&&
+x.stage!=="Lost"
 );
 
-const won=deals
-.filter(d=>d.stage==="Won")
-.reduce(
-(sum,d)=>sum+(Number(d.value)||0),0
-);
-
-const weighted=open.reduce(
-(sum,d)=>
-sum+
-((Number(d.value)||0)*
-(Number(d.probability)||0)/100),
+const pipeline=
+open.reduce(
+(sum,x)=>sum+Number(x.value||0),
 0
 );
 
-document.getElementById("pipelineValue").textContent=money(pipeline);
-
-document.getElementById("openDeals").textContent=open.length;
-
-document.getElementById("wonRevenue").textContent=money(won);
-
-document.getElementById("weighted").textContent=money(weighted);
-
-/* PIPELINE */
-
-const pipelineEl=document.getElementById("pipeline");
-
-pipelineEl.innerHTML=stages.map(stage=>{
-
-const list=filtered.filter(d=>d.stage===stage);
-
-const total=list.reduce(
-(sum,d)=>sum+(Number(d.value)||0),0
+const won=
+deals.filter(x=>
+x.stage==="Won"
 );
 
-return`
+const wonValue=
+won.reduce(
+(sum,x)=>sum+Number(x.value||0),
+0
+);
 
-<div class="stage"
-data-stage="${esc(stage)}">
+const closed=
+deals.filter(x=>
+x.stage==="Won"||
+x.stage==="Lost"
+);
 
-<div class="stageHead">
+const rate=
+closed.length
+?Math.round(
+won.length/closed.length*100
+)
+:0;
 
-<div class="stageTitle">
-${esc(stage)}
-</div>
+document.getElementById(
+"pipelineValue"
+).textContent=
+money(pipeline);
 
-<div class="stageCount">
-${list.length}
-</div>
+document.getElementById(
+"wonValue"
+).textContent=
+money(wonValue);
 
-</div>
+document.getElementById(
+"winRate"
+).textContent=
+rate+"%";
 
-<div class="stageValue">
-${money(total)}
-</div>
-
-<div class="cards"
-data-drop="${esc(stage)}">
-
-${list.map(dealCard).join("")}
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-attachDrag();
+filterDeals();
 
 }
 
-function dealCard(d){
+function filterDeals(){
 
-return`
+const deals=getDeals();
 
-<div class="deal"
-draggable="true"
-data-id="${d.id}">
+const a=
+document.getElementById(
+"topSearch"
+).value.toLowerCase();
 
-<div class="dealName">
-${esc(d.name)}
-</div>
+const b=
+document.getElementById(
+"dealSearch"
+).value.toLowerCase();
 
-<div class="dealCompany">
-${esc(d.company)}
-</div>
+const query=a||b;
+
+const filter=
+document.getElementById(
+"stageFilter"
+).value;
+
+const result=
+deals.filter(d=>{
+
+const matchSearch=
+!query||
+
+String(d.name||"")
+.toLowerCase()
+.includes(query)||
+
+String(d.company||"")
+.toLowerCase()
+.includes(query);
+
+const matchStage=
+!filter||
+d.stage===filter;
+
+return matchSearch&&matchStage;
+
+});
+
+renderPipeline(result);
+
+}
+
+function renderPipeline(deals){
+
+stages.forEach(stage=>{
+
+const box=
+document.getElementById(
+"stage-"+stage
+);
+
+const count=
+document.getElementById(
+"count-"+stage
+);
+
+const list=
+deals.filter(
+d=>d.stage===stage
+);
+
+count.textContent=list.length;
+
+if(!list.length){
+
+box.innerHTML=
+`<div class="empty">No deals</div>`;
+
+return;
+
+}
+
+box.innerHTML=
+list.map(d=>`
+
+<div class="deal">
+
+<h4>
+${safe(d.name)}
+</h4>
+
+<p>
+${safe(d.company||"No company")}
+</p>
 
 <div class="dealBottom">
 
-<div class="amount">
+<span class="value">
 ${money(d.value)}
-</div>
-
-<div class="prob">
-${Number(d.probability)||0}%
-</div>
-
-</div>
-
-<div class="dealMeta">
-
-<span>${esc(d.owner)}</span>
-
-<span>${esc(d.priority)}</span>
-
-</div>
-
-<div class="dealMeta">
-
-<span>
-${d.date?esc(d.date):"No close date"}
 </span>
 
-<span>
-${esc(d.stage)}
-</span>
-
-</div>
-
-<div class="dealActions">
+<div>
 
 <button
-class="small"
-data-edit="${d.id}">
+onclick="editDeal(${d.id})"
+>
 Edit
 </button>
 
 <button
-class="small danger"
-data-delete="${d.id}">
+onclick="deleteDeal(${d.id})"
+>
 Delete
 </button>
 
@@ -1212,145 +911,96 @@ Delete
 
 </div>
 
-`;
+</div>
+
+`).join("");
 
 }
-
-function attachDrag(){
-
-document.querySelectorAll(".deal").forEach(card=>{
-
-card.addEventListener("dragstart",e=>{
-
-draggedId=Number(card.dataset.id);
-
-card.classList.add("dragging");
-
-e.dataTransfer.effectAllowed="move";
-
-});
-
-card.addEventListener("dragend",()=>{
-
-card.classList.remove("dragging");
-
-draggedId=null;
-
-document.querySelectorAll(".cards")
-.forEach(x=>x.classList.remove("drop"));
-
-});
-
-});
-
-document.querySelectorAll(".cards").forEach(zone=>{
-
-zone.addEventListener("dragover",e=>{
-
-e.preventDefault();
-
-zone.classList.add("drop");
-
-});
-
-zone.addEventListener("dragleave",()=>{
-
-zone.classList.remove("drop");
-
-});
-
-zone.addEventListener("drop",e=>{
-
-e.preventDefault();
-
-zone.classList.remove("drop");
-
-if(draggedId===null)return;
-
-const stage=zone.dataset.drop;
-
-const deal=deals.find(d=>d.id===draggedId);
-
-if(!deal)return;
-
-deal.stage=stage;
-
-if(stage==="Won")deal.probability=100;
-
-save();
-
-render();
-
-toast(`Deal moved to ${stage}`);
-
-});
 
 });
 
 }
 
-function openModal(id=null){
+function openDeal(){
 
-editId=id;
+editId=null;
 
-document.getElementById("overlay")
-.classList.add("show");
+document.getElementById(
+"modalTitle"
+).textContent="Add Deal";
 
-if(id===null){
+document.getElementById(
+"name"
+).value="";
 
-document.getElementById("modalTitle")
-.textContent="Add Deal";
+document.getElementById(
+"company"
+).value="";
 
-document.getElementById("save")
-.textContent="Save Deal";
+document.getElementById(
+"value"
+).value="";
 
-[
-"name",
-"company",
-"value",
-"probability",
-"owner",
-"date"
-].forEach(x=>{
-document.getElementById(x).value="";
-});
+document.getElementById(
+"stage"
+).value="New";
 
-document.getElementById("stage").value="Lead";
-document.getElementById("priority").value="Medium";
-
-}else{
-
-const d=deals.find(x=>x.id===id);
-
-if(!d)return;
-
-document.getElementById("modalTitle")
-.textContent="Edit Deal";
-
-document.getElementById("save")
-.textContent="Update Deal";
-
-document.getElementById("name").value=d.name;
-document.getElementById("company").value=d.company;
-document.getElementById("value").value=d.value;
-document.getElementById("stage").value=d.stage;
-document.getElementById("probability").value=d.probability;
-document.getElementById("priority").value=d.priority;
-document.getElementById("owner").value=d.owner;
-document.getElementById("date").value=d.date;
-
-}
+document.getElementById(
+"overlay"
+).style.display="flex";
 
 setTimeout(()=>{
-document.getElementById("name").focus();
+
+document
+.getElementById("name")
+.focus();
+
 },50);
 
 }
 
-function closeModal(){
+function editDeal(id){
 
-document.getElementById("overlay")
-.classList.remove("show");
+const deal=
+getDeals()
+.find(x=>x.id===id);
+
+if(!deal)
+return;
+
+editId=id;
+
+document.getElementById(
+"modalTitle"
+).textContent="Edit Deal";
+
+document.getElementById(
+"name"
+).value=deal.name||"";
+
+document.getElementById(
+"company"
+).value=deal.company||"";
+
+document.getElementById(
+"value"
+).value=deal.value||0;
+
+document.getElementById(
+"stage"
+).value=deal.stage||"New";
+
+document.getElementById(
+"overlay"
+).style.display="flex";
+
+}
+
+function closeDeal(){
+
+document.getElementById(
+"overlay"
+).style.display="none";
 
 editId=null;
 
@@ -1358,62 +1008,299 @@ editId=null;
 
 function saveDeal(){
 
-const data={
+const name=
+document.getElementById(
+"name"
+).value.trim();
 
-name:
-document.getElementById("name")
-.value.trim(),
+const company=
+document.getElementById(
+"company"
+).value.trim();
 
-company:
-document.getElementById("company")
-.value.trim(),
+const value=
+Number(
+document.getElementById(
+"value"
+).value
+)||0;
 
-value:
-Number(document.getElementById("value").value)||0,
+const stage=
+document.getElementById(
+"stage"
+).value;
 
-stage:
-document.getElementById("stage").value,
+if(!name){
 
-probability:
-Math.min(
-100,
-Math.max(
-0,
-Number(document.getElementById("probability").value)||0
-)
-),
-
-priority:
-document.getElementById("priority").value,
-
-owner:
-document.getElementById("owner")
-.value.trim()||"Admin",
-
-date:
-document.getElementById("date").value
-
-};
-
-if(!data.name||!data.company){
-
-toast("Deal name and company are required");
+toast("Enter a deal name");
 
 return;
 
 }
 
-if(data.stage==="Won"){
-data.probability=100;
+const deals=getDeals();
+
+if(editId){
+
+const deal=
+deals.find(x=>x.id===editId);
+
+if(deal){
+
+deal.name=name;
+deal.company=company;
+deal.value=value;
+deal.stage=stage;
+
 }
 
-if(editId!==null){
+toast("Deal updated");
 
-const index=
-deals.findIndex(d=>d.id===editId);
+}else{
 
-if(index!==-1){
+deals.push({
 
-deals[index]={
-...deals[index],
-..
+id:Date.now(),
+name:name,
+company:company,
+value:value,
+stage:stage,
+createdAt:new Date().toISOString()
+
+});
+
+toast("Deal added");
+
+}
+
+setDeals(deals);
+
+closeDeal();
+
+render();
+
+}
+
+function deleteDeal(id){
+
+const deal=
+getDeals()
+.find(x=>x.id===id);
+
+if(!deal)
+return;
+
+if(!confirm(
+"Delete "+deal.name+"?"
+))
+return;
+
+const deals=
+getDeals()
+.filter(x=>x.id!==id);
+
+setDeals(deals);
+
+render();
+
+toast("Deal deleted");
+
+}
+
+function exportDeals(){
+
+const deals=getDeals();
+
+const rows=[
+["Deal","Company","Value","Stage"],
+...deals.map(x=>[
+x.name,
+x.company,
+x.value,
+x.stage
+])
+];
+
+const csv=
+rows.map(row=>
+row.map(v=>
+'"'+String(v||"")
+.replaceAll('"','""')+'"'
+).join(",")
+).join("\n");
+
+const blob=
+new Blob([csv],{
+type:"text/csv"
+});
+
+const url=
+URL.createObjectURL(blob);
+
+const a=
+document.createElement("a");
+
+a.href=url;
+a.download="clientflow-deals.csv";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+toast("Deals exported");
+
+}
+
+function go(url){
+
+window.location.href=url;
+
+}
+
+function toggleSide(){
+
+document
+.getElementById("side")
+.classList.toggle("open");
+
+}
+
+function toggleDark(){
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"clientflow_dark",
+document.body.classList.contains("dark")
+);
+
+}
+
+function toast(text){
+
+const box=
+document.getElementById("toast");
+
+box.textContent=text;
+box.style.display="block";
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=
+setTimeout(()=>{
+
+box.style.display="none";
+
+},2000);
+
+}
+
+if(
+localStorage.getItem(
+"clientflow_dark"
+)==="true"
+){
+
+document.body.classList.add("dark");
+
+}
+
+document
+.getElementById("overlay")
+.addEventListener(
+"click",
+e=>{
+
+if(e.target.id==="overlay")
+closeDeal();
+
+});
+
+render();
+
+</script>
+<script>
+
+document.addEventListener(
+"click",
+function(e){
+
+const side=
+document.getElementById("side");
+
+const menu=
+document.querySelector(".menu");
+
+if(
+window.innerWidth<=900 &&
+side.classList.contains("open") &&
+!side.contains(e.target) &&
+!menu.contains(e.target)
+){
+
+side.classList.remove("open");
+
+}
+
+});
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(
+(e.ctrlKey||e.metaKey)&&
+e.key.toLowerCase()==="k"
+){
+
+e.preventDefault();
+
+document
+.getElementById("topSearch")
+.focus();
+
+}
+
+if(e.key==="Escape"){
+
+closeDeal();
+
+}
+
+});
+
+window.addEventListener(
+"storage",
+function(){
+
+render();
+
+});
+
+document.addEventListener(
+"visibilitychange",
+function(){
+
+if(!document.hidden)
+render();
+
+});
+
+/* KEEP PIPELINE UPDATED */
+
+window.addEventListener(
+"focus",
+function(){
+
+render();
+
+});
+
+/* FINAL INITIALIZATION */
+
+render();
+
+</script>
+
+</body>
+</html>
